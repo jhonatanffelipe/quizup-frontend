@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { Routes, Route, Navigate } from 'react-router-dom'
 
@@ -7,9 +7,11 @@ import SignUp from '../pages/signUp'
 import Dashboard from '../pages/dashboard'
 import ForgoPassword from '../pages/forgotPassword'
 import ResetPassword from '../pages/resetPassword'
+import { useAuth } from '../hooks/auth'
 
 const AppRoutes = () => {
-  const [user, setUser] = useState(null)
+  const { user } = useAuth()
+
   return (
     <Routes>
       <Route

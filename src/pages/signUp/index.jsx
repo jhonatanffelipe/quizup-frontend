@@ -1,19 +1,12 @@
 import { Backgound, Container, AnimationContainer, Form } from './styles'
-import {
-  FiArrowLeft,
-  FiLock,
-  FiLogIn,
-  FiMail,
-  FiUnlock,
-  FiUser,
-} from 'react-icons/fi'
+import { FiArrowLeft, FiLock, FiMail, FiUnlock, FiUser } from 'react-icons/fi'
 
 import logoImg from '../../assets/logoWhite.png'
 import backgroundImg from '../../assets/backgroundImg.svg'
 import Input from '../../components/Input'
 import { Link } from 'react-router-dom'
 
-const ResetPassword = () => {
+const SignUp = () => {
   return (
     <Container>
       <Backgound>
@@ -23,7 +16,11 @@ const ResetPassword = () => {
         <img src={logoImg} alt="Turtle Quiz" />
 
         <Form>
-          <h1>Alterar Senha</h1>
+          <h1>Criar Conta</h1>
+
+          <Input name="name" icon={FiUser} placeholder="Nome" />
+
+          <Input name="email" icon={FiMail} placeholder="E-mail" />
 
           <Input
             name="password"
@@ -44,11 +41,11 @@ const ResetPassword = () => {
 
         <Link to="/">
           <FiArrowLeft />
-          Ir para Login
+          Voltar
         </Link>
       </AnimationContainer>
     </Container>
   )
 }
 
-export default ResetPassword
+export default SignUp
