@@ -2,7 +2,7 @@ import React, { useState, useCallback, useRef } from 'react'
 
 import { Container } from './styles'
 
-const Input = ({ name, icon: Icon, ...rest }) => {
+const Input = ({ name, icon: Icon, value, error, ...rest }) => {
   const inputRef = useRef(null)
   const [isFocused, setIsFocused] = useState(false)
   const [isField, setIsField] = useState(false)
@@ -12,14 +12,13 @@ const Input = ({ name, icon: Icon, ...rest }) => {
   }, [])
 
   const handleInputBlur = useCallback(() => {
-    console.log('Aqui')
     setIsFocused(false)
 
     setIsField(!!inputRef.current?.value)
   }, [])
 
   return (
-    <Container isFocused={isFocused} isField={isField}>
+    <Container isFocused={isFocused} isField={isField} error={error}>
       {Icon && <Icon size={20} />}
       <input
         onFocus={() => handleInputFocus()}

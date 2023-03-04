@@ -27,7 +27,7 @@ const Toast = ({ message, style }) => {
     <Container
       key={message.id}
       type={message.type}
-      hasDescription={!!message?.descripition}
+      description={message?.descripition}
       style={style}
     >
       {icons[message.type || 'info']}

@@ -22,6 +22,8 @@ const AuthProvider = ({ children }) => {
         password,
       })
 
+      console.log(response)
+
       const { user, accessToken, refreshToken, iat, exp } = response.data
 
       localStorage.setItem('@TurtleQuiz:user', JSON.stringify(user))

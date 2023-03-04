@@ -17,6 +17,15 @@ export const Container = styled.div`
   }
 
   ${(props) =>
+    !!props.error
+      ? css`
+          border: 2px solid #c53030;
+        `
+      : css`
+          border: 2px solid #293038;
+        `}
+
+  ${(props) =>
     props.isFocused &&
     css`
       color: #04a1c1;
