@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTransition } from 'react-spring'
 import { Container } from './styles'
-import { Toast } from './Toast'
+import Toast from './Toast'
 
 const ToastContainer = ({ messages }) => {
   const messagesWithTrasictions = useTransition(messages, {
@@ -18,4 +18,4 @@ const ToastContainer = ({ messages }) => {
   )
 }
 
-export { ToastContainer }
+export default ToastContainer

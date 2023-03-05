@@ -2,6 +2,7 @@ import styled, { keyframes } from 'styled-components'
 
 export const Container = styled.div`
   display: flex;
+  flex: 1;
 `
 
 const appearFromLeft = keyframes`
@@ -74,9 +75,7 @@ export const Backgound = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   background: #04a1c1;
-
   min-height: 750px;
 
   img {

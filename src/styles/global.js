@@ -13,6 +13,10 @@ export default createGlobalStyle`
     color: #FFF;
     width: 100vw;
     height: 100vh;
+
+    > div {
+      display: flex;
+    }
   }
 
   body, input, button {
