@@ -34,6 +34,8 @@ const SignIn = () => {
         password: Yup.string().required('Senha obrigatória'),
       })
 
+      data.email = data.email.trim()
+
       await schema.validate(data, {
         abortEarly: false,
       })

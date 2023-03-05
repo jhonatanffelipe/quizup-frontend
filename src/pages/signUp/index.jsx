@@ -1,10 +1,10 @@
-import { Backgound, Container, AnimationContainer, Form } from './styles'
 import { FiArrowLeft, FiLock, FiMail, FiUnlock, FiUser } from 'react-icons/fi'
+import { Link } from 'react-router-dom'
 
 import logoImg from '../../assets/logoWhite.png'
 import backgroundImg from '../../assets/backgroundImg.svg'
 import Input from '../../components/Input'
-import { Link } from 'react-router-dom'
+import { Backgound, Container, AnimationContainer, Form } from './styles'
 
 const SignUp = () => {
   return (

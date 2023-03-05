@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useState } from 'react'
-import api from '../services/api'
+import { auth } from '../services/authenticate/auth'
 
 const AuthContext = createContext({})
 
@@ -17,7 +17,7 @@ const AuthProvider = ({ children }) => {
 
   const signIn = useCallback(
     async ({ email, password }) => {
-      const response = await api.post('auth', {
+      const response = await auth({
         email,
         password,
       })

@@ -8,10 +8,10 @@ import * as Yup from 'yup'
 import logoImg from '../../assets/logoWhite.png'
 import backgroundImg from '../../assets/backgroundImg.svg'
 import Input from '../../components/Input'
-import { usePassword } from '../../hooks/password'
 import getValidationError from '../../utils/getValidationErros'
 import { useToast } from '../../hooks/toast'
 import Button from '../../components/Button'
+import { forgotPasword } from '../../services/password/forgotPassword'
 
 const ForgoPassword = () => {
   const [loading, setLoading] = useState(false)
@@ -19,7 +19,6 @@ const ForgoPassword = () => {
 
   const { handleSubmit, register } = useForm()
 
-  const { forgotPasword } = usePassword()
   const { addToast } = useToast()
 
   const onSubmit = async (data) => {
@@ -50,7 +49,8 @@ const ForgoPassword = () => {
       addToast({
         type: 'error',
         title: 'Erro na solicitação',
-        description: error.response.data.error,
+        description:
+          'Ocorreu um e-mail ao tentar recuperar senha, por favor cheque seu suas credenciais',
       })
     } finally {
       setLoading(false)
