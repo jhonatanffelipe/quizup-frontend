@@ -24,7 +24,7 @@ export const Container = styled.menu`
       width: ${props.width}px;
     `}
 
-  transition: width 0.5s;
+  transition: width 0.1s;
 
   .menu-title {
     display: flex;
@@ -35,7 +35,7 @@ export const Container = styled.menu`
       margin-left: 25px;
       opacity: 1;
 
-      animation: ${appearFromLeft} 0.5s;
+      animation: ${appearFromLeft} 0.7s;
     }
 
     justify-content: start;

@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { FiChevronDown } from 'react-icons/fi'
+import { FiChevronDown, FiHelpCircle, FiUser } from 'react-icons/fi'
 
 import { Container, Content, ContentMenu } from './styles'
 import avatarImg from '../../assets/avatar.png'
@@ -8,7 +8,7 @@ import { useAuth } from '../../hooks/auth'
 const Header = () => {
   const [showContent, setShowContent] = useState(false)
 
-  const { user } = useAuth()
+  const { user, signOut } = useAuth()
 
   window.onclick = (e) => {
     if (
@@ -43,7 +43,46 @@ const Header = () => {
         </div>
       </ContentMenu>
 
-      <Content id="content-menu-profile" showContent={showContent}></Content>
+      <Content id="content-menu-profile" showContent={showContent}>
+        <div className="menu-profile info-profile">
+          <div>
+            <img
+              src={user.avatar ? user.avatar : avatarImg}
+              alt="avatar"
+              className="menu-profile"
+            />
+          </div>
+          <div>
+            <span className="menu-profile"> {`${user.name}`}</span>
+            <p className="menu-profile">
+              {' '}
+              {`${user.isAdmin && 'Administrador'}`}
+            </p>
+            <p className="menu-profile"> {`${user.email}`}</p>
+          </div>
+        </div>
+
+        <div className="menu-profile-itens">
+          <button>
+            <FiUser size={30} />
+            <div>
+              <span>Meu Perfil</span>
+              <p>Configurações da conta</p>
+            </div>
+          </button>
+
+          <button>
+            <FiHelpCircle size={30} />
+            <div>
+              <span>Sobre</span>
+              <p>Informações sobre a aplicação</p>
+            </div>
+          </button>
+          <button className="sign-out" onClick={signOut}>
+            Sair
+          </button>
+        </div>
+      </Content>
     </Container>
   )
 }

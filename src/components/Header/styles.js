@@ -1,3 +1,4 @@
+import { shade } from 'polished'
 import styled, { css } from 'styled-components'
 
 export const Container = styled.div``
@@ -15,7 +16,7 @@ export const ContentMenu = styled.div`
   img {
     width: 40px;
     border-radius: 50%;
-    border: solid 2px #04a1c1;
+    border: solid 3px #04a1c1;
   }
 
   div {
@@ -35,9 +36,13 @@ export const ContentMenu = styled.div`
 export const Content = styled.div`
   width: 300px;
   height: 300px;
-  background-color: #2a2d33;
+  background-color: #151922;
   top: 80px;
   right: 35px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   position: absolute;
 
@@ -55,4 +60,75 @@ export const Content = styled.div`
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
     rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+
+  div {
+    padding: 4px;
+
+    span {
+      font-size: 14px;
+    }
+
+    p {
+      font-size: 12px;
+      color: #c1c1c1;
+    }
+  }
+
+  .info-profile {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .info-profile > div > img {
+    width: 60px;
+    border-radius: 50%;
+    border: solid 3px #04a1c1;
+  }
+
+  .menu-profile-itens {
+    padding: 15px 10px 0;
+
+    > button {
+      & + button {
+        margin-top: 8px;
+      }
+
+      &:hover {
+        background-color: ${shade(0.2, '#151922')};
+      }
+
+      width: 100%;
+      background: #151922;
+      border: none;
+      color: #fff;
+      padding: 8px 16px;
+
+      border-radius: 8px;
+
+      display: flex;
+      align-items: center;
+
+      div {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        margin-left: 16px;
+      }
+    }
+
+    .sign-out {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #04a1c1;
+
+      &:hover {
+        background-color: ${shade(0.2, '#04a1c1')};
+      }
+    }
+  }
 `
