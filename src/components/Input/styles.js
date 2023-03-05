@@ -54,12 +54,19 @@ export const Container = styled.div`
     }
   }
 
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    border: none;
+    -webkit-text-fill-color: #fff;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
   ${(props) =>
     props.isField &&
     css`
       color: #04a1c1;
     `}
-
   svg {
     margin-right: 16px;
   }

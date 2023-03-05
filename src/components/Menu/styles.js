@@ -16,7 +16,7 @@ export const Container = styled.menu`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background: #2a2d33;
+  background: #151922;
   padding-top: 10px;
 
   ${(props) =>

@@ -24,7 +24,7 @@ export const ContentMenu = styled.div`
     align-items: center;
     justify-content: center;
 
-    p {
+    span {
       color: #04a1c1;
       margin-left: 8px;
       margin-right: 16px;
@@ -51,4 +51,8 @@ export const Content = styled.div`
         `}
 
   transition: opacity 0.3s;
+
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 `

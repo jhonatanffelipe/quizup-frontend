@@ -5,17 +5,18 @@ export const Container = styled.button`
   width: 300px;
   padding: 16px;
   border-radius: 10px;
+  transition: background-color 0.2s;
 
-  background-color: #04a1c1;
   color: #ffffff;
 
   margin-top: 18px;
 
-  transition: background-color 0.2s;
-
   display: flex;
   align-items: center;
   justify-content: center;
+  border: none;
+
+  background-color: #04a1c1;
 
   &:hover {
     background-color: ${shade(0.2, '#04a1c1')};

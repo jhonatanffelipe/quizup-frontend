@@ -5,6 +5,7 @@ import { Container, Content, Title } from './styles'
 
 const Dashboard = () => {
   const { signOut } = useAuth()
+
   return (
     <Container>
       <Content>
