@@ -32,12 +32,20 @@ const ForgoPassword = () => {
           .email('Informe um e-mail válido'),
       })
 
+      data.email = data.email.trim()
+
       await schema.validate(data, {
         abortEarly: false,
       })
 
       await forgotPasword({
         email: data.email,
+      })
+
+      addToast({
+        type: 'success',
+        title: 'Solicitação recebida com sucesso',
+        description: 'Verifique sua caixa de entrada',
       })
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
@@ -50,7 +58,7 @@ const ForgoPassword = () => {
         type: 'error',
         title: 'Erro na solicitação',
         description:
-          'Ocorreu um e-mail ao tentar recuperar senha, por favor cheque seu suas credenciais',
+          'Ocorreu um erro ao tentar recuperar senha, por favor cheque o e-mail informado',
       })
     } finally {
       setLoading(false)

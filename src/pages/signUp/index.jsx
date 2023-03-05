@@ -34,7 +34,7 @@ const SignUp = () => {
           .email('Informe um e-mail válido'),
         password: Yup.string().required('Senha obrigatória'),
         confirmPassword: Yup.string()
-          .required('Confirmação de sena obrigatória')
+          .required('Confirmação de senha obrigatória')
           .oneOf([Yup.ref('password')], 'Senhas devem ser iguais'),
       })
 

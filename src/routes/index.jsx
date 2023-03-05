@@ -25,8 +25,8 @@ const AppRoutes = () => {
         element={user ? <Dashboard /> : <Navigate to="/" />}
       />
 
-      <Route path="/forgot-password" element={<ForgoPassword />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/forgot_password" element={<ForgoPassword />} />
+      <Route path="/reset_password" element={<ResetPassword />} />
 
       <Route
         path="*"
