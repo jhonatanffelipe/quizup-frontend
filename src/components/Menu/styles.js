@@ -32,21 +32,16 @@ export const Container = styled.menu`
 
     img {
       width: 150px;
-      margin-left: 15px;
+      margin-left: 25px;
       opacity: 1;
 
       animation: ${appearFromLeft} 0.5s;
     }
 
-    ${(props) =>
-      props.menuOpen
-        ? css`
-            padding-left: 10px;
-            justify-content: start;
-          `
-        : css`
-            justify-content: center;
-          `}
+    justify-content: start;
+
+    padding-left: 2px;
+    padding-right: 3px;
 
     button {
       display: flex;

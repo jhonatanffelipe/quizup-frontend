@@ -28,19 +28,6 @@ export const Container = styled.div`
         `}
 
   ${(props) =>
-    props.isFocused &&
-    css`
-      color: #04a1c1;
-      border-color: #04a1c1;
-    `}
-
-  ${(props) =>
-    props.isField &&
-    css`
-      color: #04a1c1;
-    `}
-
-  ${(props) =>
     !!props.error
       ? css`
           border: 2px solid #c53030;
@@ -48,6 +35,13 @@ export const Container = styled.div`
       : css`
           border: 2px solid #293038;
         `}
+
+  ${(props) =>
+    props.isFocused &&
+    css`
+      color: #04a1c1;
+      border-color: #04a1c1;
+    `}
 
   input {
     color: #fff;
@@ -59,6 +53,12 @@ export const Container = styled.div`
       color: #666360;
     }
   }
+
+  ${(props) =>
+    props.isField &&
+    css`
+      color: #04a1c1;
+    `}
 
   svg {
     margin-right: 16px;

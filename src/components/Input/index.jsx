@@ -12,10 +12,9 @@ const Input = ({ name, icon: Icon, value, error, register, ...rest }) => {
     setIsFocused(true)
   }, [])
 
-  const handleInputBlur = useCallback(() => {
+  const handleInputBlur = useCallback((e) => {
     setIsFocused(false)
-
-    setIsField(!!inputRef.current?.value)
+    setIsField(!!e.target.value)
   }, [])
 
   return (
@@ -23,8 +22,9 @@ const Input = ({ name, icon: Icon, value, error, register, ...rest }) => {
       {Icon && <Icon size={20} />}
       <input
         onFocus={() => handleInputFocus()}
-        onBlur={() => handleInputBlur()}
+        onBlurCapture={(e) => handleInputBlur(e)}
         ref={inputRef}
+        value={value}
         {...rest}
         {...register(name)}
       />

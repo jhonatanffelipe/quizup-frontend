@@ -1,4 +1,5 @@
 import React, { createContext, useCallback, useContext, useState } from 'react'
+import Header from '../components/Header'
 import Menu from '../components/Menu'
 import { auth } from '../services/authenticate/auth'
 
@@ -45,6 +46,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
+      {data.user?.isAdmin && <Header />}
       {data.user?.isAdmin && <Menu />}
       {children}
     </AuthContext.Provider>

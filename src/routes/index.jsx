@@ -8,6 +8,7 @@ import Dashboard from '../pages/dashboard'
 import ForgoPassword from '../pages/forgotPassword'
 import ResetPassword from '../pages/resetPassword'
 import { useAuth } from '../hooks/auth'
+import DashboardAdmin from '../pages/dashboardAdmin'
 
 const AppRoutes = () => {
   const { user } = useAuth()
@@ -22,7 +23,17 @@ const AppRoutes = () => {
 
       <Route
         path="/dashboard"
-        element={user ? <Dashboard /> : <Navigate to="/" />}
+        element={
+          user ? (
+            user.isAdmin ? (
+              <DashboardAdmin />
+            ) : (
+              <Dashboard />
+            )
+          ) : (
+            <Navigate to="/" />
+          )
+        }
       />
 
       <Route path="/forgot_password" element={<ForgoPassword />} />
