@@ -1,12 +1,15 @@
 import React from 'react'
 
 import { AuthProvider } from './auth'
+import { PasswordProvider } from './password'
 import { ToastProvider } from './toast'
 
 const AppProvider = ({ children }) => {
   return (
     <AuthProvider>
-      <ToastProvider>{children}</ToastProvider>
+      <PasswordProvider>
+        <ToastProvider>{children}</ToastProvider>
+      </PasswordProvider>
     </AuthProvider>
   )
 }

@@ -8,9 +8,9 @@ const ToastContext = createContext({})
 const ToastProvider = ({ children }) => {
   const [messages, setMessages] = useState([])
 
-  const addToast = useCallback(({ type, title, descripition }) => {
+  const addToast = useCallback(({ type, title, description }) => {
     const id = uuidv4()
-    const toast = { id, type, title, descripition }
+    const toast = { id, type, title, description }
 
     setMessages((state) => [...state, toast])
   }, [])

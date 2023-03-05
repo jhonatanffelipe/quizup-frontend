@@ -22,17 +22,15 @@ const AuthProvider = ({ children }) => {
         password,
       })
 
-      console.log(response)
-
-      const { user, accessToken, refreshToken, iat, exp } = response.data
+      const { user, accessToken, iat, exp } = response.data
 
       localStorage.setItem('@TurtleQuiz:user', JSON.stringify(user))
       localStorage.setItem(
         '@TurtleQuiz:token',
-        JSON.stringify({ accessToken, refreshToken, iat, exp })
+        JSON.stringify({ accessToken, iat, exp })
       )
 
-      setData({ user, token: { accessToken, refreshToken, iat, exp } })
+      setData({ user, token: { accessToken, iat, exp } })
     },
     [setData]
   )

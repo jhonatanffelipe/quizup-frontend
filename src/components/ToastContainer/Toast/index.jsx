@@ -27,13 +27,13 @@ const Toast = ({ message, style }) => {
     <Container
       key={message.id}
       type={message.type}
-      description={message?.descripition}
+      description={message?.description}
       style={style}
     >
       {icons[message.type || 'info']}
       <div>
         <strong>{message.title}</strong>
-        {message.descripition && <p>{message.descripition}</p>}
+        {message.description && <p>{message.description}</p>}
       </div>
       <button type="button" onClick={() => removeToast(message.id)}>
         <FiXCircle size={18} />

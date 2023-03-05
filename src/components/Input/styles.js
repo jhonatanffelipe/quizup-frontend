@@ -1,5 +1,7 @@
 import styled, { css } from 'styled-components'
 
+import Tooltip from '../Tooltip'
+
 export const Container = styled.div`
   background: #293038;
   border-radius: 10px;
@@ -38,6 +40,15 @@ export const Container = styled.div`
       color: #04a1c1;
     `}
 
+  ${(props) =>
+    !!props.error
+      ? css`
+          border: 2px solid #c53030;
+        `
+      : css`
+          border: 2px solid #293038;
+        `}
+
   input {
     color: #fff;
     background: transparent;
@@ -51,5 +62,23 @@ export const Container = styled.div`
 
   svg {
     margin-right: 16px;
+  }
+`
+
+export const Error = styled(Tooltip)`
+  height: 20px;
+  margin-left: 16px;
+
+  svg {
+    margin: 0;
+  }
+
+  span {
+    background: #c53030;
+    color: #fff;
+
+    &::before {
+      border-color: #c53030 transparent;
+    }
   }
 `

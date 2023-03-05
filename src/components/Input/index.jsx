@@ -1,8 +1,9 @@
 import React, { useState, useCallback, useRef } from 'react'
+import { FiAlertCircle } from 'react-icons/fi'
 
-import { Container } from './styles'
+import { Container, Error } from './styles'
 
-const Input = ({ name, icon: Icon, value, error, ...rest }) => {
+const Input = ({ name, icon: Icon, value, error, register, ...rest }) => {
   const inputRef = useRef(null)
   const [isFocused, setIsFocused] = useState(false)
   const [isField, setIsField] = useState(false)
@@ -25,7 +26,13 @@ const Input = ({ name, icon: Icon, value, error, ...rest }) => {
         onBlur={() => handleInputBlur()}
         ref={inputRef}
         {...rest}
+        {...register(name)}
       />
+      {error && (
+        <Error title={error}>
+          <FiAlertCircle color="#c53030" size={20} />
+        </Error>
+      )}
     </Container>
   )
 }
