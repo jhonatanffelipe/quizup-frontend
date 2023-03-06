@@ -16,13 +16,30 @@ export const Container = styled.button`
   justify-content: center;
   border: none;
 
-  background-color: #04a1c1;
+  ${(props) =>
+    props.backgroundColor
+      ? css`
+          background-color: backgroundColor;
 
-  &:hover {
-    background-color: ${shade(0.2, '#04a1c1')};
-  }
+          &:hover {
+            background-color: ${shade(0.2, `${props.backgroundColor}`)};
+          }
+        `
+      : css`
+          background-color: #04a1c1;
+
+          &:hover {
+            background-color: ${shade(0.2, '#04a1c1')};
+          }
+        `}
 
   ${(props) =>
+    props.fontColor &&
+    css`
+      color: fontColor;
+    `}
+
+    ${(props) =>
     props.disabled &&
     css`
       background-color: #5d5d5d;
