@@ -2,16 +2,19 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiUser, FiMail, FiCamera } from 'react-icons/fi'
 
-import { Container, Form } from './styles'
+import { Container, Form, AvatarInput } from './styles'
 import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
 import { useAuth } from '../../hooks/auth'
+import { useToast } from '../../hooks/toast'
 import avatarImg from '../../assets/avatar.png'
+import api from '../../services/api'
 
 const UserProfile = () => {
   const [loading, setLoading] = useState(false)
-  const [formErrors, setFormErros] = useState({})
+  const [formErrors] = useState({})
 
+  const { addToast } = useToast()
   const { user } = useAuth()
 
   const { handleSubmit, register } = useForm({
@@ -27,14 +30,29 @@ const UserProfile = () => {
     setLoading(false)
   }
 
+  const handleAvatarChenge = async (event) => {
+    if (event.target?.files) {
+      const data = new FormData()
+      data.append('avatar', event.target?.files[0])
+
+      await api.patch('/users/avatar', data).then(() => {
+        addToast({
+          type: 'success',
+          title: 'Avatar alterado com sucesso',
+        })
+      })
+    }
+  }
+
   return (
     <Container>
-      <div>
+      <AvatarInput>
         <img src={user.avatar ? user.avatar : avatarImg} alt="avatar" />
-        <button className="update-avatar">
-          <FiCamera />
-        </button>
-      </div>
+        <label htmlFor="avatar">
+          <FiCamera size={25} />
+          <input type="file" id="avatar" onChange={handleAvatarChenge} />
+        </label>
+      </AvatarInput>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Input
           name="name"

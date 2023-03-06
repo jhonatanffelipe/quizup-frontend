@@ -9,32 +9,43 @@ export const Container = styled.div`
   background: #2a2d33;
 
   align-items: center;
+`
 
-  > div {
-    position: relative;
-    margin-top: 50px;
+export const AvatarInput = styled.div`
+  position: relative;
+  margin-top: 50px;
 
-    img {
-      width: 200px;
-      border-radius: 50%;
-      border: solid 3px #04a1c1;
+  label {
+    cursor: pointer;
+
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background-color: #04a1c1;
+
+    &:hover {
+      background-color: ${shade(0.2, '#04a1c1')};
     }
 
-    .update-avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      border: none;
-      background-color: #04a1c1;
+    position: absolute;
+    bottom: 15px;
+    right: 0px;
 
-      &:hover {
-        background-color: ${shade(0.2, '#04a1c1')};
-      }
+    display: flex;
 
-      position: absolute;
-      bottom: 15px;
-      right: 0px;
-    }
+    justify-content: center;
+    align-items: center;
+  }
+
+  input {
+    display: none;
+  }
+
+  img {
+    width: 200px;
+    border-radius: 50%;
+    border: solid 3px #04a1c1;
   }
 `
 
