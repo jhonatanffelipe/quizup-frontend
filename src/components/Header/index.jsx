@@ -40,8 +40,8 @@ const Header = () => {
         <div className="menu-profile">
           Olá,
           <span className="menu-profile"> {`${user.name}`}</span>
-          <FiChevronDown className="menu-profile" />
         </div>
+        <FiChevronDown className="menu-profile" />
       </ContentMenu>
 
       <Content id="content-menu-profile" showContent={showContent}>

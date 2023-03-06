@@ -1,7 +1,9 @@
 import { shade } from 'polished'
 import styled, { css } from 'styled-components'
 
-export const Container = styled.div``
+export const Container = styled.div`
+  z-index: 1;
+`
 
 export const ContentMenu = styled.div`
   position: absolute;
@@ -17,10 +19,10 @@ export const ContentMenu = styled.div`
     width: 40px;
     border-radius: 50%;
     border: solid 3px #04a1c1;
+    margin-right: 15px;
   }
 
   div {
-    margin-left: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -29,6 +31,10 @@ export const ContentMenu = styled.div`
       color: #04a1c1;
       margin-left: 8px;
       margin-right: 16px;
+    }
+
+    @media (max-width: 900px) {
+      display: none;
     }
   }
 `
@@ -40,7 +46,7 @@ export const Content = styled.div`
   top: 80px;
   right: 35px;
 
-  display: flex;
+  display: block;
   flex-direction: column;
   justify-content: center;
 
@@ -49,13 +55,11 @@ export const Content = styled.div`
   ${(props) =>
     props.showContent
       ? css`
-          opacity: 1;
+          visibility: visible;
         `
       : css`
-          opacity: 0;
+          visibility: hidden;
         `}
-
-  transition: opacity 0.3s;
 
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
