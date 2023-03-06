@@ -1,19 +1,15 @@
-import Button from '../../components/Button'
+import { Button } from '../../components/Button'
+import { Container } from './styles'
 import { useAuth } from '../../hooks/auth'
-
-import { Container, Content, Title } from './styles'
 
 const Dashboard = () => {
   const { signOut } = useAuth()
-
   return (
     <Container>
-      <Content>
-        <Title>Dashboard</Title>
-        <Button onClick={signOut}>Sair</Button>
-      </Content>
+      <h1>Dashboard</h1>
+      <Button onClick={signOut}>Sair</Button>
     </Container>
   )
 }
 
-export default Dashboard
+export { Dashboard }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useTransition } from 'react-spring'
 import { Container } from './styles'
-import Toast from './Toast'
+import { Toast } from './Toast'
 
 const ToastContainer = ({ messages }) => {
   const [existsMessages, setExistsMessages] = useState(false)
@@ -25,4 +25,4 @@ const ToastContainer = ({ messages }) => {
   )
 }
 
-export default ToastContainer
+export { ToastContainer }

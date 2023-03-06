@@ -7,9 +7,9 @@ import * as Yup from 'yup'
 import { Backgound, Container, AnimationContainer, Form } from './styles'
 import logoImg from '../../assets/logoWhite.png'
 import backgroundImg from '../../assets/backgroundImg.svg'
-import Input from '../../components/Input'
+import { Input } from '../../components/Input'
 import { useToast } from '../../hooks/toast'
-import Button from '../../components/Button'
+import { Button } from '../../components/Button'
 import { resetPassword } from '../../services/password/resetPassword'
 import getValidationError from '../../utils/getValidationErros'
 
@@ -118,4 +118,4 @@ const ResetPassword = () => {
   )
 }
 
-export default ResetPassword
+export { ResetPassword }

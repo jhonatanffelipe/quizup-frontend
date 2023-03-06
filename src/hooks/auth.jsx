@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useContext, useState } from 'react'
-import Header from '../components/Header'
-import Menu from '../components/Menu'
+import { Header } from '../components/Header'
+import { Menu } from '../components/Menu'
 import { auth } from '../services/authenticate/auth'
 
 const AuthContext = createContext({})

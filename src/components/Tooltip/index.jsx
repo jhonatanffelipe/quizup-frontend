@@ -10,4 +10,4 @@ const Tooltip = ({ title, className, children }) => {
   )
 }
 
-export default Tooltip
+export { Tooltip }

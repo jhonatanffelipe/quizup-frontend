@@ -2,13 +2,15 @@ import React from 'react'
 
 import { Routes, Route, Navigate } from 'react-router-dom'
 
-import SignIn from '../pages/signIn'
-import SignUp from '../pages/signUp'
-import Dashboard from '../pages/dashboard'
-import ForgoPassword from '../pages/forgotPassword'
-import ResetPassword from '../pages/resetPassword'
+import { SignIn } from '../pages/signIn'
+import { SignUp } from '../pages/signUp'
+import { Dashboard } from '../pages/dashboard'
+import { ForgoPassword } from '../pages/forgotPassword'
+import { ResetPassword } from '../pages/resetPassword'
+import { DashboardAdmin } from '../pages/dashboardAdmin'
+import { UserProfile } from '../pages/userProfile'
 import { useAuth } from '../hooks/auth'
-import DashboardAdmin from '../pages/dashboardAdmin'
+import { ApplicationAbout } from '../pages/applicationAbout'
 
 const AppRoutes = () => {
   const { user } = useAuth()
@@ -34,6 +36,16 @@ const AppRoutes = () => {
             <Navigate to="/" />
           )
         }
+      />
+
+      <Route
+        path="/user_profile"
+        element={user ? <UserProfile /> : <Navigate to="/" />}
+      />
+
+      <Route
+        path="/application_about"
+        element={user ? <ApplicationAbout /> : <Navigate to="/" />}
       />
 
       <Route path="/forgot_password" element={<ForgoPassword />} />

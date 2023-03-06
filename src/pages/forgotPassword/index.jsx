@@ -7,10 +7,10 @@ import * as Yup from 'yup'
 
 import logoImg from '../../assets/logoWhite.png'
 import backgroundImg from '../../assets/backgroundImg.svg'
-import Input from '../../components/Input'
+import { Input } from '../../components/Input'
 import getValidationError from '../../utils/getValidationErros'
 import { useToast } from '../../hooks/toast'
-import Button from '../../components/Button'
+import { Button } from '../../components/Button'
 import { forgotPasword } from '../../services/password/forgotPassword'
 
 const ForgoPassword = () => {
@@ -98,4 +98,4 @@ const ForgoPassword = () => {
   )
 }
 
-export default ForgoPassword
+export { ForgoPassword }

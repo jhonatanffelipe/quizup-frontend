@@ -6,12 +6,12 @@ import * as Yup from 'yup'
 
 import logoImg from '../../assets/logoWhite.png'
 import backgroundImg from '../../assets/backgroundImg.svg'
-import Input from '../../components/Input'
+import { Input } from '../../components/Input'
 import { Backgound, Container, AnimationContainer, Form } from './styles'
 import getValidationError from '../../utils/getValidationErros'
 import { useToast } from '../../hooks/toast'
 import { createUser } from '../../services/user/createUser'
-import Button from '../../components/Button'
+import { Button } from '../../components/Button'
 
 const SignUp = () => {
   const [loading, setLoading] = useState(false)
@@ -131,4 +131,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export { SignUp }

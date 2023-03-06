@@ -13,7 +13,7 @@ export const ContentMenu = styled.div`
 
   cursor: pointer;
 
-  img {
+  > img {
     width: 40px;
     border-radius: 50%;
     border: solid 3px #04a1c1;
@@ -90,8 +90,8 @@ export const Content = styled.div`
   .menu-profile-itens {
     padding: 15px 10px 0;
 
-    > button {
-      & + button {
+    > a {
+      & + a {
         margin-top: 8px;
       }
 
@@ -104,6 +104,7 @@ export const Content = styled.div`
       border: none;
       color: #fff;
       padding: 8px 16px;
+      text-decoration: none;
 
       border-radius: 8px;
 
@@ -121,10 +122,13 @@ export const Content = styled.div`
     }
 
     .sign-out {
+      width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
       background-color: #04a1c1;
+      padding: 8px 16px;
+      border-radius: 8px;
 
       &:hover {
         background-color: ${shade(0.2, '#04a1c1')};

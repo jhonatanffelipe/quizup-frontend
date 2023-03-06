@@ -6,12 +6,12 @@ import { useForm } from 'react-hook-form'
 
 import logoImg from '../../assets/logoWhite.png'
 import backgroundImg from '../../assets/backgroundImg.svg'
-import Input from '../../components/Input'
+import { Input } from '../../components/Input'
 import { Backgound, Container, AnimationContainer, Form } from './styles'
 import getValidationError from '../../utils/getValidationErros'
 import { useAuth } from '../../hooks/auth'
 import { useToast } from '../../hooks/toast'
-import Button from '../../components/Button'
+import { Button } from '../../components/Button'
 
 const SignIn = () => {
   const [loading, setLoading] = useState(false)
@@ -106,4 +106,4 @@ const SignIn = () => {
   )
 }
 
-export default SignIn
+export { SignIn }

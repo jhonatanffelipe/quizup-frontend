@@ -37,4 +37,4 @@ const Input = ({ name, icon: Icon, value, error, register, ...rest }) => {
   )
 }
 
-export default Input
+export { Input }

@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
 import { FiChevronDown, FiHelpCircle, FiUser } from 'react-icons/fi'
+import { Link } from 'react-router-dom'
 
 import { Container, Content, ContentMenu } from './styles'
 import avatarImg from '../../assets/avatar.png'
@@ -63,21 +64,22 @@ const Header = () => {
         </div>
 
         <div className="menu-profile-itens">
-          <button>
+          <Link to="/user_profile">
             <FiUser size={30} />
             <div>
               <span>Meu Perfil</span>
               <p>Configurações da conta</p>
             </div>
-          </button>
+          </Link>
 
-          <button>
+          <Link to="/application_about">
             <FiHelpCircle size={30} />
             <div>
               <span>Sobre</span>
               <p>Informações sobre a aplicação</p>
             </div>
-          </button>
+          </Link>
+
           <button className="sign-out" onClick={signOut}>
             Sair
           </button>
@@ -87,4 +89,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export { Header }

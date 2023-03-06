@@ -42,4 +42,4 @@ const Toast = ({ message, style }) => {
   )
 }
 
-export default Toast
+export { Toast }

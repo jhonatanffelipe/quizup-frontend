@@ -3,6 +3,7 @@ import { FiMenu } from 'react-icons/fi'
 
 import { Container } from './styles'
 import logoImg from '../../assets/logoWhite.png'
+import { Link } from 'react-router-dom'
 
 const Menu = () => {
   const [menuOpen, setMenuOpen] = useState(true)
@@ -19,10 +20,12 @@ const Menu = () => {
         <button onClick={handleCloseMenu}>
           <FiMenu size={30} color="#fff" />
         </button>
-        {menuOpen && <img src={logoImg} alt="Turtle Quiz" />}
+        <Link to="/">
+          {menuOpen && <img src={logoImg} alt="Turtle Quiz" />}
+        </Link>
       </div>
     </Container>
   )
 }
 
-export default Menu
+export { Menu }
