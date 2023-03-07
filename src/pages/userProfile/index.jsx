@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiUser, FiMail, FiCamera } from 'react-icons/fi'
 
@@ -8,14 +8,15 @@ import { Button } from '../../components/Button'
 import { useAuth } from '../../hooks/auth'
 import { useToast } from '../../hooks/toast'
 import avatarImg from '../../assets/avatar.png'
-import api from '../../services/api'
+import { updateUserAvatar } from '../../services/user/updateUserAvatar'
+import { showProfile } from '../../services/user/showProfile'
 
 const UserProfile = () => {
   const [loading, setLoading] = useState(false)
   const [formErrors] = useState({})
 
   const { addToast } = useToast()
-  const { user } = useAuth()
+  const { user, token, signOut, setData } = useAuth()
 
   const { handleSubmit, register } = useForm({
     defaultValues: {
@@ -30,19 +31,51 @@ const UserProfile = () => {
     setLoading(false)
   }
 
-  const handleAvatarChenge = async (event) => {
-    if (event.target?.files) {
-      const data = new FormData()
-      data.append('avatar', event.target?.files[0])
+  const handleAvatarChenge = useCallback(
+    async (event) => {
+      if (event.target?.files) {
+        const data = new FormData()
+        data.append('avatar', event.target?.files[0])
 
-      await api.patch('/users/avatar', data).then(() => {
-        addToast({
-          type: 'success',
-          title: 'Avatar alterado com sucesso',
-        })
-      })
-    }
-  }
+        await updateUserAvatar({ accessToken: token.accessToken, data })
+          .then(async () => {
+            await showProfile({ accessToken: token.accessToken }).then(
+              (response) => {
+                const user = {
+                  avatar: response.data.avatar,
+                  email: response.data.email,
+                  isAdmin: response.data.isAdmin,
+                  name: response.data.name,
+                }
+                setData({ user, token })
+
+                addToast({
+                  type: 'success',
+                  title: 'Avatar alterado com sucesso',
+                })
+              }
+            )
+          })
+          .catch((error) => {
+            if (error.statusCode === 401) {
+              addToast({
+                type: 'error',
+                title: 'Erro de autenticação',
+                description: error.message,
+              })
+              signOut()
+            } else {
+              addToast({
+                type: 'error',
+                title: 'Erro ao atualizar avatar',
+                description: error.message,
+              })
+            }
+          })
+      }
+    },
+    [addToast, signOut, token.accessToken]
+  )
 
   return (
     <Container>

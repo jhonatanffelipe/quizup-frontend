@@ -1,4 +1,4 @@
-export default function getValidationError(err) {
+const getValidationError = (err) => {
   const validationError = {}
 
   err.inner.forEach((error) => {
@@ -7,3 +7,5 @@ export default function getValidationError(err) {
 
   return validationError
 }
+
+export { getValidationError }

@@ -11,7 +11,7 @@ import { Input } from '../../components/Input'
 import { useToast } from '../../hooks/toast'
 import { Button } from '../../components/Button'
 import { resetPassword } from '../../services/password/resetPassword'
-import getValidationError from '../../utils/getValidationErros'
+import { getValidationError } from '../../utils/getValidationErros'
 
 const ResetPassword = () => {
   const [loading, setLoading] = useState(false)

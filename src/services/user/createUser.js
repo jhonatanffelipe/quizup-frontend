@@ -1,11 +1,6 @@
-import api from '../api'
+import { api } from '../api'
 
-export const createUser = async ({
-  name,
-  email,
-  password,
-  confirmPassword,
-}) => {
+const createUser = async ({ name, email, password, confirmPassword }) => {
   return await api
     .post('/users', {
       name,
@@ -22,3 +17,5 @@ export const createUser = async ({
       )
     })
 }
+
+export { createUser }

@@ -1,7 +1,9 @@
-import api from '../api'
+import { api } from '../api'
 
-export const forgotPasword = async ({ email }) => {
+const forgotPasword = async ({ email }) => {
   return await api.post('/password/forgot', {
     email,
   })
 }
+
+export { forgotPasword }

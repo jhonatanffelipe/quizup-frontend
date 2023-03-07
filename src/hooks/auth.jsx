@@ -45,7 +45,9 @@ const AuthProvider = ({ children }) => {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ user: data.user, signIn, signOut, token: data.token, setData }}
+    >
       {data.user?.isAdmin && <Header />}
       {data.user?.isAdmin && <Menu />}
       {children}

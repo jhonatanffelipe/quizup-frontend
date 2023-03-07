@@ -1,6 +1,6 @@
-import api from '../api'
+import { api } from '../api'
 
-export const resetPassword = async ({ token, password, confirmPassword }) => {
+const resetPassword = async ({ token, password, confirmPassword }) => {
   return await api
     .put('/password/reset', {
       token,
@@ -16,3 +16,5 @@ export const resetPassword = async ({ token, password, confirmPassword }) => {
       )
     })
 }
+
+export { resetPassword }

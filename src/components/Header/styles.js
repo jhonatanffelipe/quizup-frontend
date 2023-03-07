@@ -17,6 +17,7 @@ export const ContentMenu = styled.div`
 
   > img {
     width: 40px;
+    height: 40px;
     border-radius: 50%;
     border: solid 3px #04a1c1;
     margin-right: 15px;
@@ -87,6 +88,7 @@ export const Content = styled.div`
 
   .info-profile > div > img {
     width: 60px;
+    height: 60px;
     border-radius: 50%;
     border: solid 3px #04a1c1;
   }

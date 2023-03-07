@@ -8,7 +8,7 @@ import logoImg from '../../assets/logoWhite.png'
 import backgroundImg from '../../assets/backgroundImg.svg'
 import { Input } from '../../components/Input'
 import { Backgound, Container, AnimationContainer, Form } from './styles'
-import getValidationError from '../../utils/getValidationErros'
+import { getValidationError } from '../../utils/getValidationErros'
 import { useAuth } from '../../hooks/auth'
 import { useToast } from '../../hooks/toast'
 import { Button } from '../../components/Button'
@@ -83,6 +83,7 @@ const SignIn = () => {
             placeholder="Senha"
             type="password"
             register={register}
+            autoComplete="off"
             error={formErrors.password}
           />
 

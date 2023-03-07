@@ -8,7 +8,7 @@ import logoImg from '../../assets/logoWhite.png'
 import backgroundImg from '../../assets/backgroundImg.svg'
 import { Input } from '../../components/Input'
 import { Backgound, Container, AnimationContainer, Form } from './styles'
-import getValidationError from '../../utils/getValidationErros'
+import { getValidationError } from '../../utils/getValidationErros'
 import { useToast } from '../../hooks/toast'
 import { createUser } from '../../services/user/createUser'
 import { Button } from '../../components/Button'
@@ -106,6 +106,7 @@ const SignUp = () => {
             type="password"
             register={register}
             error={formErrors.password}
+            autoComplete="off"
           />
 
           <Input
@@ -115,6 +116,7 @@ const SignUp = () => {
             type="password"
             register={register}
             error={formErrors.confirmPassword}
+            autoComplete="off"
           />
 
           <Button type="submit" loading={loading}>

@@ -6,6 +6,7 @@ export const Container = styled.div`
   top: 0;
   padding: 30px;
   overflow: hidden;
+  z-index: 1;
 
   ${(props) =>
     props.existsMessages

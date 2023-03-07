@@ -44,6 +44,7 @@ export const AvatarInput = styled.div`
 
   img {
     width: 200px;
+    height: 200px;
     border-radius: 50%;
     border: solid 3px #04a1c1;
   }
