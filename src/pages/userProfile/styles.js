@@ -50,4 +50,10 @@ export const AvatarInput = styled.div`
   }
 `
 
-export const Form = styled.div``
+export const Form = styled.form`
+  margin-top: 25px;
+
+  > div {
+    margin-top: 25px;
+  }
+`

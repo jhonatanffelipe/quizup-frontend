@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { FiUser, FiMail, FiCamera } from 'react-icons/fi'
+import { FiUser, FiMail, FiCamera, FiLock } from 'react-icons/fi'
 
 import { Container, Form, AvatarInput } from './styles'
 import { Input } from '../../components/Input'
@@ -13,7 +13,7 @@ import { showProfile } from '../../services/user/showProfile'
 
 const UserProfile = () => {
   const [loading, setLoading] = useState(false)
-  const [formErrors] = useState({})
+  const [formErrors, setFormErros] = useState({})
 
   const { addToast } = useToast()
   const { user, token, signOut, setData } = useAuth()
@@ -25,9 +25,14 @@ const UserProfile = () => {
     },
   })
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    setFormErros({})
     setLoading(true)
     console.log(data)
+    console.log('Altera nome e e-mail')
+    if (data.confirmPassword) {
+      console.log('Altera senha')
+    }
     setLoading(false)
   }
 
@@ -74,7 +79,7 @@ const UserProfile = () => {
           })
       }
     },
-    [addToast, signOut, token.accessToken]
+    [addToast, signOut, setData, token]
   )
 
   return (
@@ -87,21 +92,50 @@ const UserProfile = () => {
         </label>
       </AvatarInput>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          name="name"
-          icon={FiUser}
-          placeholder="Nome"
-          register={register}
-          error={formErrors?.name}
-        />
+        <h2>Meu Perfil</h2>
+        <div>
+          <Input
+            name="name"
+            icon={FiUser}
+            placeholder="Nome"
+            register={register}
+            error={formErrors?.name}
+          />
 
-        <Input
-          name="email"
-          icon={FiMail}
-          placeholder="E-mail"
-          register={register}
-          error={formErrors?.email}
-        />
+          <Input
+            name="email"
+            icon={FiMail}
+            placeholder="E-mail"
+            register={register}
+            error={formErrors?.email}
+          />
+        </div>
+
+        <div>
+          <Input
+            name="currentPassword"
+            icon={FiLock}
+            placeholder="Senha atual"
+            register={register}
+            error={formErrors?.currentPassword}
+          />
+
+          <Input
+            name="password"
+            icon={FiLock}
+            placeholder="Nova senha"
+            register={register}
+            error={formErrors?.password}
+          />
+
+          <Input
+            name="confirmPassword"
+            icon={FiLock}
+            placeholder="Nova senha"
+            register={register}
+            error={formErrors?.confirmPassword}
+          />
+        </div>
 
         <Button type="submit" loading={loading}>
           Confirmar
