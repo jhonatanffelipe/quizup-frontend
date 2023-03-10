@@ -5,18 +5,18 @@ const updateProfile = async ({
   accessToken,
   name,
   email,
+  currentPassword,
   password,
   confirmPassword,
 }) => {
   const headers = {
-    'Content-Type': 'multipart/form-data',
     Authorization: `Bearer ${accessToken}`,
   }
 
   return await api
     .put(
       '/users/profile',
-      { name, email, password, confirmPassword },
+      { name, email, currentPassword, password, confirmPassword },
       { headers }
     )
     .then((response) => response)

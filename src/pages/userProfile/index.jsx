@@ -25,6 +25,9 @@ const UserProfile = () => {
     defaultValues: {
       name: user.name,
       email: user.email,
+      currentPassword: null,
+      password: null,
+      confirmPassword: null,
     },
   })
 
@@ -34,23 +37,28 @@ const UserProfile = () => {
     try {
       setLoading(true)
 
-      let schema = Yup.object().shape({
-        name: Yup.string().required('Nome obrigatório'),
-        email: Yup.string()
-          .required('E-mail obrigatório')
-          .email('Informe um e-mail válido'),
-      })
+      let schema = {}
 
       if (data.currentPassword || data.password || data.confirmPassword) {
-        schema = Object.assign(
-          schema,
-          Yup.object().shape({
-            name: Yup.string().required('Nome obrigatório'),
-            email: Yup.string()
-              .required('E-mail obrigatório')
-              .email('Informe um e-mail válido'),
-          })
-        )
+        schema = Yup.object().shape({
+          name: Yup.string().required('Nome obrigatório'),
+          email: Yup.string()
+            .required('E-mail obrigatório')
+            .email('Informe um e-mail válido'),
+
+          currentPassword: Yup.string().required('Senha atual obrigatório'),
+          password: Yup.string().required('Nova senha obrigatório'),
+          confirmPassword: Yup.string()
+            .required('Confirmação de senha obrigatória')
+            .oneOf([Yup.ref('password')], 'Senhas devem ser iguais'),
+        })
+      } else {
+        schema = Yup.object().shape({
+          name: Yup.string().required('Nome obrigatório'),
+          email: Yup.string()
+            .required('E-mail obrigatório')
+            .email('Informe um e-mail válido'),
+        })
       }
 
       data.email = data.email.trim()
@@ -63,10 +71,32 @@ const UserProfile = () => {
         accessToken: token.accessToken,
         name: data.name,
         email: data.email,
+        currentPassword: data.currentPassword,
         password: data.password,
         confirmPassword: data.confirmPassword,
       })
+
+      await showProfile({ accessToken: token.accessToken }).then((response) => {
+        const user = {
+          avatar: response.data.avatar,
+          email: response.data.email,
+          isAdmin: response.data.isAdmin,
+          name: response.data.name,
+        }
+        setData({ user, token })
+
+        addToast({
+          type: 'success',
+          title: 'Usuário alterado com sucesso',
+        })
+      })
     } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        const errors = getValidationError(error)
+        setFormErros(errors)
+        return
+      }
+
       if (error.statusCode === 401) {
         addToast({
           type: 'error',
@@ -139,7 +169,12 @@ const UserProfile = () => {
         <img src={user.avatar ? user.avatar : avatarImg} alt="avatar" />
         <label htmlFor="avatar">
           <FiCamera size={25} />
-          <input type="file" id="avatar" accept="image/*"  onChange={handleAvatarChenge} />
+          <input
+            type="file"
+            id="avatar"
+            accept="image/*"
+            onChange={handleAvatarChenge}
+          />
         </label>
       </AvatarInput>
       <Form onSubmit={handleSubmit(onSubmit)}>
@@ -169,6 +204,8 @@ const UserProfile = () => {
             placeholder="Senha atual"
             register={register}
             error={formErrors?.currentPassword}
+            autoComplete="off"
+            type="password"
           />
 
           <Input
@@ -177,14 +214,18 @@ const UserProfile = () => {
             placeholder="Nova senha"
             register={register}
             error={formErrors?.password}
+            autoComplete="off"
+            type="password"
           />
 
           <Input
             name="confirmPassword"
             icon={FiLock}
-            placeholder="Nova senha"
+            placeholder="Confirmar senha"
             register={register}
             error={formErrors?.confirmPassword}
+            autoComplete="off"
+            type="password"
           />
         </div>
 
