@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiUser, FiMail, FiCamera, FiLock } from 'react-icons/fi'
+import * as Yup from 'yup'
 
 import { Container, Form, AvatarInput } from './styles'
 import { Input } from '../../components/Input'
@@ -9,7 +10,9 @@ import { useAuth } from '../../hooks/auth'
 import { useToast } from '../../hooks/toast'
 import avatarImg from '../../assets/avatar.png'
 import { updateUserAvatar } from '../../services/user/updateUserAvatar'
+import { updateProfile } from '../../services/user/updateProfile'
 import { showProfile } from '../../services/user/showProfile'
+import { getValidationError } from '../../utils/getValidationErros'
 
 const UserProfile = () => {
   const [loading, setLoading] = useState(false)
@@ -27,11 +30,59 @@ const UserProfile = () => {
 
   const onSubmit = async (data) => {
     setFormErros({})
-    setLoading(true)
-    console.log(data)
-    console.log('Altera nome e e-mail')
-    if (data.confirmPassword) {
-      console.log('Altera senha')
+
+    try {
+      setLoading(true)
+
+      let schema = Yup.object().shape({
+        name: Yup.string().required('Nome obrigatório'),
+        email: Yup.string()
+          .required('E-mail obrigatório')
+          .email('Informe um e-mail válido'),
+      })
+
+      if (data.currentPassword || data.password || data.confirmPassword) {
+        schema = Object.assign(
+          schema,
+          Yup.object().shape({
+            name: Yup.string().required('Nome obrigatório'),
+            email: Yup.string()
+              .required('E-mail obrigatório')
+              .email('Informe um e-mail válido'),
+          })
+        )
+      }
+
+      data.email = data.email.trim()
+
+      await schema.validate(data, {
+        abortEarly: false,
+      })
+
+      await updateProfile({
+        accessToken: token.accessToken,
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        confirmPassword: data.confirmPassword,
+      })
+    } catch (error) {
+      if (error.statusCode === 401) {
+        addToast({
+          type: 'error',
+          title: 'Erro de autenticação',
+          description: error.message,
+        })
+        signOut()
+      } else {
+        addToast({
+          type: 'error',
+          title: 'Erro ao atualizar usuário',
+          description: error.message,
+        })
+      }
+    } finally {
+      setLoading(false)
     }
     setLoading(false)
   }

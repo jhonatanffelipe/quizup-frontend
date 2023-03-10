@@ -42,7 +42,7 @@ export const ContentMenu = styled.div`
 
 export const Content = styled.div`
   width: 300px;
-  height: 300px;
+  height: 310px;
   background-color: #151922;
   top: 80px;
   right: 35px;
@@ -52,6 +52,7 @@ export const Content = styled.div`
   justify-content: center;
 
   position: absolute;
+  padding: 16px 8px;
 
   ${(props) =>
     props.showContent
@@ -135,6 +136,7 @@ export const Content = styled.div`
       background-color: #04a1c1;
       padding: 8px 16px;
       border-radius: 8px;
+      margin-top: 8px;
 
       &:hover {
         background-color: ${shade(0.2, '#04a1c1')};
