@@ -139,7 +139,7 @@ const UserProfile = () => {
         <img src={user.avatar ? user.avatar : avatarImg} alt="avatar" />
         <label htmlFor="avatar">
           <FiCamera size={25} />
-          <input type="file" id="avatar" onChange={handleAvatarChenge} />
+          <input type="file" id="avatar" accept="image/*"  onChange={handleAvatarChenge} />
         </label>
       </AvatarInput>
       <Form onSubmit={handleSubmit(onSubmit)}>
