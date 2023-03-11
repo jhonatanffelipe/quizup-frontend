@@ -9,8 +9,14 @@ import { ForgoPassword } from '../pages/forgotPassword'
 import { ResetPassword } from '../pages/resetPassword'
 import { DashboardAdmin } from '../pages/dashboardAdmin'
 import { UserProfile } from '../pages/userProfile'
-import { useAuth } from '../hooks/auth'
 import { ApplicationAbout } from '../pages/applicationAbout'
+
+import { useAuth } from '../hooks/auth'
+import { EmailSettings } from '../pages/emailSettings'
+import { UserSettings } from '../pages/userSettings'
+import { Categories } from '../pages/categories'
+import { Topics } from '../pages/topics'
+import { Tags } from '../pages/tags'
 
 const AppRoutes = () => {
   const { user } = useAuth()
@@ -54,6 +60,31 @@ const AppRoutes = () => {
       <Route
         path="*"
         element={<Navigate to={`${user ? '/dashboard' : '/'}`} />}
+      />
+
+      <Route
+        path="/email_settings"
+        element={user.isAdmin ? <EmailSettings /> : <Navigate to="/" />}
+      />
+
+      <Route
+        path="/users_settings"
+        element={user.isAdmin ? <UserSettings /> : <Navigate to="/" />}
+      />
+
+      <Route
+        path="/categories"
+        element={user.isAdmin ? <Categories /> : <Navigate to="/" />}
+      />
+
+      <Route
+        path="/topcs"
+        element={user.isAdmin ? <Topics /> : <Navigate to="/" />}
+      />
+
+      <Route
+        path="/tags"
+        element={user.isAdmin ? <Tags /> : <Navigate to="/" />}
       />
     </Routes>
   )
