@@ -94,7 +94,7 @@ export const MenuItemTitle = styled.div`
   align-items: center;
   width: 100%;
   border-radius: 8px;
-  margin-top: 8px;
+  margin-top: 2px;
 
   span {
     flex: 1;

@@ -21,7 +21,11 @@ const Menu = () => {
   const [question, setQuestion] = useState(false)
 
   const handleMenu = useCallback(() => {
-    console.log(menuOpen)
+    if (menuOpen) {
+      setAdmin(false)
+      setQuestion(false)
+    }
+
     setMenuOpen(!menuOpen)
     setWidth(width === 275 ? 55 : 275)
   }, [width, menuOpen])
