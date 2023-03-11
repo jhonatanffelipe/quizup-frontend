@@ -35,7 +35,7 @@ export const MenuTitle = styled.div`
 
   img {
     width: 150px;
-    margin-left: 25px;
+    margin-left: 9px;
     opacity: 1;
 
     animation: ${appearFromLeft} 0.7s;
@@ -68,30 +68,37 @@ export const MenuTitle = styled.div`
 export const MenuSession = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-
-  > svg {
-    margin-top: 22px;
-
-    cursor: pointer;
-
-    &:hover {
-      color: ${shade(0.2, '#04a1c1')};
-    }
-  }
 `
 
 export const MenuItem = styled.div`
   display: flex;
+  flex-direction: column;
+
+  button {
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    background-color: transparent;
+
+    color: #fff;
+  }
+`
+
+export const MenuItemTitle = styled.div`
+  display: flex;
   align-items: center;
-  padding: 12px 8px;
-  width: 250px;
+  width: 100%;
   border-radius: 8px;
   margin-top: 8px;
 
   span {
     flex: 1;
+    margin-left: 6px;
   }
 
   cursor: pointer;
@@ -99,20 +106,22 @@ export const MenuItem = styled.div`
   &:hover {
     background: #2a2d33;
   }
+
+  > svg {
+    margin-right: 16px;
+  }
 `
 
 export const MenuSessionSubItens = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
 `
 
 export const MenuSubItem = styled(Link)`
   display: flex;
   align-items: center;
-  padding: 12px 24px;
-  width: 250px;
+  padding: 12px 8px 12px 60px;
+  width: 100%;
   border-radius: 8px;
 
   color: #fff;

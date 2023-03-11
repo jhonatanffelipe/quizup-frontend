@@ -8,6 +8,7 @@ import {
   MenuTitle,
   MenuSession,
   MenuItem,
+  MenuItemTitle,
   MenuSessionSubItens,
   MenuSubItem,
 } from './styles'
@@ -19,7 +20,8 @@ const Menu = () => {
   const [admin, setAdmin] = useState(false)
   const [question, setQuestion] = useState(false)
 
-  const handleCloseMenu = useCallback(() => {
+  const handleMenu = useCallback(() => {
+    console.log(menuOpen)
     setMenuOpen(!menuOpen)
     setWidth(width === 275 ? 55 : 275)
   }, [width, menuOpen])
@@ -27,7 +29,7 @@ const Menu = () => {
   return (
     <Container width={width} menuOpen={menuOpen}>
       <MenuTitle>
-        <button onClick={handleCloseMenu}>
+        <button onClick={handleMenu}>
           <FiMenu size={30} />
         </button>
         <Link to="/">
@@ -36,56 +38,66 @@ const Menu = () => {
       </MenuTitle>
 
       <MenuSession>
-        {menuOpen ? (
-          <>
-            <MenuItem onClick={() => setAdmin(!admin)}>
-              <span>Administração</span>
-              {admin ? <FiChevronUp /> : <FiChevronDown />}
-            </MenuItem>
-            {admin && (
-              <MenuSessionSubItens>
-                <MenuSubItem to={'email_settings'}>
-                  Configurações de E-mail
-                </MenuSubItem>
-                <MenuSubItem to={'users_settings'}>Usuários</MenuSubItem>
-              </MenuSessionSubItens>
+        <MenuItem>
+          <MenuItemTitle onClick={() => setAdmin(!admin)}>
+            <button
+              onClick={() => {
+                if (!menuOpen) {
+                  handleMenu()
+                  setAdmin(true)
+                  setQuestion(false)
+                }
+              }}
+            >
+              <FiSettings size={20} />
+            </button>
+            {menuOpen && (
+              <>
+                <span>Administração</span>
+                {admin ? <FiChevronUp /> : <FiChevronDown />}
+              </>
             )}
-          </>
-        ) : (
-          <FiSettings
-            size={20}
-            onClick={() => {
-              handleCloseMenu()
-              setAdmin(true)
-              setQuestion(false)
-            }}
-          />
-        )}
+          </MenuItemTitle>
 
-        {menuOpen ? (
-          <>
-            <MenuItem onClick={() => setQuestion(!question)}>
-              <span>Questões</span>
-              {question ? <FiChevronUp /> : <FiChevronDown />}
-            </MenuItem>
-            {question && (
-              <MenuSessionSubItens>
-                <MenuSubItem to={'categories'}>Categorias</MenuSubItem>
-                <MenuSubItem to={'topcs'}>Tópicos</MenuSubItem>
-                <MenuSubItem to={'tags'}>Tags</MenuSubItem>
-              </MenuSessionSubItens>
+          {admin && menuOpen && (
+            <MenuSessionSubItens>
+              <MenuSubItem to={'email_settings'}>
+                Configurações de E-mail
+              </MenuSubItem>
+              <MenuSubItem to={'users_settings'}>Usuários</MenuSubItem>
+            </MenuSessionSubItens>
+          )}
+        </MenuItem>
+
+        <MenuItem>
+          <MenuItemTitle onClick={() => setQuestion(!question)}>
+            <button
+              onClick={() => {
+                if (!menuOpen) {
+                  handleMenu()
+                  setAdmin(false)
+                  setQuestion(true)
+                }
+              }}
+            >
+              <AiOutlineQuestionCircle size={20} />
+            </button>
+            {menuOpen && (
+              <>
+                <span>Questões</span>
+                {question ? <FiChevronUp /> : <FiChevronDown />}
+              </>
             )}
-          </>
-        ) : (
-          <AiOutlineQuestionCircle
-            size={20}
-            onClick={() => {
-              handleCloseMenu()
-              setAdmin(false)
-              setQuestion(true)
-            }}
-          />
-        )}
+          </MenuItemTitle>
+
+          {question && menuOpen && (
+            <MenuSessionSubItens>
+              <MenuSubItem to={'categories'}>Categorias</MenuSubItem>
+              <MenuSubItem to={'topcs'}>Tópicos</MenuSubItem>
+              <MenuSubItem to={'tags'}>Tags</MenuSubItem>
+            </MenuSessionSubItens>
+          )}
+        </MenuItem>
       </MenuSession>
     </Container>
   )
