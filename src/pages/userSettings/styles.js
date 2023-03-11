@@ -37,15 +37,14 @@ export const TableBody = styled.tbody``
 
 export const TableBodyRow = styled.tr`
   height: 36px;
-  cursor: pointer;
   &:hover {
     background: #2a2d33;
   }
   border-radius: 8px;
+`
 
-  input {
-    cursor: pointer;
-  }
+export const CheckedElement = styled.input`
+  cursor: pointer;
 `
 
 export const TableBodyData = styled.td`
@@ -79,6 +78,11 @@ export const TableFooter = styled.div`
     margin: 4px;
   }
 `
+
+export const PerPageContent = styled.div`
+  position: relative;
+`
+
 export const PerPage = styled.div`
   display: flex;
   align-items: center;
@@ -98,6 +102,36 @@ export const PerPage = styled.div`
       margin-left: 8px;
     }
 
+    cursor: pointer;
+
+    &:hover {
+      background: #2a2d33;
+    }
+  }
+`
+
+export const PerPageItens = styled.div`
+  z-index: 1;
+  position: absolute;
+  background: #151922;
+  top: 28px;
+  left: 108px;
+  border-radius: 4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  width: 60px;
+
+  span {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+    padding: 6px 8px;
     cursor: pointer;
 
     &:hover {

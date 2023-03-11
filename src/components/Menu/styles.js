@@ -20,6 +20,7 @@ export const Container = styled.menu`
   height: 100vh;
   background: #151922;
   padding-top: 10px;
+  font-size: 14px;
 
   ${(props) =>
     css`
@@ -34,9 +35,10 @@ export const MenuTitle = styled.div`
   align-items: center;
 
   img {
-    width: 150px;
+    width: 120px;
     margin-left: 9px;
     opacity: 1;
+    padding-top: 8px;
 
     animation: ${appearFromLeft} 0.7s;
   }
