@@ -58,33 +58,33 @@ const AppRoutes = () => {
       <Route path="/reset_password" element={<ResetPassword />} />
 
       <Route
-        path="*"
-        element={<Navigate to={`${user ? '/dashboard' : '/'}`} />}
-      />
-
-      <Route
         path="/email_settings"
-        element={user.isAdmin ? <EmailSettings /> : <Navigate to="/" />}
+        element={user && user.isAdmin ? <EmailSettings /> : <Navigate to="/" />}
       />
 
       <Route
         path="/users_settings"
-        element={user.isAdmin ? <UserSettings /> : <Navigate to="/" />}
+        element={user && user.isAdmin ? <UserSettings /> : <Navigate to="/" />}
       />
 
       <Route
         path="/categories"
-        element={user.isAdmin ? <Categories /> : <Navigate to="/" />}
+        element={user && user.isAdmin ? <Categories /> : <Navigate to="/" />}
       />
 
       <Route
         path="/topcs"
-        element={user.isAdmin ? <Topics /> : <Navigate to="/" />}
+        element={user && user.isAdmin ? <Topics /> : <Navigate to="/" />}
       />
 
       <Route
         path="/tags"
-        element={user.isAdmin ? <Tags /> : <Navigate to="/" />}
+        element={user && user.isAdmin ? <Tags /> : <Navigate to="/" />}
+      />
+
+      <Route
+        path="*"
+        element={<Navigate to={`${user ? '/dashboard' : '/'}`} />}
       />
     </Routes>
   )
