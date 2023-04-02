@@ -36,9 +36,7 @@ const Menu = () => {
         <button onClick={handleMenu}>
           <FiMenu size={30} />
         </button>
-        <Link to="/">
-          {menuOpen && <img src={logoImg} alt="Turtle Quiz" />}
-        </Link>
+        <Link to="/">{menuOpen && <img src={logoImg} alt="QuizEdu" />}</Link>
       </MenuTitle>
 
       <MenuSession>

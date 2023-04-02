@@ -7,8 +7,8 @@ const AuthContext = createContext({})
 
 const AuthProvider = ({ children }) => {
   const [data, setData] = useState(() => {
-    const token = localStorage.getItem('@TurtleQuiz:token')
-    const user = localStorage.getItem('@TurtleQuiz:user')
+    const token = localStorage.getItem('@QuizEdu:token')
+    const user = localStorage.getItem('@QuizEdu:user')
 
     if (token && user) {
       return { token: JSON.parse(token), user: JSON.parse(user) }
@@ -26,9 +26,9 @@ const AuthProvider = ({ children }) => {
 
       const { user, accessToken, iat, exp } = response.data
 
-      localStorage.setItem('@TurtleQuiz:user', JSON.stringify(user))
+      localStorage.setItem('@QuizEdu:user', JSON.stringify(user))
       localStorage.setItem(
-        '@TurtleQuiz:token',
+        '@QuizEdu:token',
         JSON.stringify({ accessToken, iat, exp })
       )
 
@@ -38,8 +38,8 @@ const AuthProvider = ({ children }) => {
   )
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@TurtleQuiz:token')
-    localStorage.removeItem('@TurtleQuiz:user')
+    localStorage.removeItem('@QuizEdu:token')
+    localStorage.removeItem('@QuizEdu:user')
 
     setData({})
   }, [])

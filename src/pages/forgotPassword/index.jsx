@@ -71,7 +71,7 @@ const ForgoPassword = () => {
         <img src={backgroundImg} alt="background" />
       </Backgound>
       <AnimationContainer>
-        <img src={logoImg} alt="Turtle Quiz" />
+        <img src={logoImg} alt="QuizEdu" />
 
         <Form onSubmit={handleSubmit(onSubmit)}>
           <h1>Recuperar senha</h1>

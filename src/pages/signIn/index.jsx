@@ -64,7 +64,7 @@ const SignIn = () => {
   return (
     <Container>
       <AnimationContainer>
-        <img src={logoImg} alt="Turtle Quiz" />
+        <img src={logoImg} alt="QuizEdu" />
 
         <Form onSubmit={handleSubmit(onSubmit)}>
           <h1>Faça seu login</h1>
