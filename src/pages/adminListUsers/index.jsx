@@ -119,6 +119,56 @@ const AdminListUsers = () => {
     }
   }, [page, perPage, addToast, signOut, token.accessToken])
 
+  const handleDeleteUser = useCallback(
+    async (id) => {
+      try {
+        setLoading(true)
+
+        if (!id) {
+          throw new AppError(
+            'Não foi possível deletar usuário, ID deve ser informado.'
+          )
+        }
+
+        await api
+          .delete(`/users/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token.accessToken}`,
+            },
+          })
+          .then(async () => {
+            handleRequestUsers()
+          })
+          .catch((error) => {
+            throw new AppError(
+              error.response?.data?.error.message ||
+                error.response?.data?.error ||
+                'Erro ao listar dodos dos usuários. Por favor tente mais tarde',
+              error.response?.status || 400
+            )
+          })
+      } catch (error) {
+        if (error.statusCode === 401) {
+          addToast({
+            type: 'error',
+            title: 'Erro de autenticação',
+            description: error.message,
+          })
+          signOut()
+        } else {
+          addToast({
+            type: 'error',
+            title: 'Erro ao atualizar avatar',
+            description: error.message,
+          })
+        }
+      } finally {
+        setLoading(false)
+      }
+    },
+    [addToast, signOut, token.accessToken, handleRequestUsers]
+  )
+
   useEffect(() => {
     void handleRequestUsers()
   }, [handleRequestUsers])
@@ -170,7 +220,7 @@ const AdminListUsers = () => {
                     <button>
                       <FiEdit3 size={10} />
                     </button>
-                    <button>
+                    <button onClick={() => handleDeleteUser(user.id)}>
                       <FiX size={15} />
                     </button>
                   </div>
