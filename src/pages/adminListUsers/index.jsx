@@ -6,6 +6,8 @@ import {
   FiChevronsLeft,
   FiChevronsRight,
   FiChevronUp,
+  FiEdit3,
+  FiX,
 } from 'react-icons/fi'
 
 import {
@@ -23,6 +25,7 @@ import {
   PerPageContent,
   PerPage,
   PerPageItens,
+  CheckedElementArea,
 } from './styles'
 
 import { api } from '../../services/api'
@@ -104,22 +107,22 @@ const AdminListUsers = () => {
               <TableTitle>Admin</TableTitle>
               <TableTitle>Criar em</TableTitle>
               <TableTitle>Atualizado em</TableTitle>
+              <TableTitle style={{ textAlign: 'center' }}>Ações</TableTitle>
             </TableHeadRow>
           </TableHead>
           <TableBody>
             {users.map((user) => (
-              <TableBodyRow
-                key={user.id}
-                onClick={() => handleElementsSelecteds(user.id)}
-              >
+              <TableBodyRow key={user.id}>
                 <TableBodyData>
-                  <CheckedElement
-                    type="checkbox"
-                    selected={user.selected}
-                    onChange={(e) => {
-                      handleElementsSelecteds(user.id)
-                    }}
-                  />
+                  <CheckedElementArea>
+                    <CheckedElement
+                      type="checkbox"
+                      selected={user.selected}
+                      onChange={(e) => {
+                        handleElementsSelecteds(user.id)
+                      }}
+                    />
+                  </CheckedElementArea>
                 </TableBodyData>
                 <TableBodyData>{user.name}</TableBodyData>
                 <TableBodyData>{user.email}</TableBodyData>
@@ -130,6 +133,16 @@ const AdminListUsers = () => {
                 </TableBodyData>
                 <TableBodyData>
                   {moment(user.updatedAt).format('DD/MM/yyyy HH:mm')}
+                </TableBodyData>
+                <TableBodyData>
+                  <div>
+                    <button>
+                      <FiEdit3 size={10} />
+                    </button>
+                    <button>
+                      <FiX size={15} />
+                    </button>
+                  </div>
                 </TableBodyData>
               </TableBodyRow>
             ))}

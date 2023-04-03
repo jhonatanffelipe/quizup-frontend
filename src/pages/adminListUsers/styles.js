@@ -50,11 +50,35 @@ export const CheckedElement = styled.input`
 export const TableBodyData = styled.td`
   padding: 0 8px;
   border-collapse: collapse;
+
+  div {
+    display: flex;
+    justify-content: center;
+
+    button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: transparent;
+      border: none;
+      color: #fff;
+      width: 15px;
+
+      &:hover {
+        color: #04a1c1;
+      }
+    }
+  }
+`
+
+export const CheckedElementArea = styled.div`
+  height: 100%;
+  display: flex;
+  align-items: center;
 `
 
 export const TableFooter = styled.div`
   display: flex;
-  align-items: center;
   justify-content: flex-end;
   margin-top: 12px;
   font-size: 12px;
@@ -75,7 +99,12 @@ export const TableFooter = styled.div`
   }
 
   > span {
-    margin: 4px;
+    margin-left: 4px;
+    margin-right: 4px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `
 

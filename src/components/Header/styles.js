@@ -78,6 +78,10 @@ export const Content = styled.div`
       font-size: 12px;
       color: #c1c1c1;
     }
+
+    button {
+      border: none;
+    }
   }
 
   .info-profile {
