@@ -1,6 +1,6 @@
 import { Container } from './styles'
 
-const EmailSettings = () => {
+const AdminEmailSettings = () => {
   return (
     <Container>
       <h1>Configurações de envio de e-mail</h1>
@@ -8,4 +8,4 @@ const EmailSettings = () => {
   )
 }
 
-export { EmailSettings }
+export { AdminEmailSettings }

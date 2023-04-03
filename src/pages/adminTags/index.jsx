@@ -1,6 +1,6 @@
 import { Container } from './styles'
 
-const Tags = () => {
+const AdminTags = () => {
   return (
     <Container>
       <h1>Tags</h1>
@@ -8,4 +8,4 @@ const Tags = () => {
   )
 }
 
-export { Tags }
+export { AdminTags }

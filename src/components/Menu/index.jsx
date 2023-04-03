@@ -63,10 +63,10 @@ const Menu = () => {
 
           {admin && menuOpen && (
             <MenuSessionSubItens>
-              <MenuSubItem to={'admin-email-settings'}>
+              <MenuSubItem to={'email-settings'}>
                 Configurações de E-mail
               </MenuSubItem>
-              <MenuSubItem to={'admin-list-all-users'}>Usuários</MenuSubItem>
+              <MenuSubItem to={'users'}>Usuários</MenuSubItem>
             </MenuSessionSubItens>
           )}
         </MenuItem>
@@ -97,6 +97,7 @@ const Menu = () => {
               <MenuSubItem to={'categories'}>Categorias</MenuSubItem>
               <MenuSubItem to={'topcs'}>Tópicos</MenuSubItem>
               <MenuSubItem to={'tags'}>Tags</MenuSubItem>
+              <MenuSubItem to={'questions'}>Questionários</MenuSubItem>
             </MenuSessionSubItens>
           )}
         </MenuItem>

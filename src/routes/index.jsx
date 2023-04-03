@@ -7,16 +7,17 @@ import { SignUp } from '../pages/signUp'
 import { Dashboard } from '../pages/dashboard'
 import { ForgoPassword } from '../pages/forgotPassword'
 import { ResetPassword } from '../pages/resetPassword'
-import { DashboardAdmin } from '../pages/dashboardAdmin'
+import { AdminDashboard } from '../pages/adminDashboard'
 import { UserProfile } from '../pages/userProfile'
 import { ApplicationAbout } from '../pages/applicationAbout'
 
 import { useAuth } from '../hooks/auth'
-import { EmailSettings } from '../pages/emailSettings'
-import { AdminListUsers } from '../pages/adminListUsers'
-import { Categories } from '../pages/categories'
-import { Topics } from '../pages/topics'
-import { Tags } from '../pages/tags'
+import { AdminEmailSettings } from '../pages/adminEmailSettings'
+import { AdminUsersList } from '../pages/adminUsersList'
+import { AdminCategories } from '../pages/adminCategories'
+import { AdminTopics } from '../pages/adminTopics'
+import { AdminTags } from '../pages/adminTags'
+import { AdminQuestions } from '../pages/adminQuestions'
 
 const AppRoutes = () => {
   const { user } = useAuth()
@@ -34,7 +35,7 @@ const AppRoutes = () => {
         element={
           user ? (
             user.isAdmin ? (
-              <DashboardAdmin />
+              <AdminDashboard />
             ) : (
               <Dashboard />
             )
@@ -58,30 +59,41 @@ const AppRoutes = () => {
       <Route path="/reset-password" element={<ResetPassword />} />
 
       <Route
-        path="/admin-email-settings"
-        element={user && user.isAdmin ? <EmailSettings /> : <Navigate to="/" />}
+        path="/email-settings"
+        element={
+          user && user.isAdmin ? <AdminEmailSettings /> : <Navigate to="/" />
+        }
       />
 
       <Route
-        path="/admin-list-all-users"
+        path="/users"
         element={
-          user && user.isAdmin ? <AdminListUsers /> : <Navigate to="/" />
+          user && user.isAdmin ? <AdminUsersList /> : <Navigate to="/" />
         }
       />
 
       <Route
         path="/categories"
-        element={user && user.isAdmin ? <Categories /> : <Navigate to="/" />}
+        element={
+          user && user.isAdmin ? <AdminCategories /> : <Navigate to="/" />
+        }
       />
 
       <Route
         path="/topcs"
-        element={user && user.isAdmin ? <Topics /> : <Navigate to="/" />}
+        element={user && user.isAdmin ? <AdminTopics /> : <Navigate to="/" />}
       />
 
       <Route
         path="/tags"
-        element={user && user.isAdmin ? <Tags /> : <Navigate to="/" />}
+        element={user && user.isAdmin ? <AdminTags /> : <Navigate to="/" />}
+      />
+
+      <Route
+        path="/questions"
+        element={
+          user && user.isAdmin ? <AdminQuestions /> : <Navigate to="/" />
+        }
       />
 
       <Route

@@ -1,11 +1,11 @@
 import { Container } from './styles'
 
-const DashboardAdmin = () => {
+const AdminCategories = () => {
   return (
     <Container>
-      <h1>Dashboard Admin</h1>
+      <h1>Categorias</h1>
     </Container>
   )
 }
 
-export { DashboardAdmin }
+export { AdminCategories }
