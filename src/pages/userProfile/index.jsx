@@ -9,17 +9,18 @@ import { Button } from '../../components/Button'
 import { useAuth } from '../../hooks/auth'
 import { useToast } from '../../hooks/toast'
 import avatarImg from '../../assets/avatar.png'
-import { updateUserAvatar } from '../../services/user/updateUserAvatar'
-import { updateProfile } from '../../services/user/updateProfile'
-import { showProfile } from '../../services/user/showProfile'
 import { getValidationError } from '../../utils/getValidationErros'
+import { api } from '../../services/api'
+import { useNavigate } from 'react-router-dom'
+import { AppError } from '../../utils/errors/AppError'
 
 const UserProfile = () => {
   const [loading, setLoading] = useState(false)
   const [formErrors, setFormErros] = useState({})
 
   const { addToast } = useToast()
-  const { user, token, signOut, setData } = useAuth()
+  const { user, token, signOut, updateContextData } = useAuth()
+  const navigate = useNavigate()
 
   const { handleSubmit, register } = useForm({
     defaultValues: {
@@ -30,6 +31,80 @@ const UserProfile = () => {
       confirmPassword: null,
     },
   })
+
+  const handleShowProfile = useCallback(() => {
+    api
+      .get('/users/profile', {
+        headers: {
+          Authorization: `Bearer ${token.accessToken}`,
+        },
+      })
+      .then((response) => {
+        const user = {
+          avatar: response.data.avatar,
+          email: response.data.email,
+          isAdmin: response.data.isAdmin,
+          name: response.data.name,
+        }
+        updateContextData({ user, token })
+
+        addToast({
+          type: 'success',
+          title: 'Usuário alterado com sucesso',
+        })
+      })
+      .catch((error) => {
+        throw new AppError(
+          error.response?.data?.error.message ||
+            error.response?.data?.error ||
+            'Erro ao listar dodos do usuário. Por favor tente mais tarde',
+          error.response?.status || 400
+        )
+      })
+  }, [addToast, updateContextData, token])
+
+  const handleAvatarChenge = useCallback(
+    async (event) => {
+      setLoading(true)
+      if (event.target?.files) {
+        const data = new FormData()
+        data.append('avatar', event.target?.files[0])
+
+        await api
+          .patch('/users/avatar', data, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${token.accessToken}`,
+            },
+          })
+          .then(async () => {
+            handleShowProfile()
+          })
+          .catch((error) => {
+            if (error.statusCode === 401) {
+              addToast({
+                type: 'error',
+                title: 'Erro de autenticação',
+                description: error.response?.data?.error
+                  ? error.response?.data?.error
+                  : 'Erro ao tentar atualizar usuário. Por favor tente mais tarde',
+              })
+              signOut()
+            } else {
+              addToast({
+                type: 'error',
+                title: 'Erro ao atualizar avatar',
+                description: error.response?.data?.error
+                  ? error.response?.data?.error
+                  : 'Erro ao tentar atualizar usuário. Por favor tente mais tarde',
+              })
+            }
+          })
+      }
+      setLoading(false)
+    },
+    [token.accessToken, handleShowProfile, addToast, signOut]
+  )
 
   const onSubmit = async (data) => {
     setFormErros({})
@@ -67,29 +142,34 @@ const UserProfile = () => {
         abortEarly: false,
       })
 
-      await updateProfile({
-        accessToken: token.accessToken,
-        name: data.name,
-        email: data.email,
-        currentPassword: data.currentPassword,
-        password: data.password,
-        confirmPassword: data.confirmPassword,
-      })
-
-      await showProfile({ accessToken: token.accessToken }).then((response) => {
-        const user = {
-          avatar: response.data.avatar,
-          email: response.data.email,
-          isAdmin: response.data.isAdmin,
-          name: response.data.name,
-        }
-        setData({ user, token })
-
-        addToast({
-          type: 'success',
-          title: 'Usuário alterado com sucesso',
+      await api
+        .put(
+          '/users/profile',
+          {
+            name: data.name,
+            email: data.email,
+            currentPassword: data.currentPassword,
+            password: data.password,
+            confirmPassword: data.confirmPassword,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token.accessToken}`,
+            },
+          }
+        )
+        .then()
+        .catch((error) => {
+          throw new AppError(
+            error.response?.data?.error.message ||
+              error.response?.data?.error ||
+              'Erro ao atualizar dodos do usuário. Por favor tente mais tarde',
+            error.response?.status || 400
+          )
         })
-      })
+
+      handleShowProfile()
+      navigate('/')
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errors = getValidationError(error)
@@ -117,58 +197,14 @@ const UserProfile = () => {
     setLoading(false)
   }
 
-  const handleAvatarChenge = useCallback(
-    async (event) => {
-      if (event.target?.files) {
-        const data = new FormData()
-        data.append('avatar', event.target?.files[0])
-
-        await updateUserAvatar({ accessToken: token.accessToken, data })
-          .then(async () => {
-            await showProfile({ accessToken: token.accessToken }).then(
-              (response) => {
-                const user = {
-                  avatar: response.data.avatar,
-                  email: response.data.email,
-                  isAdmin: response.data.isAdmin,
-                  name: response.data.name,
-                }
-                setData({ user, token })
-
-                addToast({
-                  type: 'success',
-                  title: 'Avatar alterado com sucesso',
-                })
-              }
-            )
-          })
-          .catch((error) => {
-            if (error.statusCode === 401) {
-              addToast({
-                type: 'error',
-                title: 'Erro de autenticação',
-                description: error.message,
-              })
-              signOut()
-            } else {
-              addToast({
-                type: 'error',
-                title: 'Erro ao atualizar avatar',
-                description: error.message,
-              })
-            }
-          })
-      }
-    },
-    [addToast, signOut, setData, token]
-  )
-
   return (
     <Container>
       <AvatarInput>
-        <img src={user.avatar ? user.avatar : avatarImg} alt="avatar" />
+        <div>
+          <img src={user.avatar ? user.avatar : avatarImg} alt="avatar" />
+        </div>
         <label htmlFor="avatar">
-          <FiCamera size={25} />
+          <FiCamera size={20} />
           <input
             type="file"
             id="avatar"

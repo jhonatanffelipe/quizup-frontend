@@ -91,11 +91,19 @@ export const Content = styled.div`
     text-overflow: ellipsis;
   }
 
-  .info-profile > div > img {
+  .info-profile > div:first-child {
     width: 60px;
     height: 60px;
     border-radius: 50%;
     border: solid 3px #04a1c1;
+    padding: 0;
+    margin-right: 8px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
   }
 
   .menu-profile-itens {

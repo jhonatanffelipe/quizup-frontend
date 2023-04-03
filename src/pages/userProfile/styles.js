@@ -18,8 +18,8 @@ export const AvatarInput = styled.div`
   label {
     cursor: pointer;
 
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     border: none;
     background-color: #04a1c1;
@@ -29,7 +29,7 @@ export const AvatarInput = styled.div`
     }
 
     position: absolute;
-    bottom: 15px;
+    bottom: 0px;
     right: 0px;
 
     display: flex;
@@ -42,11 +42,17 @@ export const AvatarInput = styled.div`
     display: none;
   }
 
-  img {
-    width: 200px;
-    height: 200px;
+  div {
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     border: solid 3px #04a1c1;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
   }
 `
 

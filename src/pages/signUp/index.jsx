@@ -10,8 +10,8 @@ import { Input } from '../../components/Input'
 import { Backgound, Container, AnimationContainer, Form } from './styles'
 import { getValidationError } from '../../utils/getValidationErros'
 import { useToast } from '../../hooks/toast'
-import { createUser } from '../../services/user/createUser'
 import { Button } from '../../components/Button'
+import { api } from '../../services/api'
 
 const SignUp = () => {
   const [loading, setLoading] = useState(false)
@@ -43,12 +43,21 @@ const SignUp = () => {
         abortEarly: false,
       })
 
-      await createUser({
-        name: data.name,
-        email: data.email,
-        password: data.password,
-        confirmPassword: data.confirmPassword,
-      })
+      await api
+        .post('/users', {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          confirmPassword: data.confirmPassword,
+        })
+        .then((response) => response)
+        .catch((error) => {
+          throw Error(
+            error.response?.data?.error
+              ? error.response?.data?.error
+              : 'Erro ao tentar criar usuário. Por favor tente mais tarde'
+          )
+        })
 
       addToast({
         type: 'success',

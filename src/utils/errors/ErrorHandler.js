@@ -1,4 +1,4 @@
-const AppError = require('./AppError')
+import { AppError } from './AppError'
 
 const ErrorHandler = (error, _, response, next) => {
   // console.log(error);
@@ -15,4 +15,4 @@ const ErrorHandler = (error, _, response, next) => {
   next()
 }
 
-module.exports = ErrorHandler
+export { ErrorHandler }

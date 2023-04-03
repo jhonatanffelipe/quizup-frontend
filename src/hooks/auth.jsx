@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useState } from 'react'
 import { Header } from '../components/Header'
 import { Menu } from '../components/Menu'
-import { auth } from '../services/authenticate/auth'
+import { api } from '../services/api'
 
 const AuthContext = createContext({})
 
@@ -19,7 +19,7 @@ const AuthProvider = ({ children }) => {
 
   const signIn = useCallback(
     async ({ email, password }) => {
-      const response = await auth({
+      const response = await api.post('auth', {
         email,
         password,
       })
@@ -44,9 +44,24 @@ const AuthProvider = ({ children }) => {
     setData({})
   }, [])
 
+  const updateContextData = useCallback(
+    async ({ user, token }) => {
+      localStorage.setItem('@QuizEdu:user', JSON.stringify(user))
+      localStorage.setItem('@QuizEdu:token', JSON.stringify(token))
+      setData({ user, token })
+    },
+    [setData]
+  )
+
   return (
     <AuthContext.Provider
-      value={{ user: data.user, signIn, signOut, token: data.token, setData }}
+      value={{
+        user: data.user,
+        signIn,
+        signOut,
+        token: data.token,
+        updateContextData,
+      }}
     >
       {data.user?.isAdmin && <Header />}
       {data.user?.isAdmin && <Menu />}

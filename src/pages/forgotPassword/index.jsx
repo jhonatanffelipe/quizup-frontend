@@ -11,7 +11,7 @@ import { Input } from '../../components/Input'
 import { getValidationError } from '../../utils/getValidationErros'
 import { useToast } from '../../hooks/toast'
 import { Button } from '../../components/Button'
-import { forgotPasword } from '../../services/password/forgotPassword'
+import { api } from '../../services/api'
 
 const ForgoPassword = () => {
   const [loading, setLoading] = useState(false)
@@ -38,7 +38,7 @@ const ForgoPassword = () => {
         abortEarly: false,
       })
 
-      await forgotPasword({
+      await api.post('/password/forgot', {
         email: data.email,
       })
 
