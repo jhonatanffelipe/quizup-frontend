@@ -24,6 +24,27 @@ export const TableContent = styled.table`
 
 export const TableHead = styled.thead``
 
+export const TableLoaginElement = styled.div`
+  height: 3px;
+  width: 100%;
+  background: #04a1c1;
+  border-radius: 2px;
+
+  @keyframes animate {
+    0% {
+      opacity: 0.2;
+    }
+    50% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 0.2;
+    }
+  }
+
+  animation: animate 1.5s linear infinite;
+`
+
 export const TableHeadRow = styled.tr`
   height: 48px;
 `

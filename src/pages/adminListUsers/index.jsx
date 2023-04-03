@@ -9,11 +9,13 @@ import {
   FiEdit3,
   FiX,
 } from 'react-icons/fi'
+import moment from 'moment'
 
 import {
   Container,
   TableContent,
   TableHead,
+  TableLoaginElement,
   TableHeadRow,
   TableTitle,
   TableBody,
@@ -29,8 +31,9 @@ import {
 } from './styles'
 
 import { api } from '../../services/api'
-import moment from 'moment'
 import { useAuth } from '../../hooks/auth'
+import { useToast } from '../../hooks/toast'
+import { AppError } from '../../utils/errors/AppError'
 
 const AdminListUsers = () => {
   const [page, setPage] = useState(1)
@@ -39,8 +42,10 @@ const AdminListUsers = () => {
   const [perPageOpen, setPerPageOpen] = useState(false)
   const [users, setUsers] = useState([])
   const [selected, setSelected] = useState([])
+  const [loading, setLoading] = useState(false)
 
-  const { token } = useAuth()
+  const { token, signOut } = useAuth()
+  const { addToast } = useToast()
 
   const handlePerPage = useCallback((value) => {
     setPage(1)
@@ -70,33 +75,59 @@ const AdminListUsers = () => {
     [selected]
   )
 
-  useEffect(() => {
-    api
-      .get(`/users?page=${page}&perPage=${perPage}`, {
-        headers: {
-          Authorization: `Bearer ${token.accessToken}`,
-        },
-      })
-      .then((response) => {
-        setUsers(response.data.data)
+  const handleRequestUsers = useCallback(async () => {
+    setLoading(true)
+    try {
+      await api
+        .get(`/users?page=${page}&perPage=${perPage}`, {
+          headers: {
+            Authorization: `Bearer ${token.accessToken}`,
+          },
+        })
+        .then((response) => {
+          setUsers(response.data.data)
 
-        setTotalPages(
-          Math.ceil(response.data.totalRows / response.data.perPage)
-        )
-      })
-      .catch((error) => {
-        throw Error(
-          error.response?.data?.error
-            ? error.response?.data?.error
-            : 'Erro ao tentar listar usuários. Por favor tente mais tarde'
-        )
-      })
-  }, [page, perPage, token])
+          setTotalPages(
+            Math.ceil(response.data.totalRows / response.data.perPage)
+          )
+        })
+        .catch((error) => {
+          throw new AppError(
+            error.response?.data?.error.message ||
+              error.response?.data?.error ||
+              'Erro ao listar dodos dos usuários. Por favor tente mais tarde',
+            error.response?.status || 400
+          )
+        })
+    } catch (error) {
+      if (error.statusCode === 401) {
+        addToast({
+          type: 'error',
+          title: 'Erro de autenticação',
+          description: error.message,
+        })
+        signOut()
+      } else {
+        addToast({
+          type: 'error',
+          title: 'Erro ao atualizar avatar',
+          description: error.message,
+        })
+      }
+    } finally {
+      setLoading(false)
+    }
+  }, [page, perPage, addToast, signOut, token.accessToken])
+
+  useEffect(() => {
+    void handleRequestUsers()
+  }, [handleRequestUsers])
 
   return (
     <Container>
       <h1>Gestão de usuários</h1>
       <TableContainer>
+        {loading && <TableLoaginElement />}
         <TableContent>
           <TableHead>
             <TableHeadRow>
