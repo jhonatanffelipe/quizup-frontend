@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { FiArrowLeft, FiLock, FiMail, FiUnlock, FiUser } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
@@ -20,6 +20,7 @@ const SignUp = () => {
   const { handleSubmit, register, reset } = useForm()
 
   const { addToast } = useToast()
+  const navigate = useNavigate()
 
   const onSubmit = async (data) => {
     setFormErros({})
@@ -52,10 +53,10 @@ const SignUp = () => {
       addToast({
         type: 'success',
         title: 'Usuário criado com sucesso',
-        description: 'Retorne a tela de login para acessar a aplicação',
       })
 
       reset()
+      navigate('/')
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errors = getValidationError(error)

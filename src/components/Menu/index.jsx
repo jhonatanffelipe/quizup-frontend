@@ -63,10 +63,10 @@ const Menu = () => {
 
           {admin && menuOpen && (
             <MenuSessionSubItens>
-              <MenuSubItem to={'email_settings'}>
+              <MenuSubItem to={'admin-email-settings'}>
                 Configurações de E-mail
               </MenuSubItem>
-              <MenuSubItem to={'users_settings'}>Usuários</MenuSubItem>
+              <MenuSubItem to={'admin-list-all-users'}>Usuários</MenuSubItem>
             </MenuSessionSubItens>
           )}
         </MenuItem>

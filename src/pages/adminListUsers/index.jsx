@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   FiChevronDown,
   FiChevronLeft,
@@ -25,40 +25,36 @@ import {
   PerPageItens,
 } from './styles'
 
-const UserSettings = () => {
-  const [rowsPerPage, setRowsPerPage] = useState(5)
-  const [perPageOpen, setPerPageOpen] = useState(false)
-  const [selected, setSelected] = useState([])
-  const [users] = useState([
-    {
-      selected: false,
-      id: 'a9b429a1-35db-48e1-bde3-ce4dc09ae72f',
-      name: 'Jhonatan Felipe',
-      email: 'jhonatanfnm@gmail.com',
-      avatar:
-        'http://localhost:3333/avatar/4f1be67eb95bfca03bc4d856ad43b625-perfil-black.jpg',
-      isActive: true,
-      isAdmin: true,
-      createdAt: '2023-03-04T13:30:58.449Z',
-      updatedAt: '2023-03-04T13:30:58.449Z',
-    },
-    {
-      selected: false,
-      id: '562f5428-7608-4f8e-a4f4-701bfcc39332',
-      name: 'Usuário Teste',
-      email: 'jhonatan.jf83@gmail.com',
-      avatar: null,
-      isActive: true,
-      isAdmin: false,
-      createdAt: '2023-03-05T12:59:33.673Z',
-      updatedAt: '2023-03-05T12:59:33.673Z',
-    },
-  ])
+import { api } from '../../services/api'
+import moment from 'moment'
+import { useAuth } from '../../hooks/auth'
 
-  const handleRowsPerPage = useCallback((value) => {
-    setRowsPerPage(value)
+const AdminListUsers = () => {
+  const [page, setPage] = useState(1)
+  const [perPage, setPerPage] = useState(5)
+  const [totalPages, setTotalPages] = useState(1)
+  const [perPageOpen, setPerPageOpen] = useState(false)
+  const [users, setUsers] = useState([])
+  const [selected, setSelected] = useState([])
+
+  const { token } = useAuth()
+
+  const handlePerPage = useCallback((value) => {
+    setPage(1)
+    setPerPage(value)
     setPerPageOpen(false)
   }, [])
+
+  const handleSetPage = useCallback(
+    (goPage) => {
+      if (goPage === 1) {
+        setPage(page + 1 <= totalPages ? page + 1 : totalPages)
+      } else {
+        setPage(page - 1 <= 1 ? 1 : page - 1)
+      }
+    },
+    [page, totalPages]
+  )
 
   const handleElementsSelecteds = useCallback(
     (value) => {
@@ -70,6 +66,29 @@ const UserSettings = () => {
     },
     [selected]
   )
+
+  useEffect(() => {
+    api
+      .get(`/users?page=${page}&perPage=${perPage}`, {
+        headers: {
+          Authorization: `Bearer ${token.accessToken}`,
+        },
+      })
+      .then((response) => {
+        setUsers(response.data.data)
+
+        setTotalPages(
+          Math.ceil(response.data.totalRows / response.data.perPage)
+        )
+      })
+      .catch((error) => {
+        throw Error(
+          error.response?.data?.error
+            ? error.response?.data?.error
+            : 'Erro ao tentar listar usuários. Por favor tente mais tarde'
+        )
+      })
+  }, [page, perPage, token])
 
   return (
     <Container>
@@ -106,8 +125,12 @@ const UserSettings = () => {
                 <TableBodyData>{user.email}</TableBodyData>
                 <TableBodyData>{user.isActive ? 'Sim' : 'Não'}</TableBodyData>
                 <TableBodyData>{user.isAdmin ? 'Sim' : 'Não'}</TableBodyData>
-                <TableBodyData>{user.createdAt}</TableBodyData>
-                <TableBodyData>{user.updatedAt}</TableBodyData>
+                <TableBodyData>
+                  {moment(user.createdAt).format('DD/MM/yyyy HH:mm')}
+                </TableBodyData>
+                <TableBodyData>
+                  {moment(user.updatedAt).format('DD/MM/yyyy HH:mm')}
+                </TableBodyData>
               </TableBodyRow>
             ))}
           </TableBody>
@@ -117,32 +140,34 @@ const UserSettings = () => {
             <PerPage>
               <span>Linhas por página:</span>
               <div onClick={() => setPerPageOpen(!perPageOpen)}>
-                {rowsPerPage}
+                {perPage}
                 {perPageOpen ? <FiChevronUp /> : <FiChevronDown />}
               </div>
             </PerPage>
             {perPageOpen && (
               <PerPageItens>
-                <span onClick={() => handleRowsPerPage(5)}>5</span>
-                <span onClick={() => handleRowsPerPage(10)}>10</span>
-                <span onClick={() => handleRowsPerPage(15)}>15</span>
+                <span onClick={() => handlePerPage(5)}>5</span>
+                <span onClick={() => handlePerPage(10)}>10</span>
+                <span onClick={() => handlePerPage(15)}>15</span>
               </PerPageItens>
             )}
           </PerPageContent>
 
-          <button>
+          <button onClick={() => setPage(1)}>
             <FiChevronsLeft />
           </button>
-          <button>
+          <button onClick={() => handleSetPage(-1)}>
             <FiChevronLeft />
           </button>
 
-          <span>1 de 3</span>
+          <span>
+            {page} de {totalPages}
+          </span>
 
-          <button>
+          <button onClick={() => handleSetPage(1)}>
             <FiChevronRight />
           </button>
-          <button>
+          <button onClick={() => setPage(totalPages)}>
             <FiChevronsRight />
           </button>
         </TableFooter>
@@ -151,4 +176,4 @@ const UserSettings = () => {
   )
 }
 
-export { UserSettings }
+export { AdminListUsers }

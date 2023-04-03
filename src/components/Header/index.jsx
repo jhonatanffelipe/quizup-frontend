@@ -64,7 +64,7 @@ const Header = () => {
         </div>
 
         <div className="menu-profile-itens">
-          <Link to="/user_profile">
+          <Link to="/user-profile">
             <FiUser size={30} />
             <div>
               <span>Meu Perfil</span>
@@ -72,7 +72,7 @@ const Header = () => {
             </div>
           </Link>
 
-          <Link to="/application_about">
+          <Link to="/application-about">
             <FiHelpCircle size={30} />
             <div>
               <span>Sobre</span>

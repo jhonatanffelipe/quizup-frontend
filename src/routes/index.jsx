@@ -13,7 +13,7 @@ import { ApplicationAbout } from '../pages/applicationAbout'
 
 import { useAuth } from '../hooks/auth'
 import { EmailSettings } from '../pages/emailSettings'
-import { UserSettings } from '../pages/userSettings'
+import { AdminListUsers } from '../pages/adminListUsers'
 import { Categories } from '../pages/categories'
 import { Topics } from '../pages/topics'
 import { Tags } from '../pages/tags'
@@ -45,26 +45,28 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/user_profile"
+        path="/user-profile"
         element={user ? <UserProfile /> : <Navigate to="/" />}
       />
 
       <Route
-        path="/application_about"
+        path="/application-about"
         element={user ? <ApplicationAbout /> : <Navigate to="/" />}
       />
 
-      <Route path="/forgot_password" element={<ForgoPassword />} />
-      <Route path="/reset_password" element={<ResetPassword />} />
+      <Route path="/forgot-password" element={<ForgoPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
 
       <Route
-        path="/email_settings"
+        path="/admin-email-settings"
         element={user && user.isAdmin ? <EmailSettings /> : <Navigate to="/" />}
       />
 
       <Route
-        path="/users_settings"
-        element={user && user.isAdmin ? <UserSettings /> : <Navigate to="/" />}
+        path="/admin-list-all-users"
+        element={
+          user && user.isAdmin ? <AdminListUsers /> : <Navigate to="/" />
+        }
       />
 
       <Route
