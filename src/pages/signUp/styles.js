@@ -3,6 +3,8 @@ import styled, { keyframes } from 'styled-components'
 export const Container = styled.div`
   display: flex;
   flex: 1;
+  background: #151922;
+  width: 100%;
 `
 
 const appearFromLeft = keyframes`

@@ -2,11 +2,11 @@ import { shade } from 'polished'
 import styled from 'styled-components'
 
 export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
   flex: 1;
-  padding: 15px;
+  padding: 24px;
   background: #151922;
-  height: 100vh;
-  padding-top: 24px;
 `
 
 export const TableContainer = styled.div`

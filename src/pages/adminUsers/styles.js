@@ -1,13 +1,11 @@
 import styled, { css } from 'styled-components'
 
 export const Container = styled.div`
-  flex: 1;
-  padding: 15px;
-  background: #151922;
-  height: 100vh;
-  padding-top: 24px;
   display: flex;
   flex-direction: column;
+  flex: 1;
+  padding: 24px;
+  background: #151922;
 `
 
 export const Form = styled.form`
@@ -20,14 +18,7 @@ export const Row = styled.div`
 
   > div {
     width: 100%;
-
-    div {
-      margin-top: 8px;
-    }
-  }
-
-  > div + div {
-    margin-left: 16px;
+    padding: 8px;
   }
 
   ${(props) =>
@@ -35,6 +26,10 @@ export const Row = styled.div`
     css`
       justify-content: flex-end;
     `}
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+  }
 `
 
 export const CheckSession = styled.div`

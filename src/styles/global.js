@@ -9,10 +9,10 @@ export default createGlobalStyle`
   }
 
   body {
-    background:  #151922;
+    background:  #293038;
     color: #FFF;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
 
     > div {
       display: flex;

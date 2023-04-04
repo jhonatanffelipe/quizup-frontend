@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { FiCheck } from 'react-icons/fi'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { Container, Form, Row, CheckSession } from './styles'
 import { Input } from '../../components/Input'
@@ -20,6 +20,8 @@ const AdminUsers = () => {
 
   const { token, signOut } = useAuth()
   const { addToast } = useToast()
+
+  const navigate = useNavigate()
   const location = useLocation()
 
   const handleRequestUser = useCallback(async () => {
@@ -123,8 +125,17 @@ const AdminUsers = () => {
             <span>Administrador</span>
           </CheckSession>
         </Row>
-        <Row>
-          <Button onClick={handleSubmit} loading={loading}>
+
+        <Row align="end">
+          <Button
+            onClick={() => navigate('/users')}
+            loading={loading}
+            size="small"
+            backgroundColor={'#293038'}
+          >
+            Cancelar
+          </Button>
+          <Button size="small" onClick={handleSubmit} loading={loading}>
             Confirmar
           </Button>
         </Row>

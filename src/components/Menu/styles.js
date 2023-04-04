@@ -14,11 +14,10 @@ const appearFromLeft = keyframes`
   }
 `
 
-export const Container = styled.menu`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  height: max-content;
+  height: 100vh;
   background: #293038;
   padding-top: 10px;
   font-size: 14px;

@@ -19,7 +19,7 @@ export const Container = styled.button`
   ${(props) =>
     props.backgroundColor
       ? css`
-          background-color: backgroundColor;
+          background-color: ${`${props.backgroundColor}`};
 
           &:hover {
             background-color: ${shade(0.2, `${props.backgroundColor}`)};
@@ -47,5 +47,12 @@ export const Container = styled.button`
       &:hover {
         background-color: #5d5d5d;
       }
+    `}
+
+    ${(props) =>
+    props.size === 'small' &&
+    css`
+      width: 150px;
+      margin: 18px 8px 8px 8px;
     `}
 `
