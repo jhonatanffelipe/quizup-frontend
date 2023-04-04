@@ -36,7 +36,7 @@ export const Container = styled.button`
   ${(props) =>
     props.fontColor &&
     css`
-      color: fontColor;
+      color: ${`${props.fontColor}`};
     `}
 
     ${(props) =>
@@ -54,5 +54,6 @@ export const Container = styled.button`
     css`
       width: 150px;
       margin: 18px 8px 8px 8px;
+      height: 46px;
     `}
 `

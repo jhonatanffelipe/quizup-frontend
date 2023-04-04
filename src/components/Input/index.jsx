@@ -3,7 +3,15 @@ import { FiAlertCircle } from 'react-icons/fi'
 
 import { Container, Error } from './styles'
 
-const Input = ({ name, icon: Icon, value, error, register, ...rest }) => {
+const Input = ({
+  name,
+  icon: Icon,
+  value,
+  error,
+  register,
+  disabled,
+  ...rest
+}) => {
   const inputRef = useRef(null)
   const [isFocused, setIsFocused] = useState(false)
   const [isField, setIsField] = useState(false)
@@ -18,13 +26,19 @@ const Input = ({ name, icon: Icon, value, error, register, ...rest }) => {
   }, [])
 
   return (
-    <Container isFocused={isFocused} isField={isField} error={error}>
+    <Container
+      isFocused={isFocused}
+      isField={isField}
+      error={error}
+      disabled={disabled}
+    >
       {Icon && <Icon size={20} />}
       <input
         onFocus={() => handleInputFocus()}
         onBlurCapture={(e) => handleInputBlur(e)}
         ref={inputRef}
         value={value}
+        disabled={disabled}
         {...rest}
       />
       {error && (

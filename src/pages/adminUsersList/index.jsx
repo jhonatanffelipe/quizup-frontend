@@ -139,6 +139,10 @@ const AdminUsersList = () => {
             },
           })
           .then(async () => {
+            addToast({
+              type: 'success',
+              title: 'Usuário deletado com sucesso',
+            })
             handleRequestUsers()
           })
           .catch((error) => {
@@ -160,7 +164,7 @@ const AdminUsersList = () => {
         } else {
           addToast({
             type: 'error',
-            title: 'Erro ao atualizar avatar',
+            title: 'Erro ao deletar usuário',
             description: error.message,
           })
         }
@@ -195,7 +199,7 @@ const AdminUsersList = () => {
               <TableTitle>E-mail</TableTitle>
               <TableTitle>Ativo</TableTitle>
               <TableTitle>Admin</TableTitle>
-              <TableTitle>Criar em</TableTitle>
+              <TableTitle>Criado em</TableTitle>
               <TableTitle>Atualizado em</TableTitle>
               <TableTitle style={{ textAlign: 'center' }}>Ações</TableTitle>
             </TableHeadRow>

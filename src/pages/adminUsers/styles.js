@@ -10,6 +10,7 @@ export const Container = styled.div`
 
 export const Form = styled.form`
   margin-top: 26px;
+  height: auto;
 `
 
 export const Row = styled.div`
@@ -32,10 +33,31 @@ export const Row = styled.div`
   }
 `
 
+export const ButtonRow = styled.div`
+  display: flex;
+  width: 100%;
+  margin-top: 48px;
+
+  > div {
+    width: 100%;
+    padding: 8px;
+  }
+
+  ${(props) =>
+    props.align === 'end' &&
+    css`
+      justify-content: flex-end;
+    `}
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+  }
+`
+
 export const CheckSession = styled.div`
   display: flex;
   align-items: center;
-  margin: 24px 0 12px;
+  margin: 12px 0 12px;
 
   div {
     height: 24px;

@@ -63,6 +63,12 @@ export const Container = styled.div`
   }
 
   ${(props) =>
+    props.disabled &&
+    css`
+      opacity: 0.3;
+    `}
+
+  ${(props) =>
     props.isField &&
     css`
       color: #04a1c1;
