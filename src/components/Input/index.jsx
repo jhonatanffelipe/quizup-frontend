@@ -26,7 +26,6 @@ const Input = ({ name, icon: Icon, value, error, register, ...rest }) => {
         ref={inputRef}
         value={value}
         {...rest}
-        {...register(name)}
       />
       {error && (
         <Error title={error}>

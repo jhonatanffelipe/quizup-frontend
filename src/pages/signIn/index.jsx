@@ -1,8 +1,7 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { FiLock, FiLogIn, FiMail } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import * as Yup from 'yup'
-import { useForm } from 'react-hook-form'
 
 import logoImg from '../../assets/logoWhite.png'
 import backgroundImg from '../../assets/backgroundImg.svg'
@@ -14,16 +13,22 @@ import { useToast } from '../../hooks/toast'
 import { Button } from '../../components/Button'
 
 const SignIn = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
   const [loading, setLoading] = useState(false)
   const [formErrors, setFormErros] = useState({})
-
-  const { handleSubmit, register } = useForm()
 
   const { signIn } = useAuth()
   const { addToast } = useToast()
 
-  const onSubmit = async (data) => {
+  const handleSubmit = useCallback(async () => {
     setFormErros({})
+
+    const data = {
+      email,
+      password,
+    }
 
     try {
       setLoading(true)
@@ -59,35 +64,37 @@ const SignIn = () => {
     } finally {
       setLoading(false)
     }
-  }
+  }, [addToast, email, password, signIn])
 
   return (
     <Container>
       <AnimationContainer>
         <img src={logoImg} alt="QuizEdu" />
 
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form>
           <h1>Faça seu login</h1>
 
           <Input
+            value={email}
             name="email"
+            onChange={(e) => setEmail(e.target.value)}
             icon={FiMail}
             placeholder="E-mail"
-            register={register}
             error={formErrors.email}
           />
 
           <Input
+            value={password}
             name="password"
+            onChange={(e) => setPassword(e.target.value)}
             icon={FiLock}
             placeholder="Senha"
             type="password"
-            register={register}
             autoComplete="off"
             error={formErrors.password}
           />
 
-          <Button type="submit" loading={loading}>
+          <Button type="button" loading={loading} onClick={handleSubmit}>
             Entrar
           </Button>
 

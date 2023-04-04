@@ -1,7 +1,6 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { FiArrowLeft, FiLock, FiMail, FiUnlock, FiUser } from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
 import logoImg from '../../assets/logoWhite.png'
@@ -14,19 +13,29 @@ import { Button } from '../../components/Button'
 import { api } from '../../services/api'
 
 const SignUp = () => {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+
   const [loading, setLoading] = useState(false)
   const [formErrors, setFormErros] = useState({})
-
-  const { handleSubmit, register, reset } = useForm()
 
   const { addToast } = useToast()
   const navigate = useNavigate()
 
-  const onSubmit = async (data) => {
+  const handleSubmit = async () => {
     setFormErros({})
 
     try {
       setLoading(true)
+
+      const data = {
+        name,
+        email,
+        password,
+        confirmPassword,
+      }
 
       const schema = Yup.object().shape({
         name: Yup.string().required('Nome obrigatório'),
@@ -64,7 +73,7 @@ const SignUp = () => {
         title: 'Usuário criado com sucesso',
       })
 
-      reset()
+      handleResetForm()
       navigate('/')
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
@@ -82,6 +91,14 @@ const SignUp = () => {
       setLoading(false)
     }
   }
+
+  const handleResetForm = useCallback(() => {
+    setName('')
+    setEmail('')
+    setPassword('')
+    setConfirmPassword('')
+  }, [])
+
   return (
     <Container>
       <Backgound>
@@ -90,46 +107,46 @@ const SignUp = () => {
       <AnimationContainer>
         <img src={logoImg} alt="QuizEdu" />
 
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form>
           <h1>Criar Conta</h1>
 
           <Input
+            onChange={(e) => setName(e.target.value)}
             name="name"
             icon={FiUser}
             placeholder="Nome"
-            register={register}
             error={formErrors.name}
           />
 
           <Input
+            onChange={(e) => setEmail(e.target.value)}
             name="email"
             icon={FiMail}
             placeholder="E-mail"
-            register={register}
             error={formErrors.email}
           />
 
           <Input
+            onChange={(e) => setPassword(e.target.value)}
             name="password"
             icon={FiLock}
             placeholder="Senha"
             type="password"
-            register={register}
             error={formErrors.password}
             autoComplete="off"
           />
 
           <Input
+            onChange={(e) => setConfirmPassword(e.target.value)}
             name="confirmPassword"
             icon={FiUnlock}
             placeholder="Confirmar senha"
             type="password"
-            register={register}
             error={formErrors.confirmPassword}
             autoComplete="off"
           />
 
-          <Button type="submit" loading={loading}>
+          <Button type="submit" onClick={handleSubmit} loading={loading}>
             Entrar
           </Button>
         </Form>

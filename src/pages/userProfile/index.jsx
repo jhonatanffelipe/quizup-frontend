@@ -1,6 +1,6 @@
-import { useCallback, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useCallback, useEffect, useState } from 'react'
 import { FiUser, FiMail, FiCamera, FiLock } from 'react-icons/fi'
+import { useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 
 import { Container, Form, AvatarInput } from './styles'
@@ -11,10 +11,15 @@ import { useToast } from '../../hooks/toast'
 import avatarImg from '../../assets/avatar.png'
 import { getValidationError } from '../../utils/getValidationErros'
 import { api } from '../../services/api'
-import { useNavigate } from 'react-router-dom'
 import { AppError } from '../../utils/errors/AppError'
 
 const UserProfile = () => {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+
   const [loading, setLoading] = useState(false)
   const [formErrors, setFormErros] = useState({})
 
@@ -22,18 +27,8 @@ const UserProfile = () => {
   const { user, token, signOut, updateContextData } = useAuth()
   const navigate = useNavigate()
 
-  const { handleSubmit, register } = useForm({
-    defaultValues: {
-      name: user.name,
-      email: user.email,
-      currentPassword: null,
-      password: null,
-      confirmPassword: null,
-    },
-  })
-
-  const handleShowProfile = useCallback(() => {
-    api
+  const handleShowProfile = useCallback(async () => {
+    await api
       .get('/users/profile', {
         headers: {
           Authorization: `Bearer ${token.accessToken}`,
@@ -46,6 +41,12 @@ const UserProfile = () => {
           isAdmin: response.data.isAdmin,
           name: response.data.name,
         }
+
+        setName(response.data.name)
+        setEmail(response.data.email)
+        setCurrentPassword('')
+        setPassword('')
+        setConfirmPassword('')
         updateContextData({ user, token })
 
         addToast({
@@ -106,11 +107,17 @@ const UserProfile = () => {
     [token.accessToken, handleShowProfile, addToast, signOut]
   )
 
-  const onSubmit = async (data) => {
+  const handleSubmit = useCallback(async () => {
     setFormErros({})
-
     try {
       setLoading(true)
+      const data = {
+        name,
+        email,
+        currentPassword,
+        password,
+        confirmPassword,
+      }
 
       let schema = {}
 
@@ -195,7 +202,26 @@ const UserProfile = () => {
       setLoading(false)
     }
     setLoading(false)
-  }
+  }, [
+    addToast,
+    confirmPassword,
+    currentPassword,
+    email,
+    handleShowProfile,
+    name,
+    navigate,
+    password,
+    signOut,
+    token.accessToken,
+  ])
+
+  useEffect(() => {
+    setName(user.name)
+    setEmail(user.email)
+    setCurrentPassword('')
+    setPassword('')
+    setConfirmPassword('')
+  }, [user])
 
   return (
     <Container>
@@ -213,62 +239,70 @@ const UserProfile = () => {
           />
         </label>
       </AvatarInput>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <h2>Meu Perfil</h2>
-        <div>
-          <Input
-            name="name"
-            icon={FiUser}
-            placeholder="Nome"
-            register={register}
-            error={formErrors?.name}
-          />
 
-          <Input
-            name="email"
-            icon={FiMail}
-            placeholder="E-mail"
-            register={register}
-            error={formErrors?.email}
-          />
-        </div>
+      <div>
+        <Form>
+          <h2>Meu Perfil</h2>
+          <div>
+            <Input
+              value={name}
+              name="name"
+              onChange={(e) => setName(e.target.value)}
+              icon={FiUser}
+              placeholder="Nome"
+              error={formErrors?.name}
+            />
 
-        <div>
-          <Input
-            name="currentPassword"
-            icon={FiLock}
-            placeholder="Senha atual"
-            register={register}
-            error={formErrors?.currentPassword}
-            autoComplete="off"
-            type="password"
-          />
+            <Input
+              value={email}
+              name="email"
+              onChange={(e) => setEmail(e.target.value)}
+              icon={FiMail}
+              placeholder="E-mail"
+              error={formErrors?.email}
+            />
+          </div>
 
-          <Input
-            name="password"
-            icon={FiLock}
-            placeholder="Nova senha"
-            register={register}
-            error={formErrors?.password}
-            autoComplete="off"
-            type="password"
-          />
+          <div>
+            <Input
+              value={currentPassword}
+              name="currentPassword"
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              icon={FiLock}
+              placeholder="Senha atual"
+              error={formErrors?.currentPassword}
+              autoComplete="off"
+              type="password"
+            />
 
-          <Input
-            name="confirmPassword"
-            icon={FiLock}
-            placeholder="Confirmar senha"
-            register={register}
-            error={formErrors?.confirmPassword}
-            autoComplete="off"
-            type="password"
-          />
-        </div>
+            <Input
+              value={password}
+              name="password"
+              onChange={(e) => setPassword(e.target.value)}
+              icon={FiLock}
+              placeholder="Nova senha"
+              error={formErrors?.password}
+              autoComplete="off"
+              type="password"
+            />
 
-        <Button type="submit" loading={loading}>
-          Confirmar
-        </Button>
-      </Form>
+            <Input
+              value={confirmPassword}
+              name="confirmPassword"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              icon={FiLock}
+              placeholder="Confirmar senha"
+              error={formErrors?.confirmPassword}
+              autoComplete="off"
+              type="password"
+            />
+          </div>
+
+          <Button type="submit" onClick={handleSubmit} loading={loading}>
+            Confirmar
+          </Button>
+        </Form>
+      </div>
     </Container>
   )
 }

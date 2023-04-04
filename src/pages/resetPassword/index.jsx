@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { FiArrowLeft, FiLock, FiUnlock } from 'react-icons/fi'
-import { Link, useLocation } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 
 import { Backgound, Container, AnimationContainer, Form } from './styles'
@@ -12,25 +11,31 @@ import { useToast } from '../../hooks/toast'
 import { Button } from '../../components/Button'
 import { getValidationError } from '../../utils/getValidationErros'
 import { api } from '../../services/api'
+import { useCallback } from 'react'
 
 const ResetPassword = () => {
+  const [token, setToken] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+
   const [loading, setLoading] = useState(false)
   const [formErrors, setFormErros] = useState({})
 
-  const [token, setToken] = useState('')
-
   const { search } = useLocation()
-
-  const { handleSubmit, register, reset } = useForm()
-
   const { addToast } = useToast()
+  const navigate = useNavigate()
 
   useEffect(() => {
     setToken(search.split('?token=')[1])
   }, [search])
 
-  const onSubmit = async (data) => {
+  const handleSubmit = useCallback(async () => {
     setFormErros({})
+
+    const data = {
+      password,
+      confirmPassword,
+    }
 
     try {
       setLoading(true)
@@ -63,11 +68,12 @@ const ResetPassword = () => {
       addToast({
         type: 'success',
         title: 'Solicitação recebida com sucesso',
-        description:
-          'Senha alterada com sucesso, volte para a tela de login e se autentique na aplicação',
+        description: 'Senha alterada com sucesso, se autentique na aplicação',
       })
 
-      reset()
+      setPassword('')
+      setConfirmPassword('')
+      navigate('/')
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errors = getValidationError(error)
@@ -83,7 +89,8 @@ const ResetPassword = () => {
     } finally {
       setLoading(false)
     }
-  }
+  }, [addToast, confirmPassword, password, token, navigate])
+
   return (
     <Container>
       <Backgound>
@@ -92,7 +99,7 @@ const ResetPassword = () => {
       <AnimationContainer>
         <img src={logoImg} alt="QuizEdu" />
 
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form>
           <h1>Alterar Senha</h1>
 
           <Input
@@ -100,7 +107,7 @@ const ResetPassword = () => {
             icon={FiLock}
             placeholder="Senha"
             type="password"
-            register={register}
+            onChange={(e) => setPassword(e.target.value)}
             error={formErrors.password}
           />
 
@@ -109,11 +116,11 @@ const ResetPassword = () => {
             icon={FiUnlock}
             placeholder="Confirmar senha"
             type="password"
-            register={register}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             error={formErrors.confirmPassword}
           />
 
-          <Button type="submit" loading={loading}>
+          <Button type="button" loading={loading} onClick={handleSubmit}>
             Confirmar
           </Button>
         </Form>

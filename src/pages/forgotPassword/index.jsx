@@ -1,7 +1,6 @@
 import { Backgound, Container, AnimationContainer, Form } from './styles'
 import { FiArrowLeft, FiMail } from 'react-icons/fi'
-import { useForm } from 'react-hook-form'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
 import * as Yup from 'yup'
 
@@ -14,15 +13,18 @@ import { Button } from '../../components/Button'
 import { api } from '../../services/api'
 
 const ForgoPassword = () => {
+  const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [formErrors, setFormErros] = useState({})
 
-  const { handleSubmit, register } = useForm()
-
   const { addToast } = useToast()
 
-  const onSubmit = async (data) => {
+  const handleSubmit = useCallback(async () => {
     setFormErros({})
+
+    const data = {
+      email,
+    }
 
     try {
       setLoading(true)
@@ -63,7 +65,7 @@ const ForgoPassword = () => {
     } finally {
       setLoading(false)
     }
-  }
+  }, [email, addToast])
 
   return (
     <Container>
@@ -73,18 +75,19 @@ const ForgoPassword = () => {
       <AnimationContainer>
         <img src={logoImg} alt="QuizEdu" />
 
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form>
           <h1>Recuperar senha</h1>
 
           <Input
+            value={email}
             name="email"
+            onChange={(e) => setEmail(e.target.value)}
             icon={FiMail}
             placeholder="E-mail"
-            register={register}
             error={formErrors.email}
           />
 
-          <Button type="submit" loading={loading}>
+          <Button type="button" loading={loading} onClick={handleSubmit}>
             Enviar
           </Button>
         </Form>

@@ -18,6 +18,7 @@ import { AdminCategories } from '../pages/adminCategories'
 import { AdminTopics } from '../pages/adminTopics'
 import { AdminTags } from '../pages/adminTags'
 import { AdminQuestions } from '../pages/adminQuestions'
+import { AdminUsers } from '../pages/adminUsers'
 
 const AppRoutes = () => {
   const { user } = useAuth()
@@ -70,6 +71,11 @@ const AppRoutes = () => {
         element={
           user && user.isAdmin ? <AdminUsersList /> : <Navigate to="/" />
         }
+      />
+
+      <Route
+        path="/users/:id"
+        element={user && user.isAdmin ? <AdminUsers /> : <Navigate to="/" />}
       />
 
       <Route

@@ -1,9 +1,10 @@
+import { shade } from 'polished'
 import styled from 'styled-components'
 
 export const Container = styled.div`
   flex: 1;
   padding: 15px;
-  background: #2a2d33;
+  background: #151922;
   height: 100vh;
   padding-top: 24px;
 `
@@ -11,7 +12,7 @@ export const Container = styled.div`
 export const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background: #151922;
+  background: #293038;
   padding: 16px;
   border-radius: 8px;
   margin-top: 16px;
@@ -59,7 +60,7 @@ export const TableBody = styled.tbody``
 export const TableBodyRow = styled.tr`
   height: 36px;
   &:hover {
-    background: #2a2d33;
+    background: ${shade(0.2, '#293038')};
   }
   border-radius: 8px;
 `
@@ -115,7 +116,7 @@ export const TableFooter = styled.div`
     border-radius: 4px;
 
     &:hover {
-      background: #2a2d33;
+      background: ${shade(0.2, '#293038')};
     }
   }
 
@@ -155,7 +156,7 @@ export const PerPage = styled.div`
     cursor: pointer;
 
     &:hover {
-      background: #2a2d33;
+      background: ${shade(0.2, '#293038')};
     }
   }
 `
@@ -163,7 +164,7 @@ export const PerPage = styled.div`
 export const PerPageItens = styled.div`
   z-index: 1;
   position: absolute;
-  background: #151922;
+  background: #293038;
   top: 28px;
   left: 108px;
   border-radius: 4px;
@@ -185,7 +186,7 @@ export const PerPageItens = styled.div`
     cursor: pointer;
 
     &:hover {
-      background: #2a2d33;
+      background: ${shade(0.2, '#293038')};
     }
   }
 `

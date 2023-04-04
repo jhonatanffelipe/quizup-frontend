@@ -17,8 +17,9 @@ const appearFromLeft = keyframes`
 export const Container = styled.menu`
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  background: #151922;
+  min-height: 100vh;
+  height: max-content;
+  background: #293038;
   padding-top: 10px;
   font-size: 14px;
 
@@ -83,9 +84,9 @@ export const MenuItem = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: transparent;
 
     border: none;
-    background-color: transparent;
 
     color: #fff;
   }
@@ -106,7 +107,7 @@ export const MenuItemTitle = styled.div`
   cursor: pointer;
 
   &:hover {
-    background: #2a2d33;
+    background: ${shade(0.2, '#293038')};
   }
 
   > svg {
@@ -130,7 +131,7 @@ export const MenuSubItem = styled(Link)`
   text-decoration: none;
 
   &:hover {
-    background: #2a2d33;
+    background: ${shade(0.2, '#293038')};
   }
   cursor: pointer;
 `

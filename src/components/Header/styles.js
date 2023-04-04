@@ -43,7 +43,7 @@ export const ContentMenu = styled.div`
 export const Content = styled.div`
   width: 300px;
   height: 310px;
-  background-color: #151922;
+  background-color: #293038;
   top: 80px;
   right: 35px;
 
@@ -115,11 +115,11 @@ export const Content = styled.div`
       }
 
       &:hover {
-        background-color: ${shade(0.2, '#151922')};
+        background-color: ${shade(0.2, '#293038')};
       }
 
       width: 100%;
-      background: #151922;
+      background: #293038;
       border: none;
       color: #fff;
       padding: 8px 16px;

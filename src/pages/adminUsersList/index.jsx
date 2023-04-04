@@ -34,6 +34,7 @@ import { api } from '../../services/api'
 import { useAuth } from '../../hooks/auth'
 import { useToast } from '../../hooks/toast'
 import { AppError } from '../../utils/errors/AppError'
+import { useNavigate } from 'react-router-dom'
 
 const AdminUsersList = () => {
   const [page, setPage] = useState(1)
@@ -46,6 +47,7 @@ const AdminUsersList = () => {
 
   const { token, signOut } = useAuth()
   const { addToast } = useToast()
+  const navigate = useNavigate()
 
   const handlePerPage = useCallback((value) => {
     setPage(1)
@@ -169,6 +171,13 @@ const AdminUsersList = () => {
     [addToast, signOut, token.accessToken, handleRequestUsers]
   )
 
+  const handleEditUser = useCallback(
+    (id) => {
+      navigate(`/users/${id}`)
+    },
+    [navigate]
+  )
+
   useEffect(() => {
     void handleRequestUsers()
   }, [handleRequestUsers])
@@ -217,7 +226,7 @@ const AdminUsersList = () => {
                 </TableBodyData>
                 <TableBodyData>
                   <div>
-                    <button>
+                    <button onClick={() => handleEditUser(user.id)}>
                       <FiEdit3 size={10} />
                     </button>
                     <button onClick={() => handleDeleteUser(user.id)}>
