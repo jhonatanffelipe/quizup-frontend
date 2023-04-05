@@ -35,7 +35,6 @@ const AdminUsersList = () => {
   const navigate = useNavigate()
 
   const handlePerPage = useCallback((value) => {
-    console.log(value)
     setPage(1)
     setPerPage(value)
     setPerPageOpen(false)
