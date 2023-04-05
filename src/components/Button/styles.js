@@ -56,4 +56,46 @@ export const Container = styled.button`
       margin: 18px 8px 8px 8px;
       height: 46px;
     `}
+
+
+    ${(props) =>
+    props.buttonStyle === 'success' &&
+    css`
+      background-color: #198754;
+
+      &:hover {
+        background-color: ${shade(0.2, `#198754`)};
+      }
+    `}
+
+    ${(props) =>
+    props.buttonStyle === 'error' &&
+    css`
+      background-color: #dc3545;
+
+      &:hover {
+        background-color: ${shade(0.2, `#DC3545`)};
+      }
+    `}
+
+    ${(props) =>
+    props.buttonStyle === 'warning' &&
+    css`
+      background-color: #ffc107;
+      color: #000;
+
+      &:hover {
+        background-color: ${shade(0.2, `#FFC107`)};
+      }
+    `}
+
+    ${(props) =>
+    props.buttonStyle === 'secondary' &&
+    css`
+      background-color: #6c757d;
+
+      &:hover {
+        background-color: ${shade(0.2, `#6C757D`)};
+      }
+    `}
 `

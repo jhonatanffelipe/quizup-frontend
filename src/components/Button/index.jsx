@@ -8,6 +8,7 @@ const Button = ({
   backgroundColor,
   fontColor,
   size,
+  buttonStyle,
   ...rest
 }) => {
   return (
@@ -17,6 +18,7 @@ const Button = ({
       backgroundColor={backgroundColor}
       fontColor={fontColor}
       size={size}
+      buttonStyle={buttonStyle}
       {...rest}
     >
       {loading ? <p>Carregando...</p> : children}

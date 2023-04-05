@@ -226,7 +226,7 @@ const AdminUsers = () => {
 
   return (
     <Container>
-      <h1>Gestão de usuários</h1>
+      <h1>Usuários</h1>
 
       <Form>
         <Row>
@@ -279,14 +279,18 @@ const AdminUsers = () => {
         </Row>
 
         <ButtonRow align="end">
-          <Button onClick={() => navigate('/users')} size="small">
+          <Button
+            onClick={() => navigate('/users')}
+            size="small"
+            buttonStyle="secondary"
+          >
             Cancelar
           </Button>
           <Button
             onClick={handleDeleteUser}
             size="small"
             loading={deleteLoading}
-            backgroundColor={'#ff0101'}
+            buttonStyle="error"
           >
             Excluir
           </Button>
@@ -294,7 +298,7 @@ const AdminUsers = () => {
             size="small"
             onClick={handleSubmit}
             loading={submitLoading}
-            backgroundColor={'#009669'}
+            buttonStyle="success"
           >
             Confirmar
           </Button>

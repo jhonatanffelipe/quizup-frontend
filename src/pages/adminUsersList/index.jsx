@@ -162,7 +162,7 @@ const AdminUsersList = () => {
 
   return (
     <Container>
-      <h1>Gestão de usuários</h1>
+      <h1>Usuários</h1>
       <TableContainer>
         {loading && <TableLoadingElement />}
         <TableContent>
