@@ -41,6 +41,10 @@ export const PerPage = styled.div`
   align-items: center;
   justify-content: center;
 
+  > span {
+    margin-left: 16px;
+  }
+
   div {
     display: flex;
     align-items: center;

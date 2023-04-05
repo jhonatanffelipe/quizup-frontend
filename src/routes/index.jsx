@@ -16,10 +16,11 @@ import { AdminDashboard } from '../pages/adminDashboard'
 import { AdminEmailSettings } from '../pages/adminEmailSettings'
 import { AdminUsersList } from '../pages/adminUsersList'
 import { AdminUsers } from '../pages/adminUsers'
-import { AdminCategories } from '../pages/adminCategories'
+import { AdminCategoriesList } from '../pages/adminCategoriesList'
 import { AdminSubjects } from '../pages/adminSubjects'
 import { AdminTags } from '../pages/adminTags'
 import { AdminQuestions } from '../pages/adminQuestions'
+import { AdminCategory } from '../pages/adminCategory'
 
 const AppRoutes = () => {
   const { user } = useAuth()
@@ -82,8 +83,13 @@ const AppRoutes = () => {
       <Route
         path="/categories"
         element={
-          user && user.isAdmin ? <AdminCategories /> : <Navigate to="/" />
+          user && user.isAdmin ? <AdminCategoriesList /> : <Navigate to="/" />
         }
+      />
+
+      <Route
+        path="/categories/:id"
+        element={user && user.isAdmin ? <AdminCategory /> : <Navigate to="/" />}
       />
 
       <Route

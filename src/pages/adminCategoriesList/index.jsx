@@ -1,14 +1,13 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { FiEdit3, FiX } from 'react-icons/fi'
 import moment from 'moment'
 
 import { Container } from './styles'
-
 import { api } from '../../services/api'
 import { useAuth } from '../../hooks/auth'
 import { useToast } from '../../hooks/toast'
 import { AppError } from '../../utils/errors/AppError'
-import { useNavigate } from 'react-router-dom'
 
 import { TableContainer } from '../../components/Table/TableContainer'
 import { TableLoadingElement } from '../../components/Table/TableLoadingElement'
@@ -21,14 +20,14 @@ import { TableBodyRow } from '../../components/Table/TableBodyRow'
 import { TableBodyRowData } from '../../components/Table/TableBodyRowData'
 import { TableFooter } from '../../components/Table/TableFooter'
 
-const AdminUsersList = () => {
+const AdminCategoriesList = () => {
   const [page, setPage] = useState(1)
   const [perPage, setPerPage] = useState(5)
+  const [totalRows, setTotalRows] = useState(0)
   const [totalPages, setTotalPages] = useState(1)
-  const [totalRows, setTotalRows] = useState(1)
   const [perPageOpen, setPerPageOpen] = useState(false)
 
-  const [users, setUsers] = useState([])
+  const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(false)
 
   const { token, signOut } = useAuth()
@@ -52,17 +51,17 @@ const AdminUsersList = () => {
     [page, totalPages]
   )
 
-  const handleRequestUsers = useCallback(async () => {
+  const handleRequestCategories = useCallback(async () => {
     setLoading(true)
     try {
       await api
-        .get(`/users?page=${page}&perPage=${perPage}`, {
+        .get(`/categories?page=${page}&perPage=${perPage}`, {
           headers: {
             Authorization: `Bearer ${token.accessToken}`,
           },
         })
         .then((response) => {
-          setUsers(response.data.data)
+          setCategories(response.data.data)
           setTotalRows(response.data.totalRows)
           setTotalPages(
             Math.ceil(response.data.totalRows / response.data.perPage)
@@ -72,7 +71,7 @@ const AdminUsersList = () => {
           throw new AppError(
             error.response?.data?.error.message ||
               error.response?.data?.error ||
-              'Erro ao listar dodos dos usuários. Por favor tente mais tarde',
+              'Erro ao listar categorias. Por favor tente mais tarde',
             error.response?.status || 400
           )
         })
@@ -87,7 +86,7 @@ const AdminUsersList = () => {
       } else {
         addToast({
           type: 'error',
-          title: 'Erro ao listar usuários',
+          title: 'Erro ao listar categorias',
           description: error.message,
         })
       }
@@ -96,19 +95,19 @@ const AdminUsersList = () => {
     }
   }, [page, perPage, addToast, signOut, token.accessToken])
 
-  const handleDeleteUser = useCallback(
+  const handleDeleteCategory = useCallback(
     async (id) => {
       try {
         setLoading(true)
 
         if (!id) {
           throw new AppError(
-            'Não foi possível deletar usuário, ID deve ser informado.'
+            'Não foi possível deletar categoria, ID deve ser informado.'
           )
         }
 
         await api
-          .delete(`/users/${id}`, {
+          .delete(`/categories/${id}`, {
             headers: {
               Authorization: `Bearer ${token.accessToken}`,
             },
@@ -116,15 +115,15 @@ const AdminUsersList = () => {
           .then(async () => {
             addToast({
               type: 'success',
-              title: 'Usuário deletado com sucesso',
+              title: 'categoria deletada com sucesso',
             })
-            handleRequestUsers()
+            handleRequestCategories()
           })
           .catch((error) => {
             throw new AppError(
               error.response?.data?.error.message ||
                 error.response?.data?.error ||
-                'Erro ao listar dodos dos usuários. Por favor tente mais tarde',
+                'Erro ao listar categorias. Por favor tente mais tarde',
               error.response?.status || 400
             )
           })
@@ -139,7 +138,7 @@ const AdminUsersList = () => {
         } else {
           addToast({
             type: 'error',
-            title: 'Erro ao deletar usuário',
+            title: 'Erro ao deletar categoria',
             description: error.message,
           })
         }
@@ -147,32 +146,31 @@ const AdminUsersList = () => {
         setLoading(false)
       }
     },
-    [addToast, signOut, token.accessToken, handleRequestUsers]
+    [addToast, signOut, token.accessToken, handleRequestCategories]
   )
 
-  const handleEditUser = useCallback(
+  const handleEditcategory = useCallback(
     (id) => {
-      navigate(`/users/${id}`)
+      navigate(`/categories/${id}`)
     },
     [navigate]
   )
 
   useEffect(() => {
-    void handleRequestUsers()
-  }, [handleRequestUsers])
+    void handleRequestCategories()
+  }, [handleRequestCategories])
 
   return (
     <Container>
-      <h1>Usuários</h1>
+      <h1>Categorias</h1>
+
       <TableContainer>
         {loading && <TableLoadingElement />}
         <TableContent>
           <TableHead>
             <TableHeadRow>
-              <TableHeadTitle>Nome</TableHeadTitle>
-              <TableHeadTitle>E-mail</TableHeadTitle>
+              <TableHeadTitle>Descrição</TableHeadTitle>
               <TableHeadTitle>Ativo</TableHeadTitle>
-              <TableHeadTitle>Admin</TableHeadTitle>
               <TableHeadTitle>Criado em</TableHeadTitle>
               <TableHeadTitle>Atualizado em</TableHeadTitle>
               <TableHeadTitle style={{ textAlign: 'center' }}>
@@ -181,28 +179,24 @@ const AdminUsersList = () => {
             </TableHeadRow>
           </TableHead>
           <TableBody>
-            {users.map((user) => (
-              <TableBodyRow key={user.id}>
-                <TableBodyRowData>{user.name}</TableBodyRowData>
-                <TableBodyRowData>{user.email}</TableBodyRowData>
+            {categories.map((category) => (
+              <TableBodyRow key={category.id}>
+                <TableBodyRowData>{category.description}</TableBodyRowData>
                 <TableBodyRowData>
-                  {user.isActive ? 'Sim' : 'Não'}
+                  {category.isActive ? 'Sim' : 'Não'}
                 </TableBodyRowData>
                 <TableBodyRowData>
-                  {user.isAdmin ? 'Sim' : 'Não'}
+                  {moment(category.createdAt).format('DD/MM/yyyy HH:mm')}
                 </TableBodyRowData>
                 <TableBodyRowData>
-                  {moment(user.createdAt).format('DD/MM/yyyy HH:mm')}
-                </TableBodyRowData>
-                <TableBodyRowData>
-                  {moment(user.updatedAt).format('DD/MM/yyyy HH:mm')}
+                  {moment(category.updatedAt).format('DD/MM/yyyy HH:mm')}
                 </TableBodyRowData>
                 <TableBodyRowData>
                   <div>
-                    <button onClick={() => handleEditUser(user.id)}>
+                    <button onClick={() => handleEditcategory(category.id)}>
                       <FiEdit3 size={10} />
                     </button>
-                    <button onClick={() => handleDeleteUser(user.id)}>
+                    <button onClick={() => handleDeleteCategory(category.id)}>
                       <FiX size={15} />
                     </button>
                   </div>
@@ -226,5 +220,4 @@ const AdminUsersList = () => {
     </Container>
   )
 }
-
-export { AdminUsersList }
+export { AdminCategoriesList }

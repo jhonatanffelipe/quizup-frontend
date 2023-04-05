@@ -14,6 +14,7 @@ const TableFooter = ({
   page,
   perPageOpen,
   totalPages,
+  totalRows,
   setPerPageOpen,
   handlePerPage,
   setPage,
@@ -24,6 +25,10 @@ const TableFooter = ({
     <Container {...rest}>
       <PerPageContent>
         <PerPage>
+          <span>Exibidos:</span>
+          <span>
+            {page === totalPages ? totalRows : page * perPage} de {totalRows}
+          </span>
           <span>Linhas por página:</span>
           <div onClick={() => setPerPageOpen(!perPageOpen)}>
             {perPage}

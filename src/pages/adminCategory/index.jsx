@@ -12,17 +12,16 @@ import { AppError } from '../../utils/errors/AppError'
 import { useToast } from '../../hooks/toast'
 import { CheckBox } from '../../components/CheckBox'
 
-const AdminUsers = () => {
+const AdminCategory = () => {
   const location = useLocation()
-  const [userId] = useState(() => {
-    return location.pathname.replace('/users/', '')
+  const [categoryId] = useState(() => {
+    return location.pathname.replace('/categories/', '')
   })
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
+  const [description, setDescription] = useState('')
   const [isActive, setIsActive] = useState(false)
-  const [isAdmin, setIsAdmin] = useState(false)
   const [createdAt, setcreatedAt] = useState('')
   const [updatedAt, setupdatedAt] = useState('')
+
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [submitLoading, setSubmitLoading] = useState(false)
   const [formErrors, setFormErros] = useState({})
@@ -32,21 +31,19 @@ const AdminUsers = () => {
 
   const navigate = useNavigate()
 
-  const handleRequestUser = useCallback(async () => {
+  const handleRequestCategory = useCallback(async () => {
     setSubmitLoading(true)
 
     try {
       await api
-        .get(`/users/${userId}`, {
+        .get(`/categories/${categoryId}`, {
           headers: {
             Authorization: `Bearer ${token.accessToken}`,
           },
         })
         .then((response) => {
-          setName(response.data.name)
-          setEmail(response.data.email)
+          setDescription(response.data.description)
           setIsActive(response.data.isActive)
-          setIsAdmin(response.data.isAdmin)
           setcreatedAt(
             moment(response.data.createdAt).format('DD/MM/yyyy HH:mm')
           )
@@ -58,7 +55,7 @@ const AdminUsers = () => {
           throw new AppError(
             error.response?.data?.error.message ||
               error.response?.data?.error ||
-              'Erro ao listar dodos do usuário. Por favor tente mais tarde',
+              'Erro ao listar dodos da categoria. Por favor tente mais tarde',
             error.response?.status || 400
           )
         })
@@ -73,27 +70,27 @@ const AdminUsers = () => {
       } else {
         addToast({
           type: 'error',
-          title: 'Erro ao listar dodos do usuário',
+          title: 'Erro ao listar categoria',
           description: error.message,
         })
       }
     } finally {
       setSubmitLoading(false)
     }
-  }, [userId, addToast, signOut, token.accessToken])
+  }, [categoryId, addToast, signOut, token.accessToken])
 
-  const handleDeleteUser = useCallback(async () => {
+  const handleDeleteCategory = useCallback(async () => {
     try {
       setDeleteLoading(true)
 
-      if (!userId) {
+      if (!categoryId) {
         throw new AppError(
-          'Não foi possível deletar usuário, ID deve ser informado.'
+          'Não foi possível deletar categoria, ID deve ser informado.'
         )
       }
 
       await api
-        .delete(`/users/${userId}`, {
+        .delete(`/categories/${categoryId}`, {
           headers: {
             Authorization: `Bearer ${token.accessToken}`,
           },
@@ -101,15 +98,15 @@ const AdminUsers = () => {
         .then(async () => {
           addToast({
             type: 'success',
-            title: 'Usuário deletado com sucesso',
+            title: 'categoria deletada com sucesso',
           })
-          navigate('/users')
+          navigate('/categories')
         })
         .catch((error) => {
           throw new AppError(
             error.response?.data?.error.message ||
               error.response?.data?.error ||
-              'Erro ao listar dodos dos usuários. Por favor tente mais tarde',
+              'Erro ao listar dodos da categoria. Por favor tente mais tarde',
             error.response?.status || 400
           )
         })
@@ -124,14 +121,14 @@ const AdminUsers = () => {
       } else {
         addToast({
           type: 'error',
-          title: 'Erro ao deletar usuário',
+          title: 'Erro ao deletar categoria',
           description: error.message,
         })
       }
     } finally {
       setDeleteLoading(false)
     }
-  }, [addToast, signOut, token.accessToken, userId, navigate])
+  }, [addToast, signOut, token.accessToken, categoryId, navigate])
 
   const handleSubmit = useCallback(async () => {
     setFormErros({})
@@ -139,36 +136,29 @@ const AdminUsers = () => {
     try {
       setSubmitLoading(true)
 
-      if (!userId) {
+      if (!categoryId) {
         throw new AppError(
-          'Não foi possível deletar usuário, ID deve ser informado.'
+          'Não foi possível deletar categoria, ID deve ser informado.'
         )
       }
 
       const data = {
-        name,
-        email,
+        description,
         isActive,
-        isAdmin,
       }
 
       let schema = {}
 
       schema = Yup.object().shape({
-        name: Yup.string().required('Nome obrigatório'),
-        email: Yup.string()
-          .required('E-mail obrigatório')
-          .email('Informe um e-mail válido'),
+        description: Yup.string().required('Decrição obrigatória'),
       })
-
-      data.email = data.email.trim()
 
       await schema.validate(data, {
         abortEarly: false,
       })
 
       await api
-        .put(`/users/${userId}`, data, {
+        .put(`/categories/${categoryId}`, data, {
           headers: {
             Authorization: `Bearer ${token.accessToken}`,
           },
@@ -176,16 +166,16 @@ const AdminUsers = () => {
         .then(async () => {
           addToast({
             type: 'success',
-            title: 'Usuário alterado com sucesso',
+            title: 'Categoria alterado com sucesso',
           })
 
-          navigate('/users')
+          navigate('/categories')
         })
         .catch((error) => {
           throw new AppError(
             error.response?.data?.error.message ||
               error.response?.data?.error ||
-              'Erro ao atualizar dodos dos usuários. Por favor tente mais tarde',
+              'Erro ao atualizar categoria. Por favor tente mais tarde',
             error.response?.status || 400
           )
         })
@@ -200,7 +190,7 @@ const AdminUsers = () => {
       } else {
         addToast({
           type: 'error',
-          title: 'Erro ao atualizar usuário',
+          title: 'Erro ao atualizar categoria',
           description: error.message,
         })
       }
@@ -208,48 +198,38 @@ const AdminUsers = () => {
       setSubmitLoading(false)
     }
   }, [
-    name,
-    email,
+    description,
     isActive,
-    isAdmin,
     addToast,
     signOut,
     token.accessToken,
-    userId,
+    categoryId,
     navigate,
   ])
 
   useEffect(() => {
-    void handleRequestUser()
+    void handleRequestCategory()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
     <Container>
-      <h1>Usuários</h1>
+      <h1>Categorias</h1>
 
       <Form>
         <Row>
           <div>
-            <span>Nome</span>
+            <span>Descrição</span>
             <Input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              name="name"
-              placeholder="Nome"
-              error={formErrors?.name}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              name="description"
+              placeholder="Descrição"
+              error={formErrors?.description}
             />
           </div>
-          <div>
-            <span>E-mail</span>
-            <Input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              name="email"
-              placeholder="E-mail"
-              error={formErrors?.email}
-            />
-          </div>
+
+          <CheckBox setChecked={setIsActive} checked={isActive} />
         </Row>
 
         <Row>
@@ -263,21 +243,16 @@ const AdminUsers = () => {
           </div>
         </Row>
 
-        <Row>
-          <CheckBox setChecked={setIsActive} cheched={isActive} />
-          <CheckBox setChecked={setIsAdmin} cheched={isAdmin} />
-        </Row>
-
         <ButtonRow align="end">
           <Button
-            onClick={() => navigate('/users')}
+            onClick={() => navigate('/categories')}
             size="small"
             buttonStyle="secondary"
           >
             Cancelar
           </Button>
           <Button
-            onClick={handleDeleteUser}
+            onClick={handleDeleteCategory}
             size="small"
             loading={deleteLoading}
             buttonStyle="error"
@@ -298,4 +273,4 @@ const AdminUsers = () => {
   )
 }
 
-export { AdminUsers }
+export { AdminCategory }
