@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+<div align="center">
+  <img width="450px" src="https://raw.githubusercontent.com/jhonatanffelipe/quizup-frontend/master/src/assets/logoWhite.png" />
+  <br/>
+  <br/>
+</div>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p align="center">
+   <img alt="Tecnologias" src="https://img.shields.io/github/languages/count/jhonatanffelipe/quizup-backend?color=04a1c1">
+   <img alt="Tamanho do repositório" src="https://img.shields.io/github/repo-size/jhonatanffelipe/quizup-backend?color=04a1c1">
+   <img alt="Ultimo commit no Github" src="https://img.shields.io/github/last-commit/jhonatanffelipe/quizup-backend?color=04a1c1">
+   <img alt="Criado por" src="https://img.shields.io/badge/made%20by-jhonatanffelipe-%20?color=04a1c1">
+   <img alt="Linguagens mais usadas no programa" src="https://img.shields.io/github/languages/top/jhonatanffelipe/quizup-backend?color=04a1c1">
+</p>
 
-## Available Scripts
+# :rocket: Sobre o projeto
 
-In the project directory, you can run:
+O QuizUp é uma plataforma de criação e aplicação de questões para professores, projetada para otimizar a administração de trabalhos escolares e desafios para alunos. Com esta ferramenta, os professores podem criar questões personalizadas para seus alunos, incluindo perguntas de múltipla escolha, verdadeiro ou falso, correspondência, preenchimento de lacunas, entre outros formatos.
 
-### `npm start`
+A plataforma é intuitiva e fácil de usar, permitindo que os professores criem e personalizem as questões em poucos minutos. Eles também podem programar a data e o horário de início e término das atividades para seus alunos, bem como selecionar a turma ou grupos específicos de alunos para receber as questões.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Os alunos, por sua vez, podem acessar as questões por meio de um aplicativo móvel ou de uma interface web. Eles podem responder as questões no próprio dispositivo, e a plataforma fará a correção automaticamente, o que ajuda a economizar tempo para os professores.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Além disso, a plataforma oferece recursos adicionais para tornar o processo de aprendizado mais divertido e desafiador, incluindo pontos e classificações para alunos, badges por conquistas e leaderboard para incentivar a competição saudável entre os estudantes. Esses recursos também ajudam a aumentar o engajamento dos alunos na atividade.
 
-### `npm test`
+Em resumo, este aplicativo é uma ferramenta completa e eficiente para professores que desejam otimizar a administração de trabalhos escolares e desafios para alunos, tornando o processo mais divertido, desafiador e fácil de gerenciar.
+    
+# Tecnologias utilizadas
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [React](https://pt-br.reactjs.org/)
+- [Javascript](https://developer.mozilla.org/pt-BR/docs/Learn/JavaScript/First_steps/What_is_JavaScript)
+- [styled-components](https://styled-components.com/)
+- [Axios](https://axios-http.com/ptbr/docs/intro)
+- [Yup](https://www.npmjs.com/package/yup)
+- [ESLint](https://eslint.org/)
+- [Prettier](https://prettier.io/)
+- [express-async-errors](https://www.npmjs.com/package/express-async-errors)
+- [polished](https://www.npmjs.com/package/polished)
+- [react-icons](https://react-icons.github.io/react-icons/icons?name=fi)
 
-### `npm run build`
+# Executando a aplicação
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Obs: Antes de qualquer procedimento é importante que a aplicação backend eteja executando:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- [quizup-backend](https://github.com/jhonatanffelipe/quizup-backend.git)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Para executar esta aplicação, siga os seguintes passos:
 
-### `npm run eject`
+- Clone o repositório:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+  ```bash
+  git clone https://github.com/jhonatanffelipe/quizup-frontend.git
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Com o repositório clonado, acesse o diretório raiz do projeto e digite code . para abrir o projeto no VS Code.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Em seguida instale as dependências do projeto:
 
-## Learn More
+  ```bash
+  # Baixar dependências
+  yarn
+  ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Ao finalizar, executer a aplicação com o comando:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  ```bash
+  # Executar a aplicação
+  yarn start
+  ```
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Com estes passos concluídos, a aplicação estará em execução e pronta para ser utilizada.
