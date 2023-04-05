@@ -69,7 +69,7 @@ const SignIn = () => {
   return (
     <Container>
       <AnimationContainer>
-        <img src={logoImg} alt="QuizEdu" />
+        <img src={logoImg} alt="QuizUp" />
 
         <Form>
           <h1>Faça seu login</h1>

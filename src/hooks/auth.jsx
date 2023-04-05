@@ -7,8 +7,8 @@ const AuthContext = createContext({})
 
 const AuthProvider = ({ children }) => {
   const [data, setData] = useState(() => {
-    const token = localStorage.getItem('@QuizEdu:token')
-    const user = localStorage.getItem('@QuizEdu:user')
+    const token = localStorage.getItem('@QuizUp:token')
+    const user = localStorage.getItem('@QuizUp:user')
 
     if (token && user) {
       return { token: JSON.parse(token), user: JSON.parse(user) }
@@ -26,9 +26,9 @@ const AuthProvider = ({ children }) => {
 
       const { user, accessToken, iat, exp } = response.data
 
-      localStorage.setItem('@QuizEdu:user', JSON.stringify(user))
+      localStorage.setItem('@QuizUp:user', JSON.stringify(user))
       localStorage.setItem(
-        '@QuizEdu:token',
+        '@QuizUp:token',
         JSON.stringify({ accessToken, iat, exp })
       )
 
@@ -38,16 +38,16 @@ const AuthProvider = ({ children }) => {
   )
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@QuizEdu:token')
-    localStorage.removeItem('@QuizEdu:user')
+    localStorage.removeItem('@QuizUp:token')
+    localStorage.removeItem('@QuizUp:user')
 
     setData({})
   }, [])
 
   const updateContextData = useCallback(
     async ({ user, token }) => {
-      localStorage.setItem('@QuizEdu:user', JSON.stringify(user))
-      localStorage.setItem('@QuizEdu:token', JSON.stringify(token))
+      localStorage.setItem('@QuizUp:user', JSON.stringify(user))
+      localStorage.setItem('@QuizUp:token', JSON.stringify(token))
       setData({ user, token })
     },
     [setData]

@@ -97,7 +97,7 @@ const ResetPassword = () => {
         <img src={backgroundImg} alt="background" />
       </Backgound>
       <AnimationContainer>
-        <img src={logoImg} alt="QuizEdu" />
+        <img src={logoImg} alt="QuizUp" />
 
         <Form>
           <h1>Alterar Senha</h1>

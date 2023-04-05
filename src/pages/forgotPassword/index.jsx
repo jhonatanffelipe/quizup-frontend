@@ -73,7 +73,7 @@ const ForgoPassword = () => {
         <img src={backgroundImg} alt="background" />
       </Backgound>
       <AnimationContainer>
-        <img src={logoImg} alt="QuizEdu" />
+        <img src={logoImg} alt="QuizUp" />
 
         <Form>
           <h1>Recuperar senha</h1>
