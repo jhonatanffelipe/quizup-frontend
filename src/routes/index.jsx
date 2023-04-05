@@ -2,23 +2,24 @@ import React from 'react'
 
 import { Routes, Route, Navigate } from 'react-router-dom'
 
+import { useAuth } from '../hooks/auth'
 import { SignIn } from '../pages/signIn'
 import { SignUp } from '../pages/signUp'
-import { Dashboard } from '../pages/dashboard'
 import { ForgoPassword } from '../pages/forgotPassword'
 import { ResetPassword } from '../pages/resetPassword'
-import { AdminDashboard } from '../pages/adminDashboard'
+
+import { Dashboard } from '../pages/dashboard'
 import { UserProfile } from '../pages/userProfile'
 import { ApplicationAbout } from '../pages/applicationAbout'
 
-import { useAuth } from '../hooks/auth'
+import { AdminDashboard } from '../pages/adminDashboard'
 import { AdminEmailSettings } from '../pages/adminEmailSettings'
 import { AdminUsersList } from '../pages/adminUsersList'
+import { AdminUsers } from '../pages/adminUsers'
 import { AdminCategories } from '../pages/adminCategories'
-import { AdminTopics } from '../pages/adminTopics'
+import { AdminSubjects } from '../pages/adminSubjects'
 import { AdminTags } from '../pages/adminTags'
 import { AdminQuestions } from '../pages/adminQuestions'
-import { AdminUsers } from '../pages/adminUsers'
 
 const AppRoutes = () => {
   const { user } = useAuth()
@@ -86,8 +87,8 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/topcs"
-        element={user && user.isAdmin ? <AdminTopics /> : <Navigate to="/" />}
+        path="/subjects"
+        element={user && user.isAdmin ? <AdminSubjects /> : <Navigate to="/" />}
       />
 
       <Route

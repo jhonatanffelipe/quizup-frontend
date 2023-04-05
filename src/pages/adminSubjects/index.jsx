@@ -1,6 +1,6 @@
 import { Container } from './styles'
 
-const AdminTopics = () => {
+const AdminSubjects = () => {
   return (
     <Container>
       <h1>Tópicos</h1>
@@ -8,4 +8,4 @@ const AdminTopics = () => {
   )
 }
 
-export { AdminTopics }
+export { AdminSubjects }
