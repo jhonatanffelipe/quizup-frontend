@@ -12,10 +12,10 @@ import { AppError } from '../../utils/errors/AppError'
 import { useToast } from '../../hooks/toast'
 import { CheckBox } from '../../components/CheckBox'
 
-const AdminCategory = () => {
+const AdminTag = () => {
   const location = useLocation()
-  const [categoryId] = useState(() => {
-    return location.pathname.replace('/categories/', '')
+  const [tagId] = useState(() => {
+    return location.pathname.replace('/tags/', '')
   })
   const [description, setDescription] = useState('')
   const [isActive, setIsActive] = useState(false)
@@ -31,12 +31,12 @@ const AdminCategory = () => {
 
   const navigate = useNavigate()
 
-  const handleRequestCategory = useCallback(async () => {
+  const handleRequestTag = useCallback(async () => {
     setSubmitLoading(true)
 
     try {
       await api
-        .get(`/categories/${categoryId}`, {
+        .get(`/tags/${tagId}`, {
           headers: {
             Authorization: `Bearer ${token.accessToken}`,
           },
@@ -55,7 +55,7 @@ const AdminCategory = () => {
           throw new AppError(
             error.response?.data?.error.message ||
               error.response?.data?.error ||
-              'Erro ao listar dodos da categoria. Por favor tente mais tarde',
+              'Erro ao listar dodos da tag. Por favor tente mais tarde',
             error.response?.status || 400
           )
         })
@@ -70,27 +70,27 @@ const AdminCategory = () => {
       } else {
         addToast({
           type: 'error',
-          title: 'Erro ao listar categoria',
+          title: 'Erro ao listar tag',
           description: error.message,
         })
       }
     } finally {
       setSubmitLoading(false)
     }
-  }, [categoryId, addToast, signOut, token.accessToken])
+  }, [tagId, addToast, signOut, token.accessToken])
 
-  const handleDeleteCategory = useCallback(async () => {
+  const handleDeleteTag = useCallback(async () => {
     try {
       setDeleteLoading(true)
 
-      if (!categoryId) {
+      if (!tagId) {
         throw new AppError(
-          'Não foi possível deletar categoria, ID deve ser informado.'
+          'Não foi possível deletar tag, ID deve ser informado.'
         )
       }
 
       await api
-        .delete(`/categories/${categoryId}`, {
+        .delete(`/tags/${tagId}`, {
           headers: {
             Authorization: `Bearer ${token.accessToken}`,
           },
@@ -98,15 +98,15 @@ const AdminCategory = () => {
         .then(async () => {
           addToast({
             type: 'success',
-            title: 'Categoria deletada com sucesso',
+            title: 'Tag deletada com sucesso',
           })
-          navigate('/categories')
+          navigate('/tags')
         })
         .catch((error) => {
           throw new AppError(
             error.response?.data?.error.message ||
               error.response?.data?.error ||
-              'Erro ao listar dodos da categoria. Por favor tente mais tarde',
+              'Erro ao listar dodos da tag. Por favor tente mais tarde',
             error.response?.status || 400
           )
         })
@@ -121,14 +121,14 @@ const AdminCategory = () => {
       } else {
         addToast({
           type: 'error',
-          title: 'Erro ao deletar categoria',
+          title: 'Erro ao deletar tag',
           description: error.message,
         })
       }
     } finally {
       setDeleteLoading(false)
     }
-  }, [addToast, signOut, token.accessToken, categoryId, navigate])
+  }, [addToast, signOut, token.accessToken, tagId, navigate])
 
   const handleSubmit = useCallback(async () => {
     setFormErros({})
@@ -136,9 +136,9 @@ const AdminCategory = () => {
     try {
       setSubmitLoading(true)
 
-      if (!categoryId) {
+      if (!tagId) {
         throw new AppError(
-          'Não foi possível deletar categoria, ID deve ser informado.'
+          'Não foi possível deletar tag, ID deve ser informado.'
         )
       }
 
@@ -158,7 +158,7 @@ const AdminCategory = () => {
       })
 
       await api
-        .put(`/categories/${categoryId}`, data, {
+        .put(`/tags/${tagId}`, data, {
           headers: {
             Authorization: `Bearer ${token.accessToken}`,
           },
@@ -169,13 +169,13 @@ const AdminCategory = () => {
             title: 'Categoria alterado com sucesso',
           })
 
-          navigate('/categories')
+          navigate('/tags')
         })
         .catch((error) => {
           throw new AppError(
             error.response?.data?.error.message ||
               error.response?.data?.error ||
-              'Erro ao atualizar categoria. Por favor tente mais tarde',
+              'Erro ao atualizar tag. Por favor tente mais tarde',
             error.response?.status || 400
           )
         })
@@ -190,7 +190,7 @@ const AdminCategory = () => {
       } else {
         addToast({
           type: 'error',
-          title: 'Erro ao atualizar categoria',
+          title: 'Erro ao atualizar tag',
           description: error.message,
         })
       }
@@ -203,18 +203,18 @@ const AdminCategory = () => {
     addToast,
     signOut,
     token.accessToken,
-    categoryId,
+    tagId,
     navigate,
   ])
 
   useEffect(() => {
-    void handleRequestCategory()
+    void handleRequestTag()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
     <Container>
-      <h1>Categorias</h1>
+      <h1>Tags</h1>
 
       <Form>
         <Row>
@@ -249,14 +249,14 @@ const AdminCategory = () => {
 
         <ButtonRow align="end">
           <Button
-            onClick={() => navigate('/categories')}
+            onClick={() => navigate('/tags')}
             size="small"
             buttonStyle="secondary"
           >
             Cancelar
           </Button>
           <Button
-            onClick={handleDeleteCategory}
+            onClick={handleDeleteTag}
             size="small"
             loading={deleteLoading}
             buttonStyle="error"
@@ -277,4 +277,4 @@ const AdminCategory = () => {
   )
 }
 
-export { AdminCategory }
+export { AdminTag }

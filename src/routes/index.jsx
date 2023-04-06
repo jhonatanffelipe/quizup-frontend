@@ -18,7 +18,8 @@ import { AdminUsersList } from '../pages/adminUsersList'
 import { AdminUsers } from '../pages/adminUsers'
 import { AdminCategoriesList } from '../pages/adminCategoriesList'
 import { AdminSubjects } from '../pages/adminSubjects'
-import { AdminTags } from '../pages/adminTags'
+import { AdminTag } from '../pages/adminTag'
+import { AdminTagsList } from '../pages/adminTagsList'
 import { AdminQuestions } from '../pages/adminQuestions'
 import { AdminCategory } from '../pages/adminCategory'
 
@@ -99,7 +100,12 @@ const AppRoutes = () => {
 
       <Route
         path="/tags"
-        element={user && user.isAdmin ? <AdminTags /> : <Navigate to="/" />}
+        element={user && user.isAdmin ? <AdminTagsList /> : <Navigate to="/" />}
+      />
+
+      <Route
+        path="/tags/:id"
+        element={user && user.isAdmin ? <AdminTag /> : <Navigate to="/" />}
       />
 
       <Route

@@ -20,14 +20,14 @@ import { TableBodyRow } from '../../components/Table/TableBodyRow'
 import { TableBodyRowData } from '../../components/Table/TableBodyRowData'
 import { TableFooter } from '../../components/Table/TableFooter'
 
-const AdminCategoriesList = () => {
+const AdminTagsList = () => {
   const [page, setPage] = useState(1)
   const [perPage, setPerPage] = useState(5)
   const [totalRows, setTotalRows] = useState(0)
   const [totalPages, setTotalPages] = useState(1)
   const [perPageOpen, setPerPageOpen] = useState(false)
 
-  const [categories, setCategories] = useState([])
+  const [tags, setTags] = useState([])
   const [loading, setLoading] = useState(false)
 
   const { token, signOut } = useAuth()
@@ -51,17 +51,17 @@ const AdminCategoriesList = () => {
     [page, totalPages]
   )
 
-  const handleRequestCategories = useCallback(async () => {
+  const handleRequestTags = useCallback(async () => {
     setLoading(true)
     try {
       await api
-        .get(`/categories?page=${page}&perPage=${perPage}`, {
+        .get(`/tags?page=${page}&perPage=${perPage}`, {
           headers: {
             Authorization: `Bearer ${token.accessToken}`,
           },
         })
         .then((response) => {
-          setCategories(response.data.data)
+          setTags(response.data.data)
           setTotalRows(response.data.totalRows)
           setTotalPages(
             Math.ceil(response.data.totalRows / response.data.perPage)
@@ -71,7 +71,7 @@ const AdminCategoriesList = () => {
           throw new AppError(
             error.response?.data?.error.message ||
               error.response?.data?.error ||
-              'Erro ao listar categorias. Por favor tente mais tarde',
+              'Erro ao listar tags. Por favor tente mais tarde',
             error.response?.status || 400
           )
         })
@@ -86,7 +86,7 @@ const AdminCategoriesList = () => {
       } else {
         addToast({
           type: 'error',
-          title: 'Erro ao listar categorias',
+          title: 'Erro ao listar tags',
           description: error.message,
         })
       }
@@ -95,19 +95,19 @@ const AdminCategoriesList = () => {
     }
   }, [page, perPage, addToast, signOut, token.accessToken])
 
-  const handleDeleteCategory = useCallback(
+  const handleDeleteTag = useCallback(
     async (id) => {
       try {
         setLoading(true)
 
         if (!id) {
           throw new AppError(
-            'Não foi possível deletar categoria, ID deve ser informado.'
+            'Não foi possível deletar tag, ID deve ser informado.'
           )
         }
 
         await api
-          .delete(`/categories/${id}`, {
+          .delete(`/tags/${id}`, {
             headers: {
               Authorization: `Bearer ${token.accessToken}`,
             },
@@ -115,15 +115,15 @@ const AdminCategoriesList = () => {
           .then(async () => {
             addToast({
               type: 'success',
-              title: 'Categoria deletada com sucesso',
+              title: 'Tag deletada com sucesso',
             })
-            handleRequestCategories()
+            handleRequestTags()
           })
           .catch((error) => {
             throw new AppError(
               error.response?.data?.error.message ||
                 error.response?.data?.error ||
-                'Erro ao listar categorias. Por favor tente mais tarde',
+                'Erro ao listar tags. Por favor tente mais tarde',
               error.response?.status || 400
             )
           })
@@ -138,7 +138,7 @@ const AdminCategoriesList = () => {
         } else {
           addToast({
             type: 'error',
-            title: 'Erro ao deletar categoria',
+            title: 'Erro ao deletar tag',
             description: error.message,
           })
         }
@@ -146,23 +146,23 @@ const AdminCategoriesList = () => {
         setLoading(false)
       }
     },
-    [addToast, signOut, token.accessToken, handleRequestCategories]
+    [addToast, signOut, token.accessToken, handleRequestTags]
   )
 
-  const handleEditCategory = useCallback(
+  const handleEditTag = useCallback(
     (id) => {
-      navigate(`/categories/${id}`)
+      navigate(`/tags/${id}`)
     },
     [navigate]
   )
 
   useEffect(() => {
-    void handleRequestCategories()
-  }, [handleRequestCategories])
+    void handleRequestTags()
+  }, [handleRequestTags])
 
   return (
     <Container>
-      <h1>Categorias</h1>
+      <h1>Tags</h1>
 
       <TableContainer>
         {loading && <TableLoadingElement />}
@@ -179,24 +179,24 @@ const AdminCategoriesList = () => {
             </TableHeadRow>
           </TableHead>
           <TableBody>
-            {categories.map((category) => (
-              <TableBodyRow key={category.id}>
-                <TableBodyRowData>{category.description}</TableBodyRowData>
+            {tags.map((tag) => (
+              <TableBodyRow key={tag.id}>
+                <TableBodyRowData>{tag.description}</TableBodyRowData>
                 <TableBodyRowData>
-                  {category.isActive ? 'Sim' : 'Não'}
+                  {tag.isActive ? 'Sim' : 'Não'}
                 </TableBodyRowData>
                 <TableBodyRowData>
-                  {moment(category.createdAt).format('DD/MM/yyyy HH:mm')}
+                  {moment(tag.createdAt).format('DD/MM/yyyy HH:mm')}
                 </TableBodyRowData>
                 <TableBodyRowData>
-                  {moment(category.updatedAt).format('DD/MM/yyyy HH:mm')}
+                  {moment(tag.updatedAt).format('DD/MM/yyyy HH:mm')}
                 </TableBodyRowData>
                 <TableBodyRowData>
                   <div>
-                    <button onClick={() => handleEditCategory(category.id)}>
+                    <button onClick={() => handleEditTag(tag.id)}>
                       <FiEdit3 size={10} />
                     </button>
-                    <button onClick={() => handleDeleteCategory(category.id)}>
+                    <button onClick={() => handleDeleteTag(tag.id)}>
                       <FiX size={15} />
                     </button>
                   </div>
@@ -220,4 +220,4 @@ const AdminCategoriesList = () => {
     </Container>
   )
 }
-export { AdminCategoriesList }
+export { AdminTagsList }

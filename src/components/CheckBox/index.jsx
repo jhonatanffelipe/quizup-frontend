@@ -3,9 +3,9 @@ import { FiCheck } from 'react-icons/fi'
 
 import { Container } from './styles'
 
-const CheckBox = ({ checked, setChecked }) => {
+const CheckBox = ({ checked, setChecked, ...rest }) => {
   return (
-    <Container checked={checked}>
+    <Container checked={checked} {...rest}>
       <div
         onClick={() => {
           setChecked(!checked)
