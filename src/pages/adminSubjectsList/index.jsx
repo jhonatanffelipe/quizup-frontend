@@ -155,11 +155,18 @@ const AdminSubjectsList = () => {
     }
   }, [categoryId, addToast, signOut, token.accessToken])
 
-  const handleKeyUpRequest = useCallback(() => {
-    setInputLoading(true)
-    clearTimeout(requestTimeout)
-    setRequestTimeout(setTimeout(handleRequestCategories, 1000))
-  }, [requestTimeout, handleRequestCategories])
+  const handleKeyUpRequest = useCallback(
+    async (e) => {
+      if (e.code === 'Backspace') {
+        setCategoryId('')
+        setSubjects([])
+      }
+      setInputLoading(true)
+      clearTimeout(requestTimeout)
+      setRequestTimeout(setTimeout(handleRequestCategories, 1000))
+    },
+    [requestTimeout, handleRequestCategories]
+  )
 
   useEffect(() => {
     void handleRequestCategories()
