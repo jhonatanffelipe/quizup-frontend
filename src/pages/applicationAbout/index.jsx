@@ -3,7 +3,7 @@ import { Container } from './styles'
 const ApplicationAbout = () => {
   return (
     <Container>
-      <h1>About</h1>
+      <h1>Sobre a aplicação</h1>
       <div>
         <p>
           O QuizUp é uma plataforma de criação e aplicação de questões para
