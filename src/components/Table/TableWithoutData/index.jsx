@@ -3,7 +3,7 @@ import { Container } from './styles'
 const TableWithoutData = ({ children }) => {
   return (
     <Container>
-      <td>{children}</td>
+      <td>Nenhum item encontrado</td>
     </Container>
   )
 }

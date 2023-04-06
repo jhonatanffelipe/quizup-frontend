@@ -232,7 +232,7 @@ const AdminSubjectsList = () => {
                 ))}
               </>
             ) : (
-              <TableWithoutData>Nenhum item encontrado</TableWithoutData>
+              <TableWithoutData />
             )}
           </TableBody>
         </TableContent>

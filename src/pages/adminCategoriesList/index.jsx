@@ -19,6 +19,7 @@ import { TableBody } from '../../components/Table/TableBody'
 import { TableBodyRow } from '../../components/Table/TableBodyRow'
 import { TableBodyRowData } from '../../components/Table/TableBodyRowData'
 import { TableFooter } from '../../components/Table/TableFooter'
+import { TableWithoutData } from '../../components/Table/TableWithoutData'
 
 const AdminCategoriesList = () => {
   const [page, setPage] = useState(1)
@@ -55,7 +56,7 @@ const AdminCategoriesList = () => {
     setLoading(true)
     try {
       await api
-        .get(`/categories?page=${page}&perPage=${perPage}`, {
+        .get(`/categories?page=${page}&perPage=${perPage}&description=`, {
           headers: {
             Authorization: `Bearer ${token.accessToken}`,
           },
@@ -179,30 +180,38 @@ const AdminCategoriesList = () => {
             </TableHeadRow>
           </TableHead>
           <TableBody>
-            {categories.map((category) => (
-              <TableBodyRow key={category.id}>
-                <TableBodyRowData>{category.description}</TableBodyRowData>
-                <TableBodyRowData>
-                  {category.isActive ? 'Sim' : 'Não'}
-                </TableBodyRowData>
-                <TableBodyRowData>
-                  {moment(category.createdAt).format('DD/MM/yyyy HH:mm')}
-                </TableBodyRowData>
-                <TableBodyRowData>
-                  {moment(category.updatedAt).format('DD/MM/yyyy HH:mm')}
-                </TableBodyRowData>
-                <TableBodyRowData>
-                  <div>
-                    <button onClick={() => handleEditCategory(category.id)}>
-                      <FiEdit3 size={10} />
-                    </button>
-                    <button onClick={() => handleDeleteCategory(category.id)}>
-                      <FiX size={15} />
-                    </button>
-                  </div>
-                </TableBodyRowData>
-              </TableBodyRow>
-            ))}
+            {categories.length > 0 ? (
+              <>
+                {categories.map((category) => (
+                  <TableBodyRow key={category.id}>
+                    <TableBodyRowData>{category.description}</TableBodyRowData>
+                    <TableBodyRowData>
+                      {category.isActive ? 'Sim' : 'Não'}
+                    </TableBodyRowData>
+                    <TableBodyRowData>
+                      {moment(category.createdAt).format('DD/MM/yyyy HH:mm')}
+                    </TableBodyRowData>
+                    <TableBodyRowData>
+                      {moment(category.updatedAt).format('DD/MM/yyyy HH:mm')}
+                    </TableBodyRowData>
+                    <TableBodyRowData>
+                      <div>
+                        <button onClick={() => handleEditCategory(category.id)}>
+                          <FiEdit3 size={10} />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteCategory(category.id)}
+                        >
+                          <FiX size={15} />
+                        </button>
+                      </div>
+                    </TableBodyRowData>
+                  </TableBodyRow>
+                ))}
+              </>
+            ) : (
+              <TableWithoutData />
+            )}
           </TableBody>
         </TableContent>
         <TableFooter

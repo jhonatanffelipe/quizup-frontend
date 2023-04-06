@@ -19,6 +19,7 @@ import { TableBody } from '../../components/Table/TableBody'
 import { TableBodyRow } from '../../components/Table/TableBodyRow'
 import { TableBodyRowData } from '../../components/Table/TableBodyRowData'
 import { TableFooter } from '../../components/Table/TableFooter'
+import { TableWithoutData } from '../../components/Table/TableWithoutData'
 
 const AdminTagsList = () => {
   const [page, setPage] = useState(1)
@@ -179,30 +180,36 @@ const AdminTagsList = () => {
             </TableHeadRow>
           </TableHead>
           <TableBody>
-            {tags.map((tag) => (
-              <TableBodyRow key={tag.id}>
-                <TableBodyRowData>{tag.description}</TableBodyRowData>
-                <TableBodyRowData>
-                  {tag.isActive ? 'Sim' : 'Não'}
-                </TableBodyRowData>
-                <TableBodyRowData>
-                  {moment(tag.createdAt).format('DD/MM/yyyy HH:mm')}
-                </TableBodyRowData>
-                <TableBodyRowData>
-                  {moment(tag.updatedAt).format('DD/MM/yyyy HH:mm')}
-                </TableBodyRowData>
-                <TableBodyRowData>
-                  <div>
-                    <button onClick={() => handleEditTag(tag.id)}>
-                      <FiEdit3 size={10} />
-                    </button>
-                    <button onClick={() => handleDeleteTag(tag.id)}>
-                      <FiX size={15} />
-                    </button>
-                  </div>
-                </TableBodyRowData>
-              </TableBodyRow>
-            ))}
+            {tags.length > 0 ? (
+              <>
+                {tags.map((tag) => (
+                  <TableBodyRow key={tag.id}>
+                    <TableBodyRowData>{tag.description}</TableBodyRowData>
+                    <TableBodyRowData>
+                      {tag.isActive ? 'Sim' : 'Não'}
+                    </TableBodyRowData>
+                    <TableBodyRowData>
+                      {moment(tag.createdAt).format('DD/MM/yyyy HH:mm')}
+                    </TableBodyRowData>
+                    <TableBodyRowData>
+                      {moment(tag.updatedAt).format('DD/MM/yyyy HH:mm')}
+                    </TableBodyRowData>
+                    <TableBodyRowData>
+                      <div>
+                        <button onClick={() => handleEditTag(tag.id)}>
+                          <FiEdit3 size={10} />
+                        </button>
+                        <button onClick={() => handleDeleteTag(tag.id)}>
+                          <FiX size={15} />
+                        </button>
+                      </div>
+                    </TableBodyRowData>
+                  </TableBodyRow>
+                ))}
+              </>
+            ) : (
+              <TableWithoutData />
+            )}
           </TableBody>
         </TableContent>
         <TableFooter
