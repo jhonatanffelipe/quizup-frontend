@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import moment from 'moment'
 import * as Yup from 'yup'
 
-import { Container, Form, Row, ButtonRow } from './styles'
+import { Container } from './styles'
 import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
 import { api } from '../../services/api'
@@ -11,6 +11,9 @@ import { useAuth } from '../../hooks/auth'
 import { AppError } from '../../utils/errors/AppError'
 import { useToast } from '../../hooks/toast'
 import { CheckBox } from '../../components/CheckBox'
+import { Form } from '../../components/Form/Form'
+import { FormRow } from '../../components/Form/FormRow'
+import { FormButtonRow } from '../../components/Form/FormButtonRow'
 
 const AdminUsers = () => {
   const location = useLocation()
@@ -229,7 +232,7 @@ const AdminUsers = () => {
       <h1>Usuários</h1>
 
       <Form>
-        <Row>
+        <FormRow>
           <div>
             <span>Nome</span>
             <Input
@@ -250,9 +253,9 @@ const AdminUsers = () => {
               error={formErrors?.email}
             />
           </div>
-        </Row>
+        </FormRow>
 
-        <Row>
+        <FormRow>
           <div>
             <label>Criado em</label>
             <Input value={createdAt} name="createdAt" disabled />
@@ -261,14 +264,14 @@ const AdminUsers = () => {
             <span>Atualizado em</span>
             <Input value={updatedAt} name="updatedAt" disabled />
           </div>
-        </Row>
+        </FormRow>
 
-        <Row>
+        <FormRow>
           <CheckBox setChecked={setIsActive} cheched={isActive} />
           <CheckBox setChecked={setIsAdmin} cheched={isAdmin} />
-        </Row>
+        </FormRow>
 
-        <ButtonRow align="end">
+        <FormButtonRow align="end">
           <Button
             onClick={() => navigate('/users')}
             size="small"
@@ -292,7 +295,7 @@ const AdminUsers = () => {
           >
             Confirmar
           </Button>
-        </ButtonRow>
+        </FormButtonRow>
       </Form>
     </Container>
   )

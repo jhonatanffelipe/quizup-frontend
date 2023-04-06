@@ -17,11 +17,12 @@ import { AdminEmailSettings } from '../pages/adminEmailSettings'
 import { AdminUsersList } from '../pages/adminUsersList'
 import { AdminUsers } from '../pages/adminUsers'
 import { AdminCategoriesList } from '../pages/adminCategoriesList'
-import { AdminSubjects } from '../pages/adminSubjects'
+import { AdminSubject } from '../pages/adminSubject'
 import { AdminTag } from '../pages/adminTag'
 import { AdminTagsList } from '../pages/adminTagsList'
 import { AdminQuestions } from '../pages/adminQuestions'
 import { AdminCategory } from '../pages/adminCategory'
+import { AdminSubjectsList } from '../pages/adminSubjectsList'
 
 const AppRoutes = () => {
   const { user } = useAuth()
@@ -95,7 +96,14 @@ const AppRoutes = () => {
 
       <Route
         path="/subjects"
-        element={user && user.isAdmin ? <AdminSubjects /> : <Navigate to="/" />}
+        element={
+          user && user.isAdmin ? <AdminSubjectsList /> : <Navigate to="/" />
+        }
+      />
+
+      <Route
+        path="/subjects/:id"
+        element={user && user.isAdmin ? <AdminSubject /> : <Navigate to="/" />}
       />
 
       <Route

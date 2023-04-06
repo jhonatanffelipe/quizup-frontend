@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import moment from 'moment'
 import * as Yup from 'yup'
 
-import { Container, Form, Row, ButtonRow } from './styles'
+import { Container } from './styles'
 import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
 import { api } from '../../services/api'
@@ -11,6 +11,9 @@ import { useAuth } from '../../hooks/auth'
 import { AppError } from '../../utils/errors/AppError'
 import { useToast } from '../../hooks/toast'
 import { CheckBox } from '../../components/CheckBox'
+import { Form } from '../../components/Form/Form'
+import { FormRow } from '../../components/Form/FormRow'
+import { FormButtonRow } from '../../components/Form/FormButtonRow'
 
 const AdminTag = () => {
   const location = useLocation()
@@ -217,7 +220,7 @@ const AdminTag = () => {
       <h1>Tags</h1>
 
       <Form>
-        <Row>
+        <FormRow>
           <div>
             <span>Descrição</span>
             <Input
@@ -234,9 +237,9 @@ const AdminTag = () => {
             checked={isActive}
             style={{ marginTop: '22px' }}
           />
-        </Row>
+        </FormRow>
 
-        <Row>
+        <FormRow>
           <div>
             <label>Criado em</label>
             <Input value={createdAt} name="createdAt" disabled />
@@ -245,9 +248,9 @@ const AdminTag = () => {
             <span>Atualizado em</span>
             <Input value={updatedAt} name="updatedAt" disabled />
           </div>
-        </Row>
+        </FormRow>
 
-        <ButtonRow align="end">
+        <FormButtonRow align="end">
           <Button
             onClick={() => navigate('/tags')}
             size="small"
@@ -271,7 +274,7 @@ const AdminTag = () => {
           >
             Confirmar
           </Button>
-        </ButtonRow>
+        </FormButtonRow>
       </Form>
     </Container>
   )
