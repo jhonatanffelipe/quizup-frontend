@@ -68,7 +68,6 @@ export const PerPage = styled.div`
 `
 
 export const PerPageItens = styled.div`
-  z-index: 1;
   position: absolute;
   background: #293038;
   top: 28px;

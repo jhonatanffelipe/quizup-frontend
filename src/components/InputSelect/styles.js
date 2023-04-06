@@ -72,10 +72,6 @@ export const Content = styled.div`
     css`
       opacity: 0.3;
     `}
-
-  svg {
-    margin-right: 16px;
-  }
 `
 
 export const Error = styled(Tooltip)`
@@ -102,7 +98,7 @@ export const Options = styled.ul`
   padding: 16px;
   width: 100%;
   margin-top: 2px;
-  z-index: 0;
+  z-index: 1;
   position: absolute;
 
   -webkit-box-shadow: 0px 0px 13px 6px rgba(0, 0, 0, 0.23);
@@ -121,4 +117,25 @@ export const OptionsItem = styled.li`
   &:hover {
     background-color: ${shade(0.2, '#293038')};
   }
+`
+
+export const OptionsLoading = styled.div`
+  height: 3px;
+  width: 100%;
+  background: #04a1c1;
+  border-radius: 2px;
+
+  @keyframes animate {
+    0% {
+      opacity: 0.2;
+    }
+    50% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 0.2;
+    }
+  }
+
+  animation: animate 1.5s linear infinite;
 `

@@ -1,15 +1,24 @@
 import React, { useState, useCallback, useRef } from 'react'
-import { FiAlertCircle } from 'react-icons/fi'
+import { FiAlertCircle, FiChevronDown, FiChevronUp } from 'react-icons/fi'
 
-import { Container, Content, Error, Options, OptionsItem } from './styles'
+import {
+  Container,
+  Content,
+  Error,
+  Options,
+  OptionsItem,
+  OptionsLoading,
+} from './styles'
 
 const InputSelect = ({
   items,
   value,
   error,
   disabled,
+  loading,
   setValue,
   setSelected,
+  keyUpRequest,
   ...rest
 }) => {
   const inputRef = useRef(null)
@@ -48,23 +57,29 @@ const InputSelect = ({
         error={error}
         disabled={disabled}
         className="select-input"
+        onClick={() => handleInputFocus()}
       >
         <input
-          onFocus={() => handleInputFocus()}
           ref={inputRef}
           value={value}
           disabled={disabled}
           className="select-input"
+          onKeyUp={keyUpRequest}
           {...rest}
         />
+
+        {isFocused ? <FiChevronUp /> : <FiChevronDown />}
+
         {error && (
           <Error title={error}>
             <FiAlertCircle color="#c53030" size={20} />
           </Error>
         )}
       </Content>
+
       {isFocused && (
         <Options id="content-select-input">
+          {loading && <OptionsLoading />}
           {items.map((item) => (
             <OptionsItem
               key={item.id}

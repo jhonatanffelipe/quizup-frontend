@@ -19,6 +19,7 @@ import moment from 'moment'
 import { FiEdit3 } from 'react-icons/fi'
 import { TableFooter } from '../../components/Table/TableFooter'
 import { useNavigate } from 'react-router-dom'
+import { TableWithoutData } from '../../components/Table/TableWithoutData'
 
 const AdminSubjectsList = () => {
   const [page, setPage] = useState(1)
@@ -31,10 +32,12 @@ const AdminSubjectsList = () => {
   const [category, setCategory] = useState('')
   const [categories, setCategories] = useState([])
   const [subjects, setSubjects] = useState([])
+  const [requestTimeout, setRequestTimeout] = useState(null)
 
   // eslint-disable-next-line no-unused-vars
   const [categoriesLoading, setCategoriesLoading] = useState(false)
   const [subjectsLoading, setSubjectsLoading] = useState(false)
+  const [inputLoading, setInputLoading] = useState(false)
 
   const { token, signOut } = useAuth()
   const { addToast } = useToast()
@@ -69,7 +72,7 @@ const AdminSubjectsList = () => {
 
     try {
       await api
-        .get(`/categories`, {
+        .get(`/categories?description=${category}`, {
           headers: {
             Authorization: `Bearer ${token.accessToken}`,
           },
@@ -102,9 +105,10 @@ const AdminSubjectsList = () => {
       }
     } finally {
       setCategoriesLoading(false)
+      setInputLoading(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [category])
 
   const handleRequestSubjects = useCallback(async () => {
     setSubjectsLoading(true)
@@ -151,6 +155,12 @@ const AdminSubjectsList = () => {
     }
   }, [categoryId, addToast, signOut, token.accessToken])
 
+  const handleKeyUpRequest = useCallback(() => {
+    setInputLoading(true)
+    clearTimeout(requestTimeout)
+    setRequestTimeout(setTimeout(handleRequestCategories, 1000))
+  }, [requestTimeout, handleRequestCategories])
+
   useEffect(() => {
     void handleRequestCategories()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -171,8 +181,10 @@ const AdminSubjectsList = () => {
             value={category}
             items={categories}
             setValue={setCategory}
+            keyUpRequest={handleKeyUpRequest}
+            loading={inputLoading}
             name="category"
-            placeholder="Categoria"
+            placeholder="Selecione uma categoria"
             setSelected={setCategoryId}
             onChange={(e) => setCategory(e.target.value)}
           />
@@ -195,27 +207,33 @@ const AdminSubjectsList = () => {
             </TableHeadRow>
           </TableHead>
           <TableBody>
-            {subjects.map((subject) => (
-              <TableBodyRow key={subject.id}>
-                <TableBodyRowData>{subject.description}</TableBodyRowData>
-                <TableBodyRowData>
-                  {subject.isActive ? 'Sim' : 'Não'}
-                </TableBodyRowData>
-                <TableBodyRowData>
-                  {moment(subject.createdAt).format('DD/MM/yyyy HH:mm')}
-                </TableBodyRowData>
-                <TableBodyRowData>
-                  {moment(subject.updatedAt).format('DD/MM/yyyy HH:mm')}
-                </TableBodyRowData>
-                <TableBodyRowData>
-                  <div>
-                    <button onClick={() => handleEditSubject(subject.id)}>
-                      <FiEdit3 size={10} />
-                    </button>
-                  </div>
-                </TableBodyRowData>
-              </TableBodyRow>
-            ))}
+            {subjects.length > 0 ? (
+              <>
+                {subjects.map((subject) => (
+                  <TableBodyRow key={subject.id}>
+                    <TableBodyRowData>{subject.description}</TableBodyRowData>
+                    <TableBodyRowData>
+                      {subject.isActive ? 'Sim' : 'Não'}
+                    </TableBodyRowData>
+                    <TableBodyRowData>
+                      {moment(subject.createdAt).format('DD/MM/yyyy HH:mm')}
+                    </TableBodyRowData>
+                    <TableBodyRowData>
+                      {moment(subject.updatedAt).format('DD/MM/yyyy HH:mm')}
+                    </TableBodyRowData>
+                    <TableBodyRowData>
+                      <div>
+                        <button onClick={() => handleEditSubject(subject.id)}>
+                          <FiEdit3 size={10} />
+                        </button>
+                      </div>
+                    </TableBodyRowData>
+                  </TableBodyRow>
+                ))}
+              </>
+            ) : (
+              <TableWithoutData>Nenhum item encontrado</TableWithoutData>
+            )}
           </TableBody>
         </TableContent>
         <TableFooter
