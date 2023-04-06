@@ -72,7 +72,7 @@ export const PerPageItens = styled.div`
   position: absolute;
   background: #293038;
   top: 28px;
-  left: 108px;
+  right: 15px;
   border-radius: 4px;
 
   display: flex;
@@ -81,6 +81,10 @@ export const PerPageItens = styled.div`
   flex-direction: column;
 
   width: 60px;
+
+  -webkit-box-shadow: 0px 0px 13px 6px rgba(0, 0, 0, 0.23);
+  -moz-box-shadow: 0px 0px 13px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0px 0px 13px 6px rgba(0, 0, 0, 0.23);
 
   span {
     display: flex;

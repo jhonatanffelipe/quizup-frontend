@@ -64,8 +64,9 @@ export const Content = styled.div`
         `}
 
   border-radius: 8px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
-    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  -webkit-box-shadow: 0px 0px 13px 6px rgba(0, 0, 0, 0.23);
+  -moz-box-shadow: 0px 0px 13px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0px 0px 13px 6px rgba(0, 0, 0, 0.23);
 
   div {
     padding: 4px;

@@ -1,8 +1,13 @@
 import styled, { css } from 'styled-components'
 
 import { Tooltip } from '../Tooltip'
+import { shade } from 'polished'
 
 export const Container = styled.div`
+  position: relative;
+`
+
+export const Content = styled.div`
   background: #293038;
   border-radius: 10px;
   padding: 16px;
@@ -68,11 +73,6 @@ export const Container = styled.div`
       opacity: 0.3;
     `}
 
-  ${(props) =>
-    props.isField &&
-    css`
-      color: #04a1c1;
-    `}
   svg {
     margin-right: 16px;
   }
@@ -93,5 +93,32 @@ export const Error = styled(Tooltip)`
     &::before {
       border-color: #c53030 transparent;
     }
+  }
+`
+
+export const Options = styled.ul`
+  background: #293038;
+  border-radius: 10px;
+  padding: 16px;
+  width: 100%;
+  margin-top: 2px;
+  z-index: 0;
+  position: absolute;
+
+  -webkit-box-shadow: 0px 0px 13px 6px rgba(0, 0, 0, 0.23);
+  -moz-box-shadow: 0px 0px 13px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0px 0px 13px 6px rgba(0, 0, 0, 0.23);
+`
+
+export const OptionsItem = styled.li`
+  display: block;
+  text-decoration: none;
+  padding: 8px;
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${shade(0.2, '#293038')};
   }
 `

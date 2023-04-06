@@ -1,50 +1,80 @@
 import React, { useState, useCallback, useRef } from 'react'
 import { FiAlertCircle } from 'react-icons/fi'
 
-import { Container, Error } from './styles'
+import { Container, Content, Error, Options, OptionsItem } from './styles'
 
 const InputSelect = ({
-  name,
-  icon: Icon,
+  items,
   value,
   error,
-  register,
   disabled,
+  setValue,
+  setSelected,
   ...rest
 }) => {
   const inputRef = useRef(null)
   const [isFocused, setIsFocused] = useState(false)
-  const [isField, setIsField] = useState(false)
+
+  window.onclick = (e) => {
+    if (
+      !(
+        e.target?.className?.includes('select-input') ||
+        e.target?.className?.baseVal === 'select-input'
+      )
+    ) {
+      if (e.target !== document.getElementById('content-select-input')) {
+        setIsFocused(false)
+      }
+    }
+  }
 
   const handleInputFocus = useCallback(() => {
     setIsFocused(true)
   }, [])
 
-  const handleInputBlur = useCallback((e) => {
-    setIsFocused(false)
-    setIsField(!!e.target.value)
-  }, [])
+  const handleChangeItem = useCallback(
+    (item) => {
+      setValue(item.description)
+      setSelected(item.id)
+      setIsFocused(false)
+    },
+    [setSelected, setValue]
+  )
 
   return (
-    <Container
-      isFocused={isFocused}
-      isField={isField}
-      error={error}
-      disabled={disabled}
-    >
-      {Icon && <Icon size={20} />}
-      <input
-        onFocus={() => handleInputFocus()}
-        onBlurCapture={(e) => handleInputBlur(e)}
-        ref={inputRef}
-        value={value}
+    <Container>
+      <Content
+        isFocused={isFocused}
+        error={error}
         disabled={disabled}
-        {...rest}
-      />
-      {error && (
-        <Error title={error}>
-          <FiAlertCircle color="#c53030" size={20} />
-        </Error>
+        className="select-input"
+      >
+        <input
+          onFocus={() => handleInputFocus()}
+          ref={inputRef}
+          value={value}
+          disabled={disabled}
+          className="select-input"
+          {...rest}
+        />
+        {error && (
+          <Error title={error}>
+            <FiAlertCircle color="#c53030" size={20} />
+          </Error>
+        )}
+      </Content>
+      {isFocused && (
+        <Options id="content-select-input">
+          {items.map((item) => (
+            <OptionsItem
+              key={item.id}
+              value={item.id}
+              onClick={() => handleChangeItem(item)}
+            >
+              {item.description}
+            </OptionsItem>
+          ))}
+        </Options>
       )}
     </Container>
   )
