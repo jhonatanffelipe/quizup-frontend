@@ -3,9 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import moment from 'moment'
 import * as Yup from 'yup'
 
-import { Container } from './styles'
+import { ButtonComponent, Container } from './styles'
 import { Input } from '../../components/Input'
-import { Button } from '../../components/Button'
 import { api } from '../../services/api'
 import { useAuth } from '../../hooks/auth'
 import { AppError } from '../../utils/errors/AppError'
@@ -18,7 +17,7 @@ import { FormButtonRow } from '../../components/Form/FormButtonRow'
 const AdminTag = () => {
   const location = useLocation()
   const [tagId] = useState(() => {
-    return location.pathname.replace('/tags/', '')
+    return location.pathname.replace('/tag/', '').replace('/tag', '')
   })
   const [description, setDescription] = useState('')
   const [isActive, setIsActive] = useState(false)
@@ -38,30 +37,32 @@ const AdminTag = () => {
     setSubmitLoading(true)
 
     try {
-      await api
-        .get(`/tags/${tagId}`, {
-          headers: {
-            Authorization: `Bearer ${token.accessToken}`,
-          },
-        })
-        .then((response) => {
-          setDescription(response.data.description)
-          setIsActive(response.data.isActive)
-          setcreatedAt(
-            moment(response.data.createdAt).format('DD/MM/yyyy HH:mm')
-          )
-          setupdatedAt(
-            moment(response.data.updatedAt).format('DD/MM/yyyy HH:mm')
-          )
-        })
-        .catch((error) => {
-          throw new AppError(
-            error.response?.data?.error.message ||
-              error.response?.data?.error ||
-              'Erro ao listar dodos da tag. Por favor tente mais tarde',
-            error.response?.status || 400
-          )
-        })
+      if (tagId) {
+        await api
+          .get(`/tags/${tagId}`, {
+            headers: {
+              Authorization: `Bearer ${token.accessToken}`,
+            },
+          })
+          .then((response) => {
+            setDescription(response.data.description)
+            setIsActive(response.data.isActive)
+            setcreatedAt(
+              moment(response.data.createdAt).format('DD/MM/yyyy HH:mm')
+            )
+            setupdatedAt(
+              moment(response.data.updatedAt).format('DD/MM/yyyy HH:mm')
+            )
+          })
+          .catch((error) => {
+            throw new AppError(
+              error.response?.data?.error.message ||
+                error.response?.data?.error ||
+                'Erro ao listar dodos da tag. Por favor tente mais tarde',
+              error.response?.status || 400
+            )
+          })
+      }
     } catch (error) {
       if (error.statusCode === 401) {
         addToast({
@@ -251,29 +252,31 @@ const AdminTag = () => {
         </FormRow>
 
         <FormButtonRow align="end">
-          <Button
+          <ButtonComponent
             onClick={() => navigate('/tags')}
             size="small"
             buttonStyle="secondary"
           >
             Cancelar
-          </Button>
-          <Button
-            onClick={handleDeleteTag}
-            size="small"
-            loading={deleteLoading}
-            buttonStyle="error"
-          >
-            Excluir
-          </Button>
-          <Button
+          </ButtonComponent>
+          {tagId && (
+            <ButtonComponent
+              onClick={handleDeleteTag}
+              size="small"
+              loading={deleteLoading}
+              buttonStyle="error"
+            >
+              Excluir
+            </ButtonComponent>
+          )}
+          <ButtonComponent
             size="small"
             onClick={handleSubmit}
             loading={submitLoading}
             buttonStyle="success"
           >
             Confirmar
-          </Button>
+          </ButtonComponent>
         </FormButtonRow>
       </Form>
     </Container>

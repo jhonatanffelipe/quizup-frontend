@@ -3,9 +3,8 @@ import { FiUser, FiMail, FiCamera, FiLock } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 
-import { Container, Form, AvatarInput } from './styles'
+import { Container, Form, AvatarInput, ButtonComponent } from './styles'
 import { Input } from '../../components/Input'
-import { Button } from '../../components/Button'
 import { useAuth } from '../../hooks/auth'
 import { useToast } from '../../hooks/toast'
 import avatarImg from '../../assets/avatar.png'
@@ -298,9 +297,13 @@ const UserProfile = () => {
             />
           </div>
 
-          <Button type="submit" onClick={handleSubmit} loading={loading}>
+          <ButtonComponent
+            type="submit"
+            onClick={handleSubmit}
+            loading={loading}
+          >
             Confirmar
-          </Button>
+          </ButtonComponent>
         </Form>
       </div>
     </Container>

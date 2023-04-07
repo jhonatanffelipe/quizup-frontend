@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useState } from 'react'
+import moment from 'moment'
+import { useNavigate } from 'react-router-dom'
+import { FiEdit3 } from 'react-icons/fi'
 
-import { Container } from './styles'
-import { InputSelect } from '../../components/InputSelect'
+import { Container, Session, SessionColumn } from './styles'
 import { api } from '../../services/api'
 import { useAuth } from '../../hooks/auth'
 import { AppError } from '../../utils/errors/AppError'
 import { useToast } from '../../hooks/toast'
+import { InputSelect } from '../../components/InputSelect'
 import { TableContainer } from '../../components/Table/TableContainer'
 import { TableLoadingElement } from '../../components/Table/TableLoadingElement'
 import { TableContent } from '../../components/Table/TableContent'
@@ -15,11 +18,9 @@ import { TableHeadTitle } from '../../components/Table/TableHeadTitle'
 import { TableBody } from '../../components/Table/TableBody'
 import { TableBodyRow } from '../../components/Table/TableBodyRow'
 import { TableBodyRowData } from '../../components/Table/TableBodyRowData'
-import moment from 'moment'
-import { FiEdit3 } from 'react-icons/fi'
 import { TableFooter } from '../../components/Table/TableFooter'
-import { useNavigate } from 'react-router-dom'
 import { TableWithoutData } from '../../components/Table/TableWithoutData'
+import { Button } from '../../components/Button'
 
 const AdminSubjectsList = () => {
   const [page, setPage] = useState(1)
@@ -60,9 +61,9 @@ const AdminSubjectsList = () => {
     [page, totalPages]
   )
 
-  const handleEditSubject = useCallback(
+  const handleToSubject = useCallback(
     (id) => {
-      navigate(`/subjects/${id}`)
+      navigate(`/subject${id ? '/' + id : ''}`)
     },
     [navigate]
   )
@@ -182,8 +183,8 @@ const AdminSubjectsList = () => {
   return (
     <Container>
       <h1>Assuntos</h1>
-      <div>
-        <div>
+      <Session>
+        <SessionColumn>
           <InputSelect
             value={category}
             items={categories}
@@ -195,9 +196,13 @@ const AdminSubjectsList = () => {
             setSelected={setCategoryId}
             onChange={(e) => setCategory(e.target.value)}
           />
-        </div>
-        <div></div>
-      </div>
+        </SessionColumn>
+        <SessionColumn align="end">
+          <Button size="small" onClick={() => handleToSubject()}>
+            Criar Assunto
+          </Button>
+        </SessionColumn>
+      </Session>
 
       <TableContainer>
         {subjectsLoading && <TableLoadingElement />}
@@ -230,7 +235,7 @@ const AdminSubjectsList = () => {
                     </TableBodyRowData>
                     <TableBodyRowData>
                       <div>
-                        <button onClick={() => handleEditSubject(subject.id)}>
+                        <button onClick={() => handleToSubject(subject.id)}>
                           <FiEdit3 size={10} />
                         </button>
                       </div>

@@ -78,7 +78,12 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/users/:id"
+        path="/user/:id"
+        element={user && user.isAdmin ? <AdminUsers /> : <Navigate to="/" />}
+      />
+
+      <Route
+        path="/user"
         element={user && user.isAdmin ? <AdminUsers /> : <Navigate to="/" />}
       />
 
@@ -90,7 +95,12 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/categories/:id"
+        path="/category/:id"
+        element={user && user.isAdmin ? <AdminCategory /> : <Navigate to="/" />}
+      />
+
+      <Route
+        path="/category"
         element={user && user.isAdmin ? <AdminCategory /> : <Navigate to="/" />}
       />
 
@@ -102,7 +112,12 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/subjects/:id"
+        path="/subject/:id"
+        element={user && user.isAdmin ? <AdminSubject /> : <Navigate to="/" />}
+      />
+
+      <Route
+        path="/subject"
         element={user && user.isAdmin ? <AdminSubject /> : <Navigate to="/" />}
       />
 
@@ -112,7 +127,12 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/tags/:id"
+        path="/tag/:id"
+        element={user && user.isAdmin ? <AdminTag /> : <Navigate to="/" />}
+      />
+
+      <Route
+        path="/tag"
         element={user && user.isAdmin ? <AdminTag /> : <Navigate to="/" />}
       />
 

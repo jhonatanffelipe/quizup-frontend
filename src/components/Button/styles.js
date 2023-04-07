@@ -9,8 +9,6 @@ export const Container = styled.button`
 
   color: #ffffff;
 
-  margin-top: 18px;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -53,8 +51,6 @@ export const Container = styled.button`
     props.size === 'small' &&
     css`
       width: 150px;
-      margin: 18px 8px 8px 8px;
-      height: 46px;
     `}
 
 

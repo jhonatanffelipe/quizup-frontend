@@ -3,12 +3,17 @@ import { FiArrowLeft, FiLock, FiUnlock } from 'react-icons/fi'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 
-import { Backgound, Container, AnimationContainer, Form } from './styles'
+import {
+  Backgound,
+  Container,
+  AnimationContainer,
+  Form,
+  ButtonComponent,
+} from './styles'
 import logoImg from '../../assets/logoWhite.png'
 import backgroundImg from '../../assets/backgroundImg.svg'
 import { Input } from '../../components/Input'
 import { useToast } from '../../hooks/toast'
-import { Button } from '../../components/Button'
 import { getValidationError } from '../../utils/getValidationErros'
 import { api } from '../../services/api'
 import { useCallback } from 'react'
@@ -120,9 +125,13 @@ const ResetPassword = () => {
             error={formErrors.confirmPassword}
           />
 
-          <Button type="button" loading={loading} onClick={handleSubmit}>
+          <ButtonComponent
+            type="button"
+            loading={loading}
+            onClick={handleSubmit}
+          >
             Confirmar
-          </Button>
+          </ButtonComponent>
         </Form>
 
         <Link to="/">

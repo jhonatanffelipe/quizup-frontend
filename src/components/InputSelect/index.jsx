@@ -27,7 +27,8 @@ const InputSelect = ({
   window.onclick = (e) => {
     if (
       !(
-        e.target?.className?.includes('select-input') ||
+        (e.target?.className?.includes &&
+          e.target?.className?.includes('select-input')) ||
         e.target?.className?.baseVal === 'select-input'
       )
     ) {

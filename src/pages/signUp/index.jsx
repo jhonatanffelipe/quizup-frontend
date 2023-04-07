@@ -6,10 +6,15 @@ import * as Yup from 'yup'
 import logoImg from '../../assets/logoWhite.png'
 import backgroundImg from '../../assets/backgroundImg.svg'
 import { Input } from '../../components/Input'
-import { Backgound, Container, AnimationContainer, Form } from './styles'
+import {
+  Backgound,
+  Container,
+  AnimationContainer,
+  Form,
+  ButtonComponent,
+} from './styles'
 import { getValidationError } from '../../utils/getValidationErros'
 import { useToast } from '../../hooks/toast'
-import { Button } from '../../components/Button'
 import { api } from '../../services/api'
 
 const SignUp = () => {
@@ -146,9 +151,13 @@ const SignUp = () => {
             autoComplete="off"
           />
 
-          <Button type="submit" onClick={handleSubmit} loading={loading}>
+          <ButtonComponent
+            type="submit"
+            onClick={handleSubmit}
+            loading={loading}
+          >
             Entrar
-          </Button>
+          </ButtonComponent>
         </Form>
 
         <Link to="/">

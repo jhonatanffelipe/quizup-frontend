@@ -3,9 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import moment from 'moment'
 import * as Yup from 'yup'
 
-import { Container } from './styles'
+import { ButtonComponent, Container } from './styles'
 import { Input } from '../../components/Input'
-import { Button } from '../../components/Button'
 import { api } from '../../services/api'
 import { useAuth } from '../../hooks/auth'
 import { AppError } from '../../utils/errors/AppError'
@@ -18,7 +17,7 @@ import { FormButtonRow } from '../../components/Form/FormButtonRow'
 const AdminCategory = () => {
   const location = useLocation()
   const [categoryId] = useState(() => {
-    return location.pathname.replace('/categories/', '')
+    return location.pathname.replace('/category/', '').replace('/category', '')
   })
   const [description, setDescription] = useState('')
   const [isActive, setIsActive] = useState(false)
@@ -38,30 +37,32 @@ const AdminCategory = () => {
     setSubmitLoading(true)
 
     try {
-      await api
-        .get(`/categories/${categoryId}`, {
-          headers: {
-            Authorization: `Bearer ${token.accessToken}`,
-          },
-        })
-        .then((response) => {
-          setDescription(response.data.description)
-          setIsActive(response.data.isActive)
-          setcreatedAt(
-            moment(response.data.createdAt).format('DD/MM/yyyy HH:mm')
-          )
-          setupdatedAt(
-            moment(response.data.updatedAt).format('DD/MM/yyyy HH:mm')
-          )
-        })
-        .catch((error) => {
-          throw new AppError(
-            error.response?.data?.error.message ||
-              error.response?.data?.error ||
-              'Erro ao listar dodos da categoria. Por favor tente mais tarde',
-            error.response?.status || 400
-          )
-        })
+      if (categoryId) {
+        await api
+          .get(`/categories/${categoryId}`, {
+            headers: {
+              Authorization: `Bearer ${token.accessToken}`,
+            },
+          })
+          .then((response) => {
+            setDescription(response.data.description)
+            setIsActive(response.data.isActive)
+            setcreatedAt(
+              moment(response.data.createdAt).format('DD/MM/yyyy HH:mm')
+            )
+            setupdatedAt(
+              moment(response.data.updatedAt).format('DD/MM/yyyy HH:mm')
+            )
+          })
+          .catch((error) => {
+            throw new AppError(
+              error.response?.data?.error.message ||
+                error.response?.data?.error ||
+                'Erro ao listar dodos da categoria. Por favor tente mais tarde',
+              error.response?.status || 400
+            )
+          })
+      }
     } catch (error) {
       if (error.statusCode === 401) {
         addToast({
@@ -251,29 +252,35 @@ const AdminCategory = () => {
         </FormRow>
 
         <FormButtonRow align="end">
-          <Button
+          <ButtonComponent
             onClick={() => navigate('/categories')}
             size="small"
             buttonStyle="secondary"
+            style={{ margin: '8px' }}
           >
             Cancelar
-          </Button>
-          <Button
-            onClick={handleDeleteCategory}
-            size="small"
-            loading={deleteLoading}
-            buttonStyle="error"
-          >
-            Excluir
-          </Button>
-          <Button
+          </ButtonComponent>
+
+          {categoryId && (
+            <ButtonComponent
+              onClick={handleDeleteCategory}
+              size="small"
+              loading={deleteLoading}
+              buttonStyle="error"
+              style={{ margin: '8px' }}
+            >
+              Excluir
+            </ButtonComponent>
+          )}
+          <ButtonComponent
             size="small"
             onClick={handleSubmit}
             loading={submitLoading}
             buttonStyle="success"
+            style={{ margin: '8px' }}
           >
             Confirmar
-          </Button>
+          </ButtonComponent>
         </FormButtonRow>
       </Form>
     </Container>

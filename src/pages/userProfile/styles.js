@@ -1,5 +1,6 @@
 import { shade } from 'polished'
 import styled from 'styled-components'
+import { Button } from '../../components/Button'
 
 export const Container = styled.div`
   display: flex;
@@ -62,4 +63,8 @@ export const Form = styled.form`
   > div {
     margin-top: 25px;
   }
+`
+
+export const ButtonComponent = styled(Button)`
+  margin-top: 24px;
 `

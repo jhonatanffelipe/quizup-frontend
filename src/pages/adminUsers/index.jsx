@@ -3,9 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import moment from 'moment'
 import * as Yup from 'yup'
 
-import { Container } from './styles'
+import { ButtonComponent, Container } from './styles'
 import { Input } from '../../components/Input'
-import { Button } from '../../components/Button'
 import { api } from '../../services/api'
 import { useAuth } from '../../hooks/auth'
 import { AppError } from '../../utils/errors/AppError'
@@ -18,7 +17,7 @@ import { FormButtonRow } from '../../components/Form/FormButtonRow'
 const AdminUsers = () => {
   const location = useLocation()
   const [userId] = useState(() => {
-    return location.pathname.replace('/users/', '')
+    return location.pathname.replace('/user/', '').replace('/user', '')
   })
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -39,32 +38,34 @@ const AdminUsers = () => {
     setSubmitLoading(true)
 
     try {
-      await api
-        .get(`/users/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${token.accessToken}`,
-          },
-        })
-        .then((response) => {
-          setName(response.data.name)
-          setEmail(response.data.email)
-          setIsActive(response.data.isActive)
-          setIsAdmin(response.data.isAdmin)
-          setcreatedAt(
-            moment(response.data.createdAt).format('DD/MM/yyyy HH:mm')
-          )
-          setupdatedAt(
-            moment(response.data.updatedAt).format('DD/MM/yyyy HH:mm')
-          )
-        })
-        .catch((error) => {
-          throw new AppError(
-            error.response?.data?.error.message ||
-              error.response?.data?.error ||
-              'Erro ao listar dodos do usuário. Por favor tente mais tarde',
-            error.response?.status || 400
-          )
-        })
+      if (userId) {
+        await api
+          .get(`/users/${userId}`, {
+            headers: {
+              Authorization: `Bearer ${token.accessToken}`,
+            },
+          })
+          .then((response) => {
+            setName(response.data.name)
+            setEmail(response.data.email)
+            setIsActive(response.data.isActive)
+            setIsAdmin(response.data.isAdmin)
+            setcreatedAt(
+              moment(response.data.createdAt).format('DD/MM/yyyy HH:mm')
+            )
+            setupdatedAt(
+              moment(response.data.updatedAt).format('DD/MM/yyyy HH:mm')
+            )
+          })
+          .catch((error) => {
+            throw new AppError(
+              error.response?.data?.error.message ||
+                error.response?.data?.error ||
+                'Erro ao listar dodos do usuário. Por favor tente mais tarde',
+              error.response?.status || 400
+            )
+          })
+      }
     } catch (error) {
       if (error.statusCode === 401) {
         addToast({
@@ -267,34 +268,37 @@ const AdminUsers = () => {
         </FormRow>
 
         <FormRow>
-          <CheckBox setChecked={setIsActive} cheched={isActive} />
-          <CheckBox setChecked={setIsAdmin} cheched={isAdmin} />
+          <CheckBox setChecked={setIsActive} checked={isActive} />
+          <CheckBox setChecked={setIsAdmin} checked={isAdmin} />
         </FormRow>
 
         <FormButtonRow align="end">
-          <Button
+          <ButtonComponent
             onClick={() => navigate('/users')}
             size="small"
             buttonStyle="secondary"
           >
             Cancelar
-          </Button>
-          <Button
-            onClick={handleDeleteUser}
-            size="small"
-            loading={deleteLoading}
-            buttonStyle="error"
-          >
-            Excluir
-          </Button>
-          <Button
+          </ButtonComponent>
+
+          {userId && (
+            <ButtonComponent
+              onClick={handleDeleteUser}
+              size="small"
+              loading={deleteLoading}
+              buttonStyle="error"
+            >
+              Excluir
+            </ButtonComponent>
+          )}
+          <ButtonComponent
             size="small"
             onClick={handleSubmit}
             loading={submitLoading}
             buttonStyle="success"
           >
             Confirmar
-          </Button>
+          </ButtonComponent>
         </FormButtonRow>
       </Form>
     </Container>

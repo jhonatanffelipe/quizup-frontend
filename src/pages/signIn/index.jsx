@@ -6,11 +6,16 @@ import * as Yup from 'yup'
 import logoImg from '../../assets/logoWhite.png'
 import backgroundImg from '../../assets/backgroundImg.svg'
 import { Input } from '../../components/Input'
-import { Backgound, Container, AnimationContainer, Form } from './styles'
+import {
+  Backgound,
+  Container,
+  AnimationContainer,
+  Form,
+  ButtonComponent,
+} from './styles'
 import { getValidationError } from '../../utils/getValidationErros'
 import { useAuth } from '../../hooks/auth'
 import { useToast } from '../../hooks/toast'
-import { Button } from '../../components/Button'
 
 const SignIn = () => {
   const [email, setEmail] = useState('')
@@ -94,9 +99,13 @@ const SignIn = () => {
             error={formErrors.password}
           />
 
-          <Button type="button" loading={loading} onClick={handleSubmit}>
+          <ButtonComponent
+            type="button"
+            loading={loading}
+            onClick={handleSubmit}
+          >
             Entrar
-          </Button>
+          </ButtonComponent>
 
           <Link to={'/forgot-password'}>Esqueci minha senha</Link>
         </Form>

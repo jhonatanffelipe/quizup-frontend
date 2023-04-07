@@ -150,9 +150,9 @@ const AdminUsersList = () => {
     [addToast, signOut, token.accessToken, handleRequestUsers]
   )
 
-  const handleEditUser = useCallback(
+  const handleToUser = useCallback(
     (id) => {
-      navigate(`/users/${id}`)
+      navigate(`/user${id ? '/' + id : ''}`)
     },
     [navigate]
   )
@@ -199,7 +199,7 @@ const AdminUsersList = () => {
                 </TableBodyRowData>
                 <TableBodyRowData>
                   <div>
-                    <button onClick={() => handleEditUser(user.id)}>
+                    <button onClick={() => handleToUser(user.id)}>
                       <FiEdit3 size={10} />
                     </button>
                     <button onClick={() => handleDeleteUser(user.id)}>

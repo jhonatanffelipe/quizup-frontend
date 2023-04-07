@@ -1,4 +1,10 @@
-import { Backgound, Container, AnimationContainer, Form } from './styles'
+import {
+  Backgound,
+  Container,
+  AnimationContainer,
+  Form,
+  ButtonComponent,
+} from './styles'
 import { FiArrowLeft, FiMail } from 'react-icons/fi'
 import { useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -9,7 +15,6 @@ import backgroundImg from '../../assets/backgroundImg.svg'
 import { Input } from '../../components/Input'
 import { getValidationError } from '../../utils/getValidationErros'
 import { useToast } from '../../hooks/toast'
-import { Button } from '../../components/Button'
 import { api } from '../../services/api'
 
 const ForgoPassword = () => {
@@ -87,9 +92,13 @@ const ForgoPassword = () => {
             error={formErrors.email}
           />
 
-          <Button type="button" loading={loading} onClick={handleSubmit}>
+          <ButtonComponent
+            type="button"
+            loading={loading}
+            onClick={handleSubmit}
+          >
             Enviar
-          </Button>
+          </ButtonComponent>
         </Form>
 
         <Link to="/">

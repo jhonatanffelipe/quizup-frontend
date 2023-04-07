@@ -150,9 +150,9 @@ const AdminCategoriesList = () => {
     [addToast, signOut, token.accessToken, handleRequestCategories]
   )
 
-  const handleEditCategory = useCallback(
+  const handleToCategory = useCallback(
     (id) => {
-      navigate(`/categories/${id}`)
+      navigate(`/category${id ? '/' + id : ''}`)
     },
     [navigate]
   )
@@ -196,7 +196,7 @@ const AdminCategoriesList = () => {
                     </TableBodyRowData>
                     <TableBodyRowData>
                       <div>
-                        <button onClick={() => handleEditCategory(category.id)}>
+                        <button onClick={() => handleToCategory(category.id)}>
                           <FiEdit3 size={10} />
                         </button>
                         <button

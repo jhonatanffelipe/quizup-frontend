@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components'
+import { Button } from '../../components/Button'
 
 export const Container = styled.div`
   display: flex;
@@ -86,4 +87,8 @@ export const Backgound = styled.div`
   @media (max-width: 900px) {
     display: none;
   }
+`
+
+export const ButtonComponent = styled(Button)`
+  margin-top: 24px;
 `

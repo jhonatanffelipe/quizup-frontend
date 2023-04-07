@@ -150,9 +150,9 @@ const AdminTagsList = () => {
     [addToast, signOut, token.accessToken, handleRequestTags]
   )
 
-  const handleEditTag = useCallback(
+  const handleToTag = useCallback(
     (id) => {
-      navigate(`/tags/${id}`)
+      navigate(`/tag${id ? '/' + id : ''}`)
     },
     [navigate]
   )
@@ -196,7 +196,7 @@ const AdminTagsList = () => {
                     </TableBodyRowData>
                     <TableBodyRowData>
                       <div>
-                        <button onClick={() => handleEditTag(tag.id)}>
+                        <button onClick={() => handleToTag(tag.id)}>
                           <FiEdit3 size={10} />
                         </button>
                         <button onClick={() => handleDeleteTag(tag.id)}>

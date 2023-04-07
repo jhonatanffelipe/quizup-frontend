@@ -1,5 +1,4 @@
-import { Button } from '../../components/Button'
-import { Container } from './styles'
+import { ButtonComponent, Container } from './styles'
 import { useAuth } from '../../hooks/auth'
 
 const Dashboard = () => {
@@ -7,7 +6,7 @@ const Dashboard = () => {
   return (
     <Container>
       <h1>Dashboard</h1>
-      <Button onClick={signOut}>Sair</Button>
+      <ButtonComponent onClick={signOut}>Sair</ButtonComponent>
     </Container>
   )
 }
