@@ -20,6 +20,9 @@ import { TableBodyRow } from '../../components/Table/TableBodyRow'
 import { TableBodyRowData } from '../../components/Table/TableBodyRowData'
 import { TableFooter } from '../../components/Table/TableFooter'
 import { TableWithoutData } from '../../components/Table/TableWithoutData'
+import { RowSession } from '../../components/Row/RowSession'
+import { RowSessionColumn } from '../../components/Row/RowSessionColumn'
+import { Button } from '../../components/Button'
 
 const AdminTagsList = () => {
   const [page, setPage] = useState(1)
@@ -164,6 +167,15 @@ const AdminTagsList = () => {
   return (
     <Container>
       <h1>Tags</h1>
+
+      <RowSession>
+        <RowSessionColumn></RowSessionColumn>
+        <RowSessionColumn align="end">
+          <Button size="small" onClick={() => handleToTag()}>
+            Criar Tag
+          </Button>
+        </RowSessionColumn>
+      </RowSession>
 
       <TableContainer>
         {loading && <TableLoadingElement />}

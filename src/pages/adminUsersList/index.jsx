@@ -20,6 +20,9 @@ import { TableBody } from '../../components/Table/TableBody'
 import { TableBodyRow } from '../../components/Table/TableBodyRow'
 import { TableBodyRowData } from '../../components/Table/TableBodyRowData'
 import { TableFooter } from '../../components/Table/TableFooter'
+import { RowSession } from '../../components/Row/RowSession'
+import { RowSessionColumn } from '../../components/Row/RowSessionColumn'
+import { Button } from '../../components/Button'
 
 const AdminUsersList = () => {
   const [page, setPage] = useState(1)
@@ -164,6 +167,16 @@ const AdminUsersList = () => {
   return (
     <Container>
       <h1>Usuários</h1>
+
+      <RowSession>
+        <RowSessionColumn></RowSessionColumn>
+        <RowSessionColumn align="end">
+          <Button size="small" onClick={() => handleToUser()}>
+            Criar Usuário
+          </Button>
+        </RowSessionColumn>
+      </RowSession>
+
       <TableContainer>
         {loading && <TableLoadingElement />}
         <TableContent>

@@ -20,9 +20,10 @@ import { AdminCategoriesList } from '../pages/adminCategoriesList'
 import { AdminSubject } from '../pages/adminSubject'
 import { AdminTag } from '../pages/adminTag'
 import { AdminTagsList } from '../pages/adminTagsList'
-import { AdminQuestions } from '../pages/adminQuestions'
+import { AdminQuestion } from '../pages/adminQuestion'
 import { AdminCategory } from '../pages/adminCategory'
 import { AdminSubjectsList } from '../pages/adminSubjectsList'
+import { AdminQuestionsList } from '../pages/adminQuestionsList'
 
 const AppRoutes = () => {
   const { user } = useAuth()
@@ -139,8 +140,18 @@ const AppRoutes = () => {
       <Route
         path="/questions"
         element={
-          user && user.isAdmin ? <AdminQuestions /> : <Navigate to="/" />
+          user && user.isAdmin ? <AdminQuestionsList /> : <Navigate to="/" />
         }
+      />
+
+      <Route
+        path="/question"
+        element={user && user.isAdmin ? <AdminQuestion /> : <Navigate to="/" />}
+      />
+
+      <Route
+        path="/question/:id"
+        element={user && user.isAdmin ? <AdminQuestion /> : <Navigate to="/" />}
       />
 
       <Route

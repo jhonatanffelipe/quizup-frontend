@@ -1,11 +1,11 @@
 import { Container } from './styles'
 
-const AdminQuestions = () => {
+const AdminQuestion = () => {
   return (
     <Container>
-      <h1>Questionários</h1>
+      <h1>Questões</h1>
     </Container>
   )
 }
 
-export { AdminQuestions }
+export { AdminQuestion }

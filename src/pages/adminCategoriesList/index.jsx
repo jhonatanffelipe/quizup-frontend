@@ -20,6 +20,9 @@ import { TableBodyRow } from '../../components/Table/TableBodyRow'
 import { TableBodyRowData } from '../../components/Table/TableBodyRowData'
 import { TableFooter } from '../../components/Table/TableFooter'
 import { TableWithoutData } from '../../components/Table/TableWithoutData'
+import { RowSession } from '../../components/Row/RowSession'
+import { RowSessionColumn } from '../../components/Row/RowSessionColumn'
+import { Button } from '../../components/Button'
 
 const AdminCategoriesList = () => {
   const [page, setPage] = useState(1)
@@ -164,6 +167,15 @@ const AdminCategoriesList = () => {
   return (
     <Container>
       <h1>Categorias</h1>
+
+      <RowSession>
+        <RowSessionColumn></RowSessionColumn>
+        <RowSessionColumn align="end">
+          <Button size="small" onClick={() => handleToCategory()}>
+            Criar Categoria
+          </Button>
+        </RowSessionColumn>
+      </RowSession>
 
       <TableContainer>
         {loading && <TableLoadingElement />}

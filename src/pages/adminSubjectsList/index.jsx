@@ -3,7 +3,7 @@ import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
 import { FiEdit3 } from 'react-icons/fi'
 
-import { Container, Session, SessionColumn } from './styles'
+import { Container } from './styles'
 import { api } from '../../services/api'
 import { useAuth } from '../../hooks/auth'
 import { AppError } from '../../utils/errors/AppError'
@@ -21,6 +21,8 @@ import { TableBodyRowData } from '../../components/Table/TableBodyRowData'
 import { TableFooter } from '../../components/Table/TableFooter'
 import { TableWithoutData } from '../../components/Table/TableWithoutData'
 import { Button } from '../../components/Button'
+import { RowSession } from '../../components/Row/RowSession'
+import { RowSessionColumn } from '../../components/Row/RowSessionColumn'
 
 const AdminSubjectsList = () => {
   const [page, setPage] = useState(1)
@@ -183,8 +185,8 @@ const AdminSubjectsList = () => {
   return (
     <Container>
       <h1>Assuntos</h1>
-      <Session>
-        <SessionColumn>
+      <RowSession>
+        <RowSessionColumn>
           <InputSelect
             value={category}
             items={categories}
@@ -196,13 +198,13 @@ const AdminSubjectsList = () => {
             setSelected={setCategoryId}
             onChange={(e) => setCategory(e.target.value)}
           />
-        </SessionColumn>
-        <SessionColumn align="end">
+        </RowSessionColumn>
+        <RowSessionColumn align="end">
           <Button size="small" onClick={() => handleToSubject()}>
             Criar Assunto
           </Button>
-        </SessionColumn>
-      </Session>
+        </RowSessionColumn>
+      </RowSession>
 
       <TableContainer>
         {subjectsLoading && <TableLoadingElement />}
