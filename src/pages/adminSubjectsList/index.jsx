@@ -125,7 +125,7 @@ const AdminSubjectsList = () => {
 
     try {
       await api
-        .get(`/subjects/all/${categoryId}`, {
+        .get(`/subjects/all/${categoryId}?description=`, {
           headers: {
             Authorization: `Bearer ${token.accessToken}`,
           },
