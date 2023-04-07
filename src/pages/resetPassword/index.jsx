@@ -24,7 +24,7 @@ const ResetPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
 
   const [loading, setLoading] = useState(false)
-  const [formErrors, setFormErros] = useState({})
+  const [formErrors, setFormErrors] = useState({})
 
   const { search } = useLocation()
   const { addToast } = useToast()
@@ -35,7 +35,7 @@ const ResetPassword = () => {
   }, [search])
 
   const handleSubmit = useCallback(async () => {
-    setFormErros({})
+    setFormErrors({})
 
     const data = {
       password,
@@ -82,7 +82,7 @@ const ResetPassword = () => {
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errors = getValidationError(error)
-        setFormErros(errors)
+        setFormErrors(errors)
         return
       }
 

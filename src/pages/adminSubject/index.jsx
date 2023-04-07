@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import * as Yup from 'yup'
 
 import { Container } from './styles'
 import { api } from '../../services/api'
@@ -13,13 +14,20 @@ import { FormButtonRow } from '../../components/Form/FormButtonRow'
 import { ButtonComponent } from '../adminCategory/styles'
 import { InputSelect } from '../../components/InputSelect'
 import { CheckBox } from '../../components/CheckBox'
+import { getValidationError } from '../../utils/getValidationErros'
+import moment from 'moment'
 
 const AdminSubject = () => {
   const location = useLocation()
   const [categoryId] = useState(() => {
     return location.search.split('?categoryId=')[1]
   })
+  const [subjectId] = useState(() => {
+    return location.pathname.replace('/subject/', '').replace('/subject', '')
+  })
+
   const [description, setDescription] = useState('')
+  const [imageUrl, setImageUrl] = useState('')
   const [isActive, setIsActive] = useState(false)
   const [createdAt, setCreatedAt] = useState('')
   const [updatedAt, setUpdatedAt] = useState('')
@@ -30,13 +38,13 @@ const AdminSubject = () => {
   const [previousSubjectId, setPreviousSubjectId] = useState('')
 
   const [categoryLoading, setCategoryLoading] = useState(false)
-  const [subjectsLoading, setSubjectsLoading] = useState(false)
+  const [subjectLoading, setSubjectLoading] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [submitLoading, setSubmitLoading] = useState(false)
   const [inputBeforeSubjectLoading, setInputBeforeSubjectLoading] =
     useState(false)
-  const [requestTimeout, setRequestTimeout] = useState(null)
 
+  const [requestTimeout, setRequestTimeout] = useState(null)
   const [formErrors, setFormErrors] = useState({})
 
   const { token, signOut } = useAuth()
@@ -91,7 +99,7 @@ const AdminSubject = () => {
   }, [])
 
   const handleRequestSubjects = useCallback(async () => {
-    setSubjectsLoading(true)
+    setInputBeforeSubjectLoading(true)
 
     try {
       await api
@@ -127,8 +135,60 @@ const AdminSubject = () => {
         })
       }
     } finally {
-      setSubjectsLoading(false)
       setInputBeforeSubjectLoading(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [previousSubject])
+
+  const handleRequestSubject = useCallback(async () => {
+    setSubjectLoading(true)
+    try {
+      if (subjectId) {
+        await api
+          .get(`/subjects/${subjectId}`, {
+            headers: {
+              Authorization: `Bearer ${token.accessToken}`,
+            },
+          })
+          .then((response) => {
+            setPreviousSubject('')
+            setPreviousSubjectId(response.data)
+            setDescription(response.data.description)
+            setImageUrl(response.data.image)
+            setIsActive(response.data.isActive)
+            setCreatedAt(
+              moment(response.data.createdAt).format('DD/MM/yyyy HH:mm')
+            )
+            setUpdatedAt(
+              moment(response.data.updatedAt).format('DD/MM/yyyy HH:mm')
+            )
+          })
+          .catch((error) => {
+            throw new AppError(
+              error.response?.data?.error.message ||
+                error.response?.data?.error ||
+                'Erro ao listar assuntos. Por favor tente mais tarde',
+              error.response?.status || 400
+            )
+          })
+      }
+    } catch (error) {
+      if (error.statusCode === 401) {
+        addToast({
+          type: 'error',
+          title: 'Erro de autenticação',
+          description: error.message,
+        })
+        signOut()
+      } else {
+        addToast({
+          type: 'error',
+          title: 'Erro ao listar assuntos',
+          description: error.message,
+        })
+      }
+    } finally {
+      setSubjectLoading(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [previousSubject])
@@ -155,9 +215,93 @@ const AdminSubject = () => {
   )
 
   const handleSubmit = useCallback(async () => {
-    setSubmitLoading(true)
+    setFormErrors({})
     try {
+      setSubmitLoading(true)
+
+      const data = {
+        previousSubjectId,
+        description,
+        categoryId,
+        isActive,
+      }
+
+      const schema = Yup.object().shape({
+        previousSubjectId: Yup.string().uuid('Id da categoria inválida.'),
+        categoryId: Yup.string()
+          .uuid('Id da categoria inválida.')
+          .required('Decrição obrigatória.'),
+        description: Yup.string().required('Decrição obrigatória.'),
+      })
+
+      await schema.validate(data, {
+        abortEarly: false,
+      })
+
+      if (subjectId) {
+        await api
+          .put(`/subjects/${subjectId}`, data, {
+            headers: {
+              Authorization: `Bearer ${token.accessToken}`,
+            },
+          })
+          .then(async () => {
+            addToast({
+              type: 'success',
+              title: 'Assunto criado com sucesso.',
+            })
+          })
+          .catch((error) => {
+            throw new AppError(
+              error.response?.data?.error.message ||
+                error.response?.data?.error ||
+                'Erro ao criar/atualizar assunto. Por favor tente mais tarde.',
+              error.response?.status || 400
+            )
+          })
+      } else {
+        await api
+          .post(`/subjects`, data, {
+            headers: {
+              Authorization: `Bearer ${token.accessToken}`,
+            },
+          })
+          .then(async () => {
+            addToast({
+              type: 'success',
+              title: 'Assunto criado com sucesso.',
+            })
+          })
+          .catch((error) => {
+            throw new AppError(
+              error.response?.data?.error.message ||
+                error.response?.data?.error ||
+                'Erro ao criar/atualizar assunto. Por favor tente mais tarde.',
+              error.response?.status || 400
+            )
+          })
+      }
     } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        const errors = getValidationError(error)
+        setFormErrors(errors)
+        return
+      }
+
+      if (error.statusCode === 401) {
+        addToast({
+          type: 'error',
+          title: 'Erro de autenticação',
+          description: error.message,
+        })
+        signOut()
+      } else {
+        addToast({
+          type: 'error',
+          title: 'Erro ao criar/atualizar assunto',
+          description: error.message,
+        })
+      }
     } finally {
       setSubmitLoading(false)
     }
@@ -170,6 +314,11 @@ const AdminSubject = () => {
 
   useEffect(() => {
     void handleRequestSubjects()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    void handleRequestSubject()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (

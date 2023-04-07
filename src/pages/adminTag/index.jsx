@@ -27,7 +27,7 @@ const AdminTag = () => {
 
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [submitLoading, setSubmitLoading] = useState(false)
-  const [formErrors, setFormErros] = useState({})
+  const [formErrors, setFormErrors] = useState({})
 
   const { token, signOut } = useAuth()
   const { addToast } = useToast()
@@ -136,7 +136,7 @@ const AdminTag = () => {
   }, [addToast, signOut, token.accessToken, tagId, navigate])
 
   const handleSubmit = useCallback(async () => {
-    setFormErros({})
+    setFormErrors({})
 
     try {
       setSubmitLoading(true)
@@ -206,7 +206,7 @@ const AdminTag = () => {
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errors = getValidationError(error)
-        setFormErros(errors)
+        setFormErrors(errors)
         return
       }
 

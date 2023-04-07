@@ -20,7 +20,7 @@ const UserProfile = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
 
   const [loading, setLoading] = useState(false)
-  const [formErrors, setFormErros] = useState({})
+  const [formErrors, setFormErrors] = useState({})
 
   const { addToast } = useToast()
   const { user, token, signOut, updateContextData } = useAuth()
@@ -107,7 +107,7 @@ const UserProfile = () => {
   )
 
   const handleSubmit = useCallback(async () => {
-    setFormErros({})
+    setFormErrors({})
     try {
       setLoading(true)
       const data = {
@@ -179,7 +179,7 @@ const UserProfile = () => {
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errors = getValidationError(error)
-        setFormErros(errors)
+        setFormErrors(errors)
         return
       }
 

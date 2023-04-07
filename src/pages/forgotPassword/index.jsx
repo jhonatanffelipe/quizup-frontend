@@ -20,12 +20,12 @@ import { api } from '../../services/api'
 const ForgoPassword = () => {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
-  const [formErrors, setFormErros] = useState({})
+  const [formErrors, setFormErrors] = useState({})
 
   const { addToast } = useToast()
 
   const handleSubmit = useCallback(async () => {
-    setFormErros({})
+    setFormErrors({})
 
     const data = {
       email,
@@ -57,7 +57,7 @@ const ForgoPassword = () => {
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errors = getValidationError(error)
-        setFormErros(errors)
+        setFormErrors(errors)
         return
       }
 

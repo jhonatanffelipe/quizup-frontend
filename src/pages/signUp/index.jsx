@@ -24,13 +24,13 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
 
   const [loading, setLoading] = useState(false)
-  const [formErrors, setFormErros] = useState({})
+  const [formErrors, setFormErrors] = useState({})
 
   const { addToast } = useToast()
   const navigate = useNavigate()
 
   const handleSubmit = async () => {
-    setFormErros({})
+    setFormErrors({})
 
     try {
       setLoading(true)
@@ -85,7 +85,7 @@ const SignUp = () => {
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errors = getValidationError(error)
-        setFormErros(errors)
+        setFormErrors(errors)
         return
       }
 

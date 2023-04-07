@@ -22,13 +22,13 @@ const SignIn = () => {
   const [password, setPassword] = useState('')
 
   const [loading, setLoading] = useState(false)
-  const [formErrors, setFormErros] = useState({})
+  const [formErrors, setFormErrors] = useState({})
 
   const { signIn } = useAuth()
   const { addToast } = useToast()
 
   const handleSubmit = useCallback(async () => {
-    setFormErros({})
+    setFormErrors({})
 
     const data = {
       email,
@@ -57,7 +57,7 @@ const SignIn = () => {
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errors = getValidationError(error)
-        setFormErros(errors)
+        setFormErrors(errors)
         return
       }
 

@@ -32,7 +32,7 @@ const AdminEmailSettings = () => {
 
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [submitLoading, setSubmitLoading] = useState(false)
-  const [formErrors, setFormErros] = useState({})
+  const [formErrors, setFormErrors] = useState({})
 
   const { token, signOut } = useAuth()
   const { addToast } = useToast()
@@ -143,7 +143,7 @@ const AdminEmailSettings = () => {
   }, [addToast, signOut, token.accessToken, id, navigate])
 
   const handleSubmit = useCallback(async () => {
-    setFormErros({})
+    setFormErrors({})
 
     try {
       setSubmitLoading(true)
@@ -222,7 +222,7 @@ const AdminEmailSettings = () => {
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errors = getValidationError(error)
-        setFormErros(errors)
+        setFormErrors(errors)
         return
       }
 

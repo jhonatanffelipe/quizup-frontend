@@ -38,8 +38,6 @@ const AdminSubjectsList = () => {
   const [requestTimeout, setRequestTimeout] = useState(null)
   const [formErros, setFormErrors] = useState({})
 
-  // eslint-disable-next-line no-unused-vars
-  const [categoriesLoading, setCategoriesLoading] = useState(false)
   const [subjectsLoading, setSubjectsLoading] = useState(false)
   const [inputCategoryLoading, setInputCategoryLoading] = useState(false)
 
@@ -78,7 +76,7 @@ const AdminSubjectsList = () => {
   )
 
   const handleRequestCategories = useCallback(async () => {
-    setCategoriesLoading(true)
+    setInputCategoryLoading(true)
 
     try {
       await api
@@ -114,7 +112,6 @@ const AdminSubjectsList = () => {
         })
       }
     } finally {
-      setCategoriesLoading(false)
       setInputCategoryLoading(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
