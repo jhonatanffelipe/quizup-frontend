@@ -36,11 +36,12 @@ const AdminSubjectsList = () => {
   const [categories, setCategories] = useState([])
   const [subjects, setSubjects] = useState([])
   const [requestTimeout, setRequestTimeout] = useState(null)
+  const [formErros, setFormErrors] = useState({})
 
   // eslint-disable-next-line no-unused-vars
   const [categoriesLoading, setCategoriesLoading] = useState(false)
   const [subjectsLoading, setSubjectsLoading] = useState(false)
-  const [inputLoading, setInputLoading] = useState(false)
+  const [inputCategoryLoading, setInputCategoryLoading] = useState(false)
 
   const { token, signOut } = useAuth()
   const { addToast } = useToast()
@@ -65,9 +66,15 @@ const AdminSubjectsList = () => {
 
   const handleToSubject = useCallback(
     (id) => {
-      navigate(`/subject${id ? '/' + id : ''}`)
+      if (!categoryId) {
+        setFormErrors({
+          category: 'Categoria obrigatória.',
+        })
+        return
+      }
+      navigate(`/subject${id ? '/' + id : ''}?categoryId=${categoryId}`)
     },
-    [navigate]
+    [categoryId, navigate, setFormErrors]
   )
 
   const handleRequestCategories = useCallback(async () => {
@@ -108,7 +115,7 @@ const AdminSubjectsList = () => {
       }
     } finally {
       setCategoriesLoading(false)
-      setInputLoading(false)
+      setInputCategoryLoading(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category])
@@ -164,7 +171,7 @@ const AdminSubjectsList = () => {
         setCategoryId('')
         setSubjects([])
       }
-      setInputLoading(true)
+      setInputCategoryLoading(true)
       clearTimeout(requestTimeout)
       setRequestTimeout(setTimeout(handleRequestCategories, 1000))
     },
@@ -192,11 +199,12 @@ const AdminSubjectsList = () => {
             items={categories}
             setValue={setCategory}
             keyUpRequest={handleKeyUpRequest}
-            loading={inputLoading}
+            loading={inputCategoryLoading}
             name="category"
             placeholder="Selecione uma categoria"
             setSelected={setCategoryId}
             onChange={(e) => setCategory(e.target.value)}
+            error={formErros.category}
           />
         </RowSessionColumn>
         <RowSessionColumn align="end">
@@ -211,6 +219,7 @@ const AdminSubjectsList = () => {
         <TableContent>
           <TableHead>
             <TableHeadRow>
+              <TableHeadTitle>Seq.</TableHeadTitle>
               <TableHeadTitle>Descrição</TableHeadTitle>
               <TableHeadTitle>Ativo</TableHeadTitle>
               <TableHeadTitle>Criado em</TableHeadTitle>
@@ -225,6 +234,7 @@ const AdminSubjectsList = () => {
               <>
                 {subjects.map((subject) => (
                   <TableBodyRow key={subject.id}>
+                    <TableBodyRowData>{subject.sequence}</TableBodyRowData>
                     <TableBodyRowData>{subject.description}</TableBodyRowData>
                     <TableBodyRowData>
                       {subject.isActive ? 'Sim' : 'Não'}
