@@ -140,12 +140,6 @@ const AdminCategory = () => {
     try {
       setSubmitLoading(true)
 
-      if (!categoryId) {
-        throw new AppError(
-          'Não foi possível deletar categoria, ID deve ser informado.'
-        )
-      }
-
       const data = {
         description,
         isActive,
@@ -161,28 +155,53 @@ const AdminCategory = () => {
         abortEarly: false,
       })
 
-      await api
-        .put(`/categories/${categoryId}`, data, {
-          headers: {
-            Authorization: `Bearer ${token.accessToken}`,
-          },
-        })
-        .then(async () => {
-          addToast({
-            type: 'success',
-            title: 'Categoria alterado com sucesso',
+      if (categoryId) {
+        await api
+          .put(`/categories/${categoryId}`, data, {
+            headers: {
+              Authorization: `Bearer ${token.accessToken}`,
+            },
           })
+          .then(async () => {
+            addToast({
+              type: 'success',
+              title: 'Categoria alterada com sucesso',
+            })
 
-          navigate('/categories')
-        })
-        .catch((error) => {
-          throw new AppError(
-            error.response?.data?.error.message ||
-              error.response?.data?.error ||
-              'Erro ao atualizar categoria. Por favor tente mais tarde',
-            error.response?.status || 400
-          )
-        })
+            navigate('/categories')
+          })
+          .catch((error) => {
+            throw new AppError(
+              error.response?.data?.error.message ||
+                error.response?.data?.error ||
+                'Erro ao atualizar categoria. Por favor tente mais tarde',
+              error.response?.status || 400
+            )
+          })
+      } else {
+        await api
+          .post(`/categories`, data, {
+            headers: {
+              Authorization: `Bearer ${token.accessToken}`,
+            },
+          })
+          .then(async () => {
+            addToast({
+              type: 'success',
+              title: 'Categoria criada com sucesso',
+            })
+
+            navigate('/categories')
+          })
+          .catch((error) => {
+            throw new AppError(
+              error.response?.data?.error.message ||
+                error.response?.data?.error ||
+                'Erro ao criar categoria. Por favor tente mais tarde',
+              error.response?.status || 400
+            )
+          })
+      }
     } catch (error) {
       if (error.statusCode === 401) {
         addToast({
@@ -194,7 +213,7 @@ const AdminCategory = () => {
       } else {
         addToast({
           type: 'error',
-          title: 'Erro ao atualizar categoria',
+          title: 'Erro ao criar/atualizar categoria',
           description: error.message,
         })
       }
