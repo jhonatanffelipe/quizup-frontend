@@ -19,7 +19,7 @@ export const Container = styled.div`
     bottom: calc(100% + 12px);
     width: 160px;
     left: 2px;
-    transform: translateX(-50%);
+    transform: translateX(-91%);
 
     display: flex;
     justify-content: center;
@@ -32,7 +32,7 @@ export const Container = styled.div`
       border-width: 6px 6px 0 6px;
       top: 100%;
       position: absolute;
-      left: 50%;
+      right: 2%;
       transform: translateX(-50%);
     }
   }

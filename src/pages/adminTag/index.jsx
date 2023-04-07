@@ -13,6 +13,7 @@ import { CheckBox } from '../../components/CheckBox'
 import { Form } from '../../components/Form/Form'
 import { FormRow } from '../../components/Form/FormRow'
 import { FormButtonRow } from '../../components/Form/FormButtonRow'
+import { getValidationError } from '../../utils/getValidationErros'
 
 const AdminTag = () => {
   const location = useLocation()
@@ -140,12 +141,6 @@ const AdminTag = () => {
     try {
       setSubmitLoading(true)
 
-      if (!tagId) {
-        throw new AppError(
-          'Não foi possível deletar tag, ID deve ser informado.'
-        )
-      }
-
       const data = {
         description,
         isActive,
@@ -161,29 +156,60 @@ const AdminTag = () => {
         abortEarly: false,
       })
 
-      await api
-        .put(`/tags/${tagId}`, data, {
-          headers: {
-            Authorization: `Bearer ${token.accessToken}`,
-          },
-        })
-        .then(async () => {
-          addToast({
-            type: 'success',
-            title: 'Categoria alterado com sucesso',
+      if (tagId) {
+        await api
+          .put(`/tags/${tagId}`, data, {
+            headers: {
+              Authorization: `Bearer ${token.accessToken}`,
+            },
           })
+          .then(async () => {
+            addToast({
+              type: 'success',
+              title: 'Categoria alterado com sucesso',
+            })
 
-          navigate('/tags')
-        })
-        .catch((error) => {
-          throw new AppError(
-            error.response?.data?.error.message ||
-              error.response?.data?.error ||
-              'Erro ao atualizar tag. Por favor tente mais tarde',
-            error.response?.status || 400
-          )
-        })
+            navigate('/tags')
+          })
+          .catch((error) => {
+            throw new AppError(
+              error.response?.data?.error.message ||
+                error.response?.data?.error ||
+                'Erro ao criar/atualizar tag. Por favor tente mais tarde',
+              error.response?.status || 400
+            )
+          })
+      } else {
+        await api
+          .post(`/tags`, data, {
+            headers: {
+              Authorization: `Bearer ${token.accessToken}`,
+            },
+          })
+          .then(async () => {
+            addToast({
+              type: 'success',
+              title: 'Categoria criada com sucesso',
+            })
+
+            navigate('/tags')
+          })
+          .catch((error) => {
+            throw new AppError(
+              error.response?.data?.error.message ||
+                error.response?.data?.error ||
+                'Erro ao criar/atualizar tag. Por favor tente mais tarde',
+              error.response?.status || 400
+            )
+          })
+      }
     } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        const errors = getValidationError(error)
+        setFormErros(errors)
+        return
+      }
+
       if (error.statusCode === 401) {
         addToast({
           type: 'error',
@@ -194,7 +220,7 @@ const AdminTag = () => {
       } else {
         addToast({
           type: 'error',
-          title: 'Erro ao atualizar tag',
+          title: 'Erro ao criar/atualizar tag',
           description: error.message,
         })
       }
@@ -237,6 +263,7 @@ const AdminTag = () => {
             setChecked={setIsActive}
             checked={isActive}
             style={{ marginTop: '22px' }}
+            title="Ativo"
           />
         </FormRow>
 

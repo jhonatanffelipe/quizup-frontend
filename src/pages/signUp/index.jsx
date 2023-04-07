@@ -63,6 +63,8 @@ const SignUp = () => {
           email: data.email,
           password: data.password,
           confirmPassword: data.confirmPassword,
+          isAdmin: false,
+          isActive: true,
         })
         .then((response) => response)
         .catch((error) => {

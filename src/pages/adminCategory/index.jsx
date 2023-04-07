@@ -13,6 +13,7 @@ import { CheckBox } from '../../components/CheckBox'
 import { Form } from '../../components/Form/Form'
 import { FormRow } from '../../components/Form/FormRow'
 import { FormButtonRow } from '../../components/Form/FormButtonRow'
+import { getValidationError } from '../../utils/getValidationErros'
 
 const AdminCategory = () => {
   const location = useLocation()
@@ -203,6 +204,12 @@ const AdminCategory = () => {
           })
       }
     } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        const errors = getValidationError(error)
+        setFormErros(errors)
+        return
+      }
+
       if (error.statusCode === 401) {
         addToast({
           type: 'error',
@@ -256,6 +263,7 @@ const AdminCategory = () => {
             setChecked={setIsActive}
             checked={isActive}
             style={{ marginTop: '22px' }}
+            title="Ativo"
           />
         </FormRow>
 
