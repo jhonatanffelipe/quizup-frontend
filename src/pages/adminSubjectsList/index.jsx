@@ -65,7 +65,6 @@ const AdminSubjectsList = () => {
   const [category, setCategory] = useState(() => {
     const subjectsFilter = sessionStorage.getItem('@QuizUp:subjects')
 
-    console.log(subjectsFilter)
     if (subjectsFilter) {
       const params = JSON.parse(subjectsFilter)
 
@@ -150,15 +149,17 @@ const AdminSubjectsList = () => {
     ({ id, description }) => {
       setCategoryId(id)
       setCategory(description)
+      setPage(1)
+      setPerPage(5)
 
       handleUpdateTableFiler({
         categoryId: id,
         category: description,
-        page,
-        perPage,
+        page: 1,
+        perPage: 5,
       })
     },
-    [page, perPage, handleUpdateTableFiler]
+    [handleUpdateTableFiler]
   )
 
   const handleRequestCategories = useCallback(async () => {
@@ -256,12 +257,19 @@ const AdminSubjectsList = () => {
       if (e.code === 'Backspace') {
         setCategoryId('')
         setSubjects([])
+
+        handleUpdateTableFiler({
+          categoryId: '',
+          category: '',
+          page: 1,
+          perPage: 5,
+        })
       }
       setInputCategoryLoading(true)
       clearTimeout(requestTimeout)
       setRequestTimeout(setTimeout(handleRequestCategories, 1000))
     },
-    [requestTimeout, handleRequestCategories]
+    [requestTimeout, handleRequestCategories, handleUpdateTableFiler]
   )
 
   useEffect(() => {

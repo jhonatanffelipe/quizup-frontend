@@ -118,7 +118,12 @@ const AdminSubject = () => {
           },
         })
         .then((response) => {
-          setSubjects(response.data.data)
+          console.log(response.data.data)
+          setSubjects(
+            [
+              { id: null, description: 'Adicionar como primeiro registro' },
+            ].concat(response.data.data)
+          )
         })
         .catch((error) => {
           throw new AppError(
@@ -163,7 +168,7 @@ const AdminSubject = () => {
             setPreviousSubject(
               response.data.previousSubject?.description
                 ? response.data.previousSubject?.description
-                : 'Não informado'
+                : 'Primeiro Registro'
             )
             setPreviousSubjectId(response.data.previousSubjectId)
             setDescription(response.data.description)
@@ -207,13 +212,55 @@ const AdminSubject = () => {
   }, [previousSubject])
 
   const handleDeleteSubject = useCallback(async () => {
-    setDeleteLoading(true)
     try {
+      setDeleteLoading(true)
+
+      if (!subjectId) {
+        throw new AppError(
+          'Não foi possível deletar assunto, ID deve ser informado.'
+        )
+      }
+
+      await api
+        .delete(`/subjects/${subjectId}`, {
+          headers: {
+            Authorization: `Bearer ${token.accessToken}`,
+          },
+        })
+        .then(async () => {
+          addToast({
+            type: 'success',
+            title: 'Assunto deletado com sucesso.',
+          })
+          navigate('/subjects')
+        })
+        .catch((error) => {
+          throw new AppError(
+            error.response?.data?.error.message ||
+              error.response?.data?.error ||
+              'Erro ao deletar assunto. Por favor tente mais tarde.',
+            error.response?.status || 400
+          )
+        })
     } catch (error) {
+      if (error.statusCode === 401) {
+        addToast({
+          type: 'error',
+          title: 'Erro de autenticação',
+          description: error.message,
+        })
+        signOut()
+      } else {
+        addToast({
+          type: 'error',
+          title: 'Erro ao deletar categoria',
+          description: error.message,
+        })
+      }
     } finally {
       setDeleteLoading(false)
     }
-  }, [])
+  }, [addToast, signOut, token.accessToken, subjectId, navigate])
 
   const handleKeyUpRequest = useCallback(
     async (e) => {
@@ -234,7 +281,6 @@ const AdminSubject = () => {
         const data = new FormData()
         data.append('image', event.target?.files[0])
 
-        console.log(data)
         await api
           .patch(`/subjects/image/${subjectId}`, data, {
             headers: {
@@ -314,8 +360,10 @@ const AdminSubject = () => {
           .then(async () => {
             addToast({
               type: 'success',
-              title: 'Assunto criado com sucesso.',
+              title: 'Assunto atualizado com sucesso.',
             })
+
+            navigate('/subjects')
           })
           .catch((error) => {
             throw new AppError(
@@ -337,6 +385,8 @@ const AdminSubject = () => {
               type: 'success',
               title: 'Assunto criado com sucesso.',
             })
+
+            navigate('/subjects')
           })
           .catch((error) => {
             throw new AppError(
@@ -380,6 +430,7 @@ const AdminSubject = () => {
     signOut,
     subjectId,
     token.accessToken,
+    navigate,
   ])
 
   useEffect(() => {
