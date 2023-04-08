@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
+import moment from 'moment'
+import { FiCamera } from 'react-icons/fi'
 
-import { Container } from './styles'
+import { Container, ImageInput } from './styles'
+import avatarImg from '../../assets/avatar.png'
 import { api } from '../../services/api'
 import { useAuth } from '../../hooks/auth'
 import { AppError } from '../../utils/errors/AppError'
@@ -15,7 +18,8 @@ import { ButtonComponent } from '../adminCategory/styles'
 import { InputSelect } from '../../components/InputSelect'
 import { CheckBox } from '../../components/CheckBox'
 import { getValidationError } from '../../utils/getValidationErros'
-import moment from 'moment'
+import { RowSession } from '../../components/Row/RowSession'
+import { RowSessionColumn } from '../../components/Row/RowSessionColumn'
 
 const AdminSubject = () => {
   const location = useLocation()
@@ -151,8 +155,12 @@ const AdminSubject = () => {
             },
           })
           .then((response) => {
-            setPreviousSubject('')
-            setPreviousSubjectId(response.data)
+            setPreviousSubject(
+              response.data.previousSubject?.description
+                ? response.data.previousSubject?.description
+                : 'Não informado'
+            )
+            setPreviousSubjectId(response.data.previousSubjectId)
             setDescription(response.data.description)
             setImageUrl(response.data.image)
             setIsActive(response.data.isActive)
@@ -214,6 +222,57 @@ const AdminSubject = () => {
     [requestTimeout, handleRequestSubjects]
   )
 
+  const handleImageChenge = useCallback(
+    async (event) => {
+      setSubjectLoading(true)
+      if (event.target?.files) {
+        const data = new FormData()
+        data.append('image', event.target?.files[0])
+
+        console.log(data)
+        await api
+          .patch(`/subjects/image/${subjectId}`, data, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${token.accessToken}`,
+            },
+          })
+          .then(async () => {
+            handleRequestSubject()
+          })
+          .catch((error) => {
+            if (error.statusCode === 401) {
+              addToast({
+                type: 'error',
+                title: 'Erro de autenticação',
+                description: error.response?.data?.error
+                  ? error.response?.data?.error
+                  : 'Erro ao tentar atualizar imagem. Por favor tente mais tarde',
+              })
+              signOut()
+            } else {
+              addToast({
+                type: 'error',
+                title: 'Erro ao atualizar avatar',
+                description: error.response?.data?.error
+                  ? error.response?.data?.error
+                  : 'Erro ao tentar atualizar imagem. Por favor tente mais tarde',
+              })
+            }
+          })
+      }
+      setSubjectLoading(false)
+    },
+    [
+      token.accessToken,
+      handleRequestSubject,
+      addToast,
+      signOut,
+      subjectId,
+      setSubjectLoading,
+    ]
+  )
+
   const handleSubmit = useCallback(async () => {
     setFormErrors({})
     try {
@@ -227,7 +286,9 @@ const AdminSubject = () => {
       }
 
       const schema = Yup.object().shape({
-        previousSubjectId: Yup.string().uuid('Id da categoria inválida.'),
+        previousSubjectId: Yup.string()
+          .uuid('Id da categoria inválida.')
+          .nullable(true),
         categoryId: Yup.string()
           .uuid('Id da categoria inválida.')
           .required('Decrição obrigatória.'),
@@ -305,7 +366,16 @@ const AdminSubject = () => {
     } finally {
       setSubmitLoading(false)
     }
-  }, [])
+  }, [
+    addToast,
+    categoryId,
+    description,
+    isActive,
+    previousSubjectId,
+    signOut,
+    subjectId,
+    token.accessToken,
+  ])
 
   useEffect(() => {
     void handleRequestCategory()
@@ -324,6 +394,27 @@ const AdminSubject = () => {
   return (
     <Container>
       <h1>Assunto</h1>
+
+      {subjectId && (
+        <RowSession>
+          <RowSessionColumn style={{ postion: 'relative' }}>
+            <ImageInput>
+              <div>
+                <img src={imageUrl ? imageUrl : avatarImg} alt="imageSubject" />
+              </div>
+              <label htmlFor="image">
+                <FiCamera size={20} />
+                <input
+                  type="file"
+                  id="image"
+                  accept="image/*"
+                  onChange={handleImageChenge}
+                />
+              </label>
+            </ImageInput>
+          </RowSessionColumn>
+        </RowSession>
+      )}
 
       {categoryLoading ? (
         <p>Carregando...</p>
@@ -412,7 +503,7 @@ const AdminSubject = () => {
             <ButtonComponent
               size="small"
               onClick={handleSubmit}
-              loading={submitLoading}
+              loading={submitLoading || subjectLoading}
               buttonStyle="success"
               style={{ margin: '8px' }}
             >

@@ -122,11 +122,14 @@ const AdminSubjectsList = () => {
 
     try {
       await api
-        .get(`/subjects/all/${categoryId}?description=`, {
-          headers: {
-            Authorization: `Bearer ${token.accessToken}`,
-          },
-        })
+        .get(
+          `/subjects/all/${categoryId}?perPage=${perPage}&page=${page}&description=`,
+          {
+            headers: {
+              Authorization: `Bearer ${token.accessToken}`,
+            },
+          }
+        )
         .then((response) => {
           setSubjects(response.data.data)
           setTotalRows(response.data.totalRows)
@@ -160,7 +163,7 @@ const AdminSubjectsList = () => {
     } finally {
       setSubjectsLoading(false)
     }
-  }, [categoryId, addToast, signOut, token.accessToken])
+  }, [page, perPage, categoryId, addToast, signOut, token.accessToken])
 
   const handleKeyUpRequest = useCallback(
     async (e) => {
