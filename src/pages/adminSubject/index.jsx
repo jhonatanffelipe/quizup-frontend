@@ -55,6 +55,11 @@ const AdminSubject = () => {
   const { addToast } = useToast()
   const navigate = useNavigate()
 
+  const handleSetSelected = useCallback(({ id, description }) => {
+    setPreviousSubjectId(id)
+    setPreviousSubject(description)
+  }, [])
+
   const handleRequestCategory = useCallback(async () => {
     setCategoryLoading(true)
 
@@ -436,12 +441,11 @@ const AdminSubject = () => {
               <InputSelect
                 value={previousSubject}
                 items={subjects}
-                setValue={setPreviousSubject}
                 keyUpRequest={handleKeyUpRequest}
                 loading={inputBeforeSubjectLoading}
                 name="previousSubject"
                 placeholder="Selecione o assunto anterior"
-                setSelected={setPreviousSubjectId}
+                setSelected={handleSetSelected}
                 onChange={(e) => setPreviousSubject(e.target.value)}
                 error={formErrors.previousSubject}
               />

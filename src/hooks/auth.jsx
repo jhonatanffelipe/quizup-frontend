@@ -40,6 +40,7 @@ const AuthProvider = ({ children }) => {
   const signOut = useCallback(() => {
     localStorage.removeItem('@QuizUp:token')
     localStorage.removeItem('@QuizUp:user')
+    sessionStorage.removeItem('@QuizUp:subjects')
 
     setData({})
   }, [])

@@ -16,7 +16,6 @@ const InputSelect = ({
   error,
   disabled,
   loading,
-  setValue,
   setSelected,
   keyUpRequest,
   ...rest
@@ -44,11 +43,10 @@ const InputSelect = ({
 
   const handleChangeItem = useCallback(
     (item) => {
-      setValue(item.description)
-      setSelected(item.id)
+      setSelected({ id: item.id, description: item.description })
       setIsFocused(false)
     },
-    [setSelected, setValue]
+    [setSelected]
   )
 
   return (

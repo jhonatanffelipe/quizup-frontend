@@ -25,14 +25,55 @@ import { RowSession } from '../../components/Row/RowSession'
 import { RowSessionColumn } from '../../components/Row/RowSessionColumn'
 
 const AdminSubjectsList = () => {
-  const [page, setPage] = useState(1)
-  const [perPage, setPerPage] = useState(5)
+  const [page, setPage] = useState(() => {
+    const subjectsFilter = sessionStorage.getItem('@QuizUp:subjects')
+
+    if (subjectsFilter) {
+      const params = JSON.parse(subjectsFilter)
+
+      return params?.page || 1
+    } else {
+      return 1
+    }
+  })
+  const [perPage, setPerPage] = useState(() => {
+    const subjectsFilter = sessionStorage.getItem('@QuizUp:subjects')
+
+    if (subjectsFilter) {
+      const params = JSON.parse(subjectsFilter)
+
+      return params?.perPage || 5
+    } else {
+      return 5
+    }
+  })
   const [totalRows, setTotalRows] = useState(0)
-  const [totalPages, setTotalPages] = useState(1)
+  const [totalPages, setTotalPages] = useState(0)
   const [perPageOpen, setPerPageOpen] = useState(false)
 
-  const [categoryId, setCategoryId] = useState('')
-  const [category, setCategory] = useState('')
+  const [categoryId, setCategoryId] = useState(() => {
+    const subjectsFilter = sessionStorage.getItem('@QuizUp:subjects')
+
+    if (subjectsFilter) {
+      const params = JSON.parse(subjectsFilter)
+
+      return params.categoryId
+    } else {
+      return ''
+    }
+  })
+  const [category, setCategory] = useState(() => {
+    const subjectsFilter = sessionStorage.getItem('@QuizUp:subjects')
+
+    console.log(subjectsFilter)
+    if (subjectsFilter) {
+      const params = JSON.parse(subjectsFilter)
+
+      return params.category
+    } else {
+      return ''
+    }
+  })
   const [categories, setCategories] = useState([])
   const [subjects, setSubjects] = useState([])
   const [requestTimeout, setRequestTimeout] = useState(null)
@@ -45,21 +86,51 @@ const AdminSubjectsList = () => {
   const { addToast } = useToast()
   const navigate = useNavigate()
 
-  const handlePerPage = useCallback((value) => {
-    setPage(1)
-    setPerPage(value)
-    setPerPageOpen(false)
-  }, [])
+  const handleUpdateTableFiler = useCallback(
+    ({ categoryId, category, page, perPage }) => {
+      sessionStorage.setItem(
+        '@QuizUp:subjects',
+        JSON.stringify({ categoryId, category, page, perPage })
+      )
+    },
+    []
+  )
+
+  const handlePerPage = useCallback(
+    (value) => {
+      setPage(1)
+      setPerPage(value)
+      setPerPageOpen(false)
+
+      handleUpdateTableFiler({
+        categoryId,
+        category,
+        page,
+        perPage: value,
+      })
+    },
+    [categoryId, category, page, handleUpdateTableFiler]
+  )
 
   const handleSetPage = useCallback(
     (goPage) => {
+      let currentPage
       if (goPage === 1) {
-        setPage(page + 1 <= totalPages ? page + 1 : totalPages)
+        currentPage = page + 1 <= totalPages ? page + 1 : totalPages
+        setPage(currentPage)
       } else {
-        setPage(page - 1 <= 1 ? 1 : page - 1)
+        currentPage = page - 1 <= 1 ? 1 : page - 1
+        setPage(currentPage)
       }
+
+      handleUpdateTableFiler({
+        categoryId,
+        category,
+        page: currentPage,
+        perPage,
+      })
     },
-    [page, totalPages]
+    [categoryId, category, page, perPage, totalPages, handleUpdateTableFiler]
   )
 
   const handleToSubject = useCallback(
@@ -73,6 +144,21 @@ const AdminSubjectsList = () => {
       navigate(`/subject${id ? '/' + id : ''}?categoryId=${categoryId}`)
     },
     [categoryId, navigate, setFormErrors]
+  )
+
+  const handleSetSelected = useCallback(
+    ({ id, description }) => {
+      setCategoryId(id)
+      setCategory(description)
+
+      handleUpdateTableFiler({
+        categoryId: id,
+        category: description,
+        page,
+        perPage,
+      })
+    },
+    [page, perPage, handleUpdateTableFiler]
   )
 
   const handleRequestCategories = useCallback(async () => {
@@ -197,12 +283,11 @@ const AdminSubjectsList = () => {
           <InputSelect
             value={category}
             items={categories}
-            setValue={setCategory}
             keyUpRequest={handleKeyUpRequest}
             loading={inputCategoryLoading}
             name="category"
             placeholder="Selecione uma categoria"
-            setSelected={setCategoryId}
+            setSelected={handleSetSelected}
             onChange={(e) => setCategory(e.target.value)}
             error={formErros.category}
           />
