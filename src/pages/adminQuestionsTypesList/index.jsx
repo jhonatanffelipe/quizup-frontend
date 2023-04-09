@@ -6,29 +6,29 @@ import { RowSessionColumn } from '../../components/Row/RowSessionColumn'
 import { Button } from '../../components/Button'
 import { useNavigate } from 'react-router-dom'
 
-const AdminQuestionsList = () => {
+const AdminQuestionsTypesList = () => {
   const navigate = useNavigate()
 
-  const handleToQuestion = useCallback(
+  const handleToQuestionType = useCallback(
     (id) => {
-      navigate(`/question${id ? '/' + id : ''}`)
+      navigate(`/question-type${id ? '/' + id : ''}`)
     },
     [navigate]
   )
 
   return (
     <Container>
-      <h1>Questões</h1>
+      <h1>Tipos de Questões</h1>
 
       <RowSession>
         <RowSessionColumn></RowSessionColumn>
         <RowSessionColumn align="end">
-          <Button size="small" onClick={() => handleToQuestion()}>
-            Criar Questão
+          <Button onClick={() => handleToQuestionType()}>
+            Criar Tipos de Questões
           </Button>
         </RowSessionColumn>
       </RowSession>
     </Container>
   )
 }
-export { AdminQuestionsList }
+export { AdminQuestionsTypesList }

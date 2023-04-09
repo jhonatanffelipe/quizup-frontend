@@ -97,6 +97,9 @@ const Menu = () => {
               <MenuSubItem to={'categories'}>Categorias</MenuSubItem>
               <MenuSubItem to={'subjects'}>Assuntos</MenuSubItem>
               <MenuSubItem to={'tags'}>Tags</MenuSubItem>
+              <MenuSubItem to={'questions-types'}>
+                Tipos de Questões
+              </MenuSubItem>
               <MenuSubItem to={'questions'}>Questões</MenuSubItem>
             </MenuSessionSubItens>
           )}

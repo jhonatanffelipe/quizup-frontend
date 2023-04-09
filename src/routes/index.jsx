@@ -14,15 +14,17 @@ import { ApplicationAbout } from '../pages/applicationAbout'
 
 import { AdminDashboard } from '../pages/adminDashboard'
 import { AdminEmailSettings } from '../pages/adminEmailSettings'
-import { AdminUsersList } from '../pages/adminUsersList'
 import { AdminUsers } from '../pages/adminUsers'
+import { AdminUsersList } from '../pages/adminUsersList'
+import { AdminCategory } from '../pages/adminCategory'
 import { AdminCategoriesList } from '../pages/adminCategoriesList'
-import { AdminSubject } from '../pages/adminSubject'
 import { AdminTag } from '../pages/adminTag'
 import { AdminTagsList } from '../pages/adminTagsList'
-import { AdminQuestion } from '../pages/adminQuestion'
-import { AdminCategory } from '../pages/adminCategory'
+import { AdminSubject } from '../pages/adminSubject'
 import { AdminSubjectsList } from '../pages/adminSubjectsList'
+import { AdminQuestionType } from '../pages/adminQuestionType'
+import { AdminQuestionsTypesList } from '../pages/adminQuestionsTypesList'
+import { AdminQuestion } from '../pages/adminQuestion'
 import { AdminQuestionsList } from '../pages/adminQuestionsList'
 
 const AppRoutes = () => {
@@ -135,6 +137,31 @@ const AppRoutes = () => {
       <Route
         path="/tag"
         element={user && user.isAdmin ? <AdminTag /> : <Navigate to="/" />}
+      />
+
+      <Route
+        path="/questions-types"
+        element={
+          user && user.isAdmin ? (
+            <AdminQuestionsTypesList />
+          ) : (
+            <Navigate to="/" />
+          )
+        }
+      />
+
+      <Route
+        path="/question-type"
+        element={
+          user && user.isAdmin ? <AdminQuestionType /> : <Navigate to="/" />
+        }
+      />
+
+      <Route
+        path="/question-type/:id"
+        element={
+          user && user.isAdmin ? <AdminQuestionType /> : <Navigate to="/" />
+        }
       />
 
       <Route
