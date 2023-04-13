@@ -266,6 +266,7 @@ const AdminQuestionType = () => {
               name="code"
               placeholder="Código"
               error={formErrors?.code}
+              disabled={!!questionTypeId}
             />
           </div>
 
