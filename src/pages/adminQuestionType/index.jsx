@@ -44,7 +44,7 @@ const AdminQuestionType = () => {
     try {
       if (questionTypeId) {
         await api
-          .get(`/questions/types/${questionTypeId}`, {
+          .get(`/questions-types/${questionTypeId}`, {
             headers: {
               Authorization: `Bearer ${token.accessToken}`,
             },
@@ -101,7 +101,7 @@ const AdminQuestionType = () => {
       }
 
       await api
-        .delete(`/questions/types/${questionTypeId}`, {
+        .delete(`/questions-types/${questionTypeId}`, {
           headers: {
             Authorization: `Bearer ${token.accessToken}`,
           },
@@ -111,7 +111,7 @@ const AdminQuestionType = () => {
             type: 'success',
             title: 'Tipo de questão deletada com sucesso',
           })
-          navigate('/questions/types')
+          navigate('/questions-types')
         })
         .catch((error) => {
           throw new AppError(
@@ -166,7 +166,7 @@ const AdminQuestionType = () => {
 
       if (questionTypeId) {
         await api
-          .put(`/questions/types/${questionTypeId}`, data, {
+          .put(`/questions-types/${questionTypeId}`, data, {
             headers: {
               Authorization: `Bearer ${token.accessToken}`,
             },
@@ -177,7 +177,7 @@ const AdminQuestionType = () => {
               title: 'Categoria alterado com sucesso',
             })
 
-            navigate('/questions/types')
+            navigate('/questions-types')
           })
           .catch((error) => {
             throw new AppError(
@@ -189,7 +189,7 @@ const AdminQuestionType = () => {
           })
       } else {
         await api
-          .post(`/questions/types/`, data, {
+          .post(`/questions-types/`, data, {
             headers: {
               Authorization: `Bearer ${token.accessToken}`,
             },
@@ -200,7 +200,7 @@ const AdminQuestionType = () => {
               title: 'Categoria criada com sucesso',
             })
 
-            navigate('/questions/types')
+            navigate('/questions-types')
           })
           .catch((error) => {
             throw new AppError(
@@ -315,7 +315,7 @@ const AdminQuestionType = () => {
 
         <FormButtonRow align="end">
           <ButtonComponent
-            onClick={() => navigate('/questions/types')}
+            onClick={() => navigate('/questions-types')}
             size="small"
             buttonStyle="secondary"
           >

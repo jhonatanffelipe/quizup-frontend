@@ -58,7 +58,7 @@ const AdminQuestionsTypesList = () => {
     setLoading(true)
     try {
       await api
-        .get(`/questions/types?page=${page}&perPage=${perPage}&title=`, {
+        .get(`/questions-types?page=${page}&perPage=${perPage}&title=`, {
           headers: {
             Authorization: `Bearer ${token.accessToken}`,
           },
@@ -110,7 +110,7 @@ const AdminQuestionsTypesList = () => {
         }
 
         await api
-          .delete(`/questions/types/${id}`, {
+          .delete(`/questions-types/${id}`, {
             headers: {
               Authorization: `Bearer ${token.accessToken}`,
             },

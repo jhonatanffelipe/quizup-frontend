@@ -140,7 +140,7 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/questions/types"
+        path="/questions-types"
         element={
           user && user.isAdmin ? (
             <AdminQuestionsTypesList />
